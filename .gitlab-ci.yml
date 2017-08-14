@@ -1,0 +1,14 @@
+test:
+  stage: test
+  script:
+  # installs packages
+    - npm install
+  # Output useful info for debugging.
+    - node --version
+    - npm --version
+  # run tests
+  #  - npm test
+  # run tests with code coverage
+    - npm run coverage:ci
+  only:
+    - master
