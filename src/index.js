@@ -1,26 +1,71 @@
-import { getUsers, deleteUser } from "./api/user-api";
+// import './style.scss'
+import $ from 'jquery'
+import './style.css'
 
-getUsers().then(result => {
-  let usersBody = "";
-  result.forEach(user => {
-    usersBody += `<tr>
-            <td><a href="#" data-id="${user.id}" class="deleteUser">${user.id}</a></td>
-            <td>${user.firstName}</td>
-            <td>${user.lastName}</td>
-            <td>${user.email}</td>
-            </tr>`;
-  });
-  global.document.getElementById("users").innerHTML = usersBody;
+let generateBoxes = function (y, x) {
+  console.log('generate boxes of size: ' + x + y);
 
-  const deleteLinks = global.document.getElementsByClassName("deleteUser");
-
-  Array.from(deleteLinks, link => {
-    link.onclick = function(event) {
-      const element = event.target;
-      event.preventDefault();
-      deleteUser(element.attributes["data-id"].value);
-      const row = element.parentNode.parentNode;
-      row.parentNode.removeChild(row);
+  let htmlString = ""
+  for (let i = 0; i < x; i++) {
+    htmlString += '<div class="container">'
+    for (let j = 0; j < y; j++) {
+      htmlString += '<div class="box" id=' + (i + 1) + (j + 1) + '>' + (i + 1) + (j + 1) + '</div>'
     }
-  });
+    htmlString += "</div>"
+  }
+  return htmlString;
+}
+
+$("#press").on("click", function () {
+  let x = $("#x-input").val()
+  let y = $("#y-input").val()
+
+  let htmlString = generateBoxes(x, y);
+  $("#box-container").html(htmlString);
+
+  $(".box").on("click", function (event) {
+
+    $("#info").text("clicked: " + event.target.id)
+  })
+
+})
+
+function loadBoxes(data) {
+  let htmlString = ""
+
+  data.forEach(function(row) {
+    htmlString += "<div class='container'>"
+
+    row.forEach(function(element) {
+      console.log('elemID: ' + element.id);
+      htmlString += '<div class="box" id=' + element.id + '>' + element.title + '</div>'
+    })
+
+    htmlString += "</div>"
+
+  }, this);
+
+  $("#box-container").html(htmlString)
+  console.log(htmlString);
+
+
+}
+
+$(document).ready(function () {
+  $.ajax("api/questionaire")
+    .done(function (data) {
+      console.log(data);
+
+      loadBoxes(data)
+
+    })
+    .fail(function () {
+      console.log('fail');
+
+    })
+    .always(function () {
+      console.log('complete');
+
+    });
+
 });

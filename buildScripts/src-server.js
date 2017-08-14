@@ -19,12 +19,54 @@ app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, '../src/index.html'));
 });
 
-app.get('/users', function(req, res) {
+app.get('/api/questionaire', function(req, res) {
   // Hard coding for simplicity. Pretend this hits a real database
   res.json([
-    {"id": 1,"firstName":"Bob","lastName":"Smith","email":"bob@gmail.com"},
-    {"id": 2,"firstName":"Tammy","lastName":"Norton","email":"tnorton@yahoo.com"},
-    {"id": 3,"firstName":"Tina","lastName":"Lee","email":"lee.tina@hotmail.com"}
+    [
+      {
+        id: 11,
+        title: "First text"
+      }, {
+        id: 12,
+        title: "Second text"
+      }, {
+        id: 13,
+        title: "Third text"
+      }
+    ],
+    [
+      {
+        id: 21,
+        title: "Fourth text"
+      }, {
+        id: 22,
+        title: "Fifth text"
+      }, {
+        id: 23,
+        title: "Sixth text"
+      }
+    ],
+    [
+      {
+        id: 31,
+        title: "Fourth text"
+      }, {
+        id: 31,
+        title: "Fifth text"
+      }
+    ],
+    [
+      {
+        id: 41,
+        title: "Fourth text"
+      }, {
+        id: 42,
+        title: "Fifth text"
+      }, {
+        id: 43,
+        title: "Sixth text"
+      }
+    ]
   ]);
 });
 
