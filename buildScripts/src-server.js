@@ -3,6 +3,8 @@ import path from 'path';
 import open from 'open';
 import webpack from 'webpack';
 import config from '../webpack.config.dev';
+import yaml from 'yamljs'
+import fs from 'fs'
 
 /* eslint-disable no-console */
 
@@ -20,54 +22,20 @@ app.get('/', function(req, res) {
 });
 
 app.get('/api/questionaire', function(req, res) {
+  try {
+    fs.readFile('./src/data.yml', function(err, data) {
+      if (err) {
+        throw(err)
+      }
+      let yamlString = data.toString();
+      let doc = yaml.parse(yamlString)
+      res.json(doc)
+    })
+  } catch (e) {
+    res.json("{'message': 'error'}")
+  }
+
   // Hard coding for simplicity. Pretend this hits a real database
-  res.json([
-    [
-      {
-        id: 11,
-        title: "First text"
-      }, {
-        id: 12,
-        title: "Second text"
-      }, {
-        id: 13,
-        title: "Third text"
-      }
-    ],
-    [
-      {
-        id: 21,
-        title: "Fourth text"
-      }, {
-        id: 22,
-        title: "Fifth text"
-      }, {
-        id: 23,
-        title: "Sixth text"
-      }
-    ],
-    [
-      {
-        id: 31,
-        title: "Fourth text"
-      }, {
-        id: 31,
-        title: "Fifth text"
-      }
-    ],
-    [
-      {
-        id: 41,
-        title: "Fourth text"
-      }, {
-        id: 42,
-        title: "Fifth text"
-      }, {
-        id: 43,
-        title: "Sixth text"
-      }
-    ]
-  ]);
 });
 
 app.listen(port, function(err) {

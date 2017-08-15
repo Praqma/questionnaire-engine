@@ -54,9 +54,9 @@ function loadBoxes(data) {
 $(document).ready(function () {
   $.ajax("api/questionaire")
     .done(function (data) {
-      console.log(data);
+      console.log("data: " + data.version);
 
-      loadBoxes(data)
+      // loadBoxes(data)
 
     })
     .fail(function () {
