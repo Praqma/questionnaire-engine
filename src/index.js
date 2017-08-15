@@ -1,6 +1,6 @@
-// import './style.scss'
 import $ from 'jquery'
 import './style.css'
+import './style/main.scss'
 
 let generateBoxes = function (y, x) {
   console.log('generate boxes of size: ' + x + y);

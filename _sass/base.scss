@@ -1,0 +1,12 @@
+body{
+  min-width: 900px;
+  background-color: #FFC287;
+}
+header.site-header, nav.main-menu>div, .main-area, footer>div{
+  // @extend .container;
+}
+
+.main-area{
+  margin-top: 40px;
+}
+

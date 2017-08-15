@@ -24,7 +24,10 @@ export default {
     loaders: [
       {test: /\.js$/, exclude: /node_modules/, loaders: ['babel']},
       {test: /\.css$/, loaders: ['style-loader', 'css-loader']},
-      {test: /\.scss$/, loaders: ['style-loader', 'css-loader', 'sass-loader']}
+      {test: /\.scss$/, loaders: ['style-loader', 'css-loader', 'sass-loader'],
+      options: {
+          includePaths: ["./src/style/main.scss"]
+      }}
     ]
   }
 };
