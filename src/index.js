@@ -2,6 +2,15 @@ import $ from 'jquery'
 import './style.css'
 import './style/main.scss'
 
+import Vue from 'vue'
+import App from './components/App.vue'
+
+new Vue({
+  el: "#vue-app",
+  components: { App }
+})
+
+
 let generateBoxes = function (y, x) {
   console.log('generate boxes of size: ' + x + y);
 
