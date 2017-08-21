@@ -1,6 +1,6 @@
 <template>
 <div class="box">
-  <h4>{{title}} </h4>
+  <b> {{title}} </b>
 </div>
 </template>
 
@@ -26,7 +26,7 @@ export default {
   padding: 7px;
 }
 
-h4:hover {
+b:hover {
   font-weight: bold;
 }
 
