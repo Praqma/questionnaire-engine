@@ -1,9 +1,4 @@
-# SiteCampaign Builder
-
-[![build status](https://gitlab.com/quantads/sitecampaign-builder/badges/master/build.svg)](https://gitlab.com/quantads/sitecampaign-builder/commits/master) 
-[![coverage report](https://gitlab.com/quantads/sitecampaign-builder/badges/master/coverage.svg)](https://gitlab.com/quantads/sitecampaign-builder/commits/master)
-
-***
+# Praqma - Maturity Model
 
 ## Tools used to run this project
 
