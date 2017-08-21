@@ -12,7 +12,7 @@ import Tile from './Tile.vue'
 export default {
   data() {
     return {
-      title: "Title of the Tile",
+      title: "Title of the Tile.",
       items: []
     }
   },
