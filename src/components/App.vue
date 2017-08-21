@@ -1,15 +1,8 @@
 <template>
-<div>
   <div>
     <tile
-      v-for="(item, index) in items"
-      :key="index"
-      v-bind:title="item.title">
-      </tile>
-  </div>
-  <ul>
-    <li v-for='item in items'> {{item}} </li>
-  </ul>
+      v-for="(item, index) in items" :key="index" v-bind:title="item.title" v-bind:item="item">
+    </tile>
   </div>
 </template>
 
@@ -23,8 +16,8 @@ export default {
       items: []
     }
   },
-  components: {tile: Tile},
-  mounted: function() {
+  components: { tile: Tile },
+  mounted: function () {
     var self = this;
     $.ajax("api/all")
       .done(function (data) {
