@@ -1,25 +1,32 @@
 <template>
-<div class="box">
-  <b> {{title}} </b>
-</div>
+  <div>
+    <div class="box">
+      <b> {{title}} </b>
+
+    </div>
+    <formy :questions="questions"></formy>
+  </div>
 </template>
 
 <script>
+import Formy from './Formy.vue'
+
 export default {
-  props: ['title'],
-  data () {
+  props: ['title', 'item'],
+  data() {
     return {
-      msg: 'Hello from Tile!'
+      questions: this.item.questions
     }
-  }
+  },
+  components: { formy: Formy }
 }
 </script>
 
 <style>
 .box {
   display: inline-block;
-	width:100px;
-  height:100px;
+  width: 100px;
+  height: 100px;
   border: 1px solid black;
   margin: 10px;
   background-color: #ff9800;
@@ -29,5 +36,4 @@ export default {
 b:hover {
   font-weight: bold;
 }
-
 </style>

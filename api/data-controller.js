@@ -3,7 +3,7 @@ import yamljs from 'yamljs'
 import path from 'path'
 import { dataDir } from './config'
 
-// for yaml schema validation use Kwalify
+// FEAT: for yaml schema validation use Kwalify
 
 // get all yaml files in data dir and return converted json array of the content
 export function getAllData(callback) {
