@@ -1,10 +1,17 @@
-pipeline {
-    agent { docker 'node:6.3' }
-    stages {
-        stage('build') {
-            steps {
-                sh 'npm --version'
-            }
-        }
+node("docker") {
+    docker.withRegistry('edmond', 'b4963529-89aa-432e-a7e1-81f67335ff67') {
+
+        git url: "git@github.com:Praqma/maturity-model.git", credentialsId: 'fda7b5b3-8da7-4438-bb2f-d1046bd4a4c9'
+
+        sh "git rev-parse HEAD > .git/commit-id"
+        def commit_id = readFile('.git/commit-id').trim()
+        println commit_id
+
+        stage "build"
+        def app = docker.build "your-project-name"
+
+        stage "publish"
+        app.push 'master'
+        app.push "${commit_id}"
     }
 }
