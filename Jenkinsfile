@@ -1,7 +1,7 @@
 node("docker") {
     docker.withRegistry('edmond', 'b4963529-89aa-432e-a7e1-81f67335ff67') {
 
-        git url: "git@github.com:Praqma/maturity-model.git", credentialsId: 'fda7b5b3-8da7-4438-bb2f-d1046bd4a4c9'
+        git url: "git@github.com:Praqma/maturity-model.git", credentialsId: '27582316-7933-40f8-a89c-a35d0b4e9f5c'
 
         sh "git rev-parse HEAD > .git/commit-id"
         def commit_id = readFile('.git/commit-id').trim()
