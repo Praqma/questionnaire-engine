@@ -1,4 +1,4 @@
-node('dockerhost1') {
+node('dockerhost') {
     stage('Checkout') {
         echo 'Getting source code...'
         checkout scm
