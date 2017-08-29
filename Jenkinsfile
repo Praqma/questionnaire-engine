@@ -1,17 +1,34 @@
-node("docker") {
-    docker.withRegistry('edmond', 'b4963529-89aa-432e-a7e1-81f67335ff67') {
+node('testing') {
+    stage('Initialize') {
+        echo 'Initializing...'
+        def node = tool name: 'Node-7.4.0', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
+        env.PATH = "${node}/bin:${env.PATH}"
+    }
 
-        git url: "git@github.com:Praqma/maturity-model.git", credentialsId: '27582316-7933-40f8-a89c-a35d0b4e9f5c'
+    stage('Checkout') {
+        echo 'Getting source code...'
+        checkout scm
+    }
 
-        sh "git rev-parse HEAD > .git/commit-id"
-        def commit_id = readFile('.git/commit-id').trim()
-        println commit_id
+    stage('Build') {
+        echo 'Building dependencies...'
+        sh 'npm i'
+    }
 
-        stage "build"
-        def app = docker.build "your-project-name"
+    stage('Test') {
+        echo 'Testing...'
+        sh 'npm test'
+    }
 
-        stage "publish"
-        app.push 'master'
-        app.push "${commit_id}"
+    stage('Publish') {
+        echo 'Publishing Test Coverage...'
+		publishHTML (target: [
+			allowMissing: false,
+			alwaysLinkToLastBuild: false,
+			keepAll: true,
+			reportDir: 'coverage/lcov-report',
+			reportFiles: 'index.html',
+			reportName: "Application Test Coverage"
+		])
     }
 }
