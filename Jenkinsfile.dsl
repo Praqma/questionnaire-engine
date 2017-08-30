@@ -2,9 +2,6 @@ pipelineJob('maturity-model_questionnaire') {
 
   def repo = 'https://github.com/Praqma/maturity-model.git'
 
-  triggers {
-    upstream('maturity-model_questionnaire', 'SUCCESS')
-  }
   description("Pipeline for $repo")
 
   definition {
