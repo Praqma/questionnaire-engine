@@ -1,19 +1,11 @@
 node {
-    stage('Checkout') {
-        echo 'Getting source code...'
-        checkout scm
+    stage('Build') {
+        echo 'Building....'
     }
-
     stage('Test') {
-        echo 'Testing...'
-        sh 'npm test'
+        echo 'Building....'
     }
-    stage('Lint') {
-        echo 'Testing...'
-        sh 'npm lint'
-    }
-
-    stage('Start') {
-      //  find out
+    stage('Deploy') {
+        echo 'Deploying....'
     }
 }
