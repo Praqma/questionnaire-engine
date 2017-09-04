@@ -1,17 +1,15 @@
 import fs from 'fs'
 import yamljs from 'yamljs'
 import path from 'path'
-// import { dataDir } from './config'
+import { dataDir } from './config'
 
 let basePath = process.env.PWD;
-let dataDir = "/content_data"
 
 // FEAT: for yaml schema validation use Kwalify
 
+// returns an array of questionnaire JSON objects
 export function getAllQuestionnaire() {
-  let questionnaireDirs = getDirsWithLayoutFile(path.join(basePath, "/content_data"))
-  // let allData = getAllDataInDir(questionnaireDirs[1]);
-
+  let questionnaireDirs = getDirsWithLayoutFile(path.join(basePath, dataDir))
   let allData = questionnaireDirs.map(function(dir){
     return getAllDataInDir(dir);
   })
@@ -40,17 +38,13 @@ export function getAllDataInDir(dataDir) {
 
 function getDirsWithLayoutFile(dir) {
   var dirsWithConfigFile = []
-  // var results = []
   var list = fs.readdirSync(dir)
   list.forEach(function (file) {
     if (file === "Layout.yml") {
       dirsWithConfigFile.push(dir)
     }
-
-    // file = dir + '/' + file
     file = path.join(dir, file)
     var stat = fs.statSync(file)
-
     // do recursive search through subfolders
     if (stat && stat.isDirectory())
       dirsWithConfigFile = dirsWithConfigFile.concat(getDirsWithLayoutFile(file))
