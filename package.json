@@ -6,7 +6,7 @@
   "scripts": {
     "prestart": "babel-node buildScripts/start-message.js",
     "start": "npm-run-all --parallel security-check open:src lint:watch test:watch start-mockapi",
-    "build": "",
+    "build": "(npm run open:src &) && npm run lint && sleep 15 && killall node",
     "open:src": "babel-node buildScripts/src-server.js",
     "lint": "esw webpack.config.* src buildScripts --color",
     "lint:watch": "npm run lint -- --watch",
