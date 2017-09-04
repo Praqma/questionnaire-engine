@@ -4,6 +4,9 @@ pipelineJob('maturity-model_questionnaire') {
 
   description("Pipeline for $repo")
 
+  triggers {
+        githubPush()
+  }
   definition {
     cpsScm {
       scm {
