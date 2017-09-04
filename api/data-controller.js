@@ -3,16 +3,35 @@ import yamljs from 'yamljs'
 import path from 'path'
 import { dataDir } from './config'
 
+let base = process.env.PWD;
+
 // FEAT: for yaml schema validation use Kwalify
+
+export function getAllQuestionnaire(callback) {
+  let res = walk(path.join(base, "/content_data"))
+  console.log(res);
+
+
+}
+
+var walk = function(dir) {
+  var results = []
+  var list = fs.readdirSync(dir)
+  list.forEach(function(file) {
+      file = dir + '/' + file
+      var stat = fs.statSync(file)
+      if (stat && stat.isDirectory()) results = results.concat(walk(file))
+      else results.push(file)
+  })
+  return results
+}
 
 // get all yaml files in data dir and return converted json array of the content
 export function getAllData(callback) {
   let responseArray = []
 
   fs.readdir(path.join(__dirname, dataDir), function (err, items) {
-    if (err) {
-      callback(err)
-    }
+    if (err) callback(err);
 
     let processedItems = 0;
     items.forEach(function (itemName) {
