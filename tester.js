@@ -1,3 +1,5 @@
 let dc = require('./api/data-controller')
 
-dc.getAllQuestionnaire()
+let data = dc.getAllQuestionnaire()
+console.log(data);
+

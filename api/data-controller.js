@@ -10,18 +10,33 @@ let dataDir = "/content_data"
 
 export function getAllQuestionnaire() {
   let questionnaireDirs = getDirsWithLayoutFile(path.join(basePath, "/content_data"))
+  // let allData = getAllDataInDir(questionnaireDirs[1]);
+
   let allData = questionnaireDirs.map(function(dir){
-    // console.log("  looking for dir --> " + dir);
-
-    getAllDataInDir(dir, function(err, resp){
-      console.log('   resp ->> ' + resp);
-    });
+    return getAllDataInDir(dir);
   })
-
-  console.log(allData);
-
-
+  return allData;
 }
+
+// returns an array of JSON object questionnaires given the absolute path to a directory
+export function getAllDataInDir(dataDir) {
+  let items = getAllFilesInDir(dataDir);
+  let responseArray = items.filter(function(item){
+    let itemName = item.split('/').slice(-1)[0];
+    if (itemName !== "Layout.yml" && itemName !== "layout.yml") {
+      return true
+    } else {
+      return false
+    }
+  }).map(function (item) {
+      let data = fs.readFileSync(item);
+      let yamlString = data.toString();
+      let doc = yamljs.parse(yamlString)
+      return doc;
+  })
+  return responseArray;
+}
+
 
 function getDirsWithLayoutFile(dir) {
   var dirsWithConfigFile = []
@@ -60,34 +75,3 @@ function getAllFilesInDir(dir, fileList) {
   return fileList;
 }
 
-// returns an array of JSON object questionnaires given the absolute path to a directory
-export function getAllDataInDir(dataDir, callback) {
-  let responseArray = []
-  let items = getAllFilesInDir(dataDir);
-
-  let processedItems = 0
-  items.forEach(function (item) {
-    let itemName = item.split('/').slice(-1)[0];
-    if (itemName !== "Layout.yml" && itemName !== "layout.yml") {
-      try {
-        fs.readFile(item, function (err, data) {
-          if (err) {
-            return callback(err)
-          }
-          let yamlString = data.toString();
-          let doc = yamljs.parse(yamlString)
-          responseArray.push(doc)
-          processedItems++;
-
-          if (processedItems === items.length - 1) {
-            return callback(null, responseArray)
-          }
-        })
-
-      } catch (e) {
-        return callback(e)
-      }
-    }
-  })
-
-}
