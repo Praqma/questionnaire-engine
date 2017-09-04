@@ -1,1 +1,1 @@
-export const dataDir = '../content_data'
+export const dataDir = './content_data'

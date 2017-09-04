@@ -3,35 +3,69 @@ import yamljs from 'yamljs'
 import path from 'path'
 import { dataDir } from './config'
 
+let basePath = process.env.PWD;
+
 // FEAT: for yaml schema validation use Kwalify
 
-// get all yaml files in data dir and return converted json array of the content
-export function getAllData(callback) {
-  let responseArray = []
-
-  fs.readdir(path.join(__dirname, dataDir), function (err, items) {
-    if (err) {
-      callback(err)
-    }
-
-    let processedItems = 0;
-    items.forEach(function (itemName) {
-      try {
-        fs.readFile(path.join(__dirname, dataDir, itemName), function (err, data) {
-            if (err) {
-              callback(err)
-            }
-            let yamlString = data.toString();
-            let doc = yamljs.parse(yamlString)
-            responseArray.push(doc)
-            processedItems++;
-            if (processedItems === items.length) {
-              callback(null, responseArray)
-            }
-          })
-      } catch (e) {
-        callback(e)
-      }
-    })
+// returns an array of questionnaire JSON objects
+export function getAllQuestionnaire() {
+  let questionnaireDirs = getDirsWithLayoutFile(path.join(basePath, dataDir))
+  let allData = questionnaireDirs.map(function(dir){
+    return getAllDataInDir(dir);
   })
+  return allData;
 }
+
+// returns an array of JSON object questionnaires given the absolute path to a directory
+export function getAllDataInDir(dataDir) {
+  let items = getAllFilesInDir(dataDir);
+  let responseArray = items.filter(function(item){
+    let itemName = item.split('/').slice(-1)[0];
+    if (itemName !== "Layout.yml" && itemName !== "layout.yml") {
+      return true
+    } else {
+      return false
+    }
+  }).map(function (item) {
+      let data = fs.readFileSync(item);
+      let yamlString = data.toString();
+      let doc = yamljs.parse(yamlString)
+      return doc;
+  })
+  return responseArray;
+}
+
+
+function getDirsWithLayoutFile(dir) {
+  var dirsWithConfigFile = []
+  var list = fs.readdirSync(dir)
+  list.forEach(function (file) {
+    if (file === "Layout.yml") {
+      dirsWithConfigFile.push(dir)
+    }
+    file = path.join(dir, file)
+    var stat = fs.statSync(file)
+    // do recursive search through subfolders
+    if (stat && stat.isDirectory())
+      dirsWithConfigFile = dirsWithConfigFile.concat(getDirsWithLayoutFile(file))
+  })
+  return dirsWithConfigFile
+}
+
+function getAllFilesInDir(dir, fileList) {
+  fileList = fileList || [];
+
+  var files = fs.readdirSync(dir);
+  for (var i in files) {
+    if (!files.hasOwnProperty(i))
+      continue;
+    var name = dir + '/' + files[i];
+    if (fs.statSync(name).isDirectory()) {
+      getAllFilesInDir(name, fileList);
+    } else {
+      fileList.push(name);
+    }
+  }
+  return fileList;
+}
+
