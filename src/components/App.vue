@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="tile-container">
     <tile
-      v-for="(item, index) in items" :key="index" v-bind:title="item.title" v-bind:item="item">
+      v-for="(item, index) in items" :key="index" v-bind:item="item">
     </tile>
   </div>
 </template>
@@ -19,20 +19,22 @@ export default {
   components: { tile: Tile },
   mounted: function () {
     var self = this;
-    $.ajax("api/all")
+    $.ajax("api/forms/100001")
       .done(function (data) {
         self.items = data;
       })
       .fail(function () {
-        console.log('fail');
+        console.log('Request failed.');
       })
       .always(function () {
-        console.log('request over.');
+        console.log('Request is over.');
       });
   }
 }
 </script>
 
 <style>
-
+.tile-container {
+  display: inline-block;
+}
 </style>

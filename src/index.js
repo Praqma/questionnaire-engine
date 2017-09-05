@@ -1,7 +1,6 @@
 /*eslint no-unused-vars: 1*/
 
 import $ from 'jquery'
-import './style.css'
 import './style/main.scss'
 
 import Vue from 'vue'

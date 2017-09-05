@@ -1,10 +1,19 @@
 <template>
   <div>
-    <div class="box">
-      <b> {{title}} </b>
-
+    <div id="box-container">
+      <a data-toggle="modal" :data-target="divId">
+        <div class="box">
+          <b> {{item.title}} </b>
+        </div>
+      </a>
     </div>
-    <formy :questions="questions"></formy>
+    <div class="modal fade bd-example-modal-lg" v-bind:id="item.id" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <formy :questions="item.questions"></formy>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -12,10 +21,12 @@
 import Formy from './Formy.vue'
 
 export default {
-  props: ['title', 'item'],
+  props: ['item'],
   data() {
     return {
-      questions: this.item.questions
+      // title: this.item.title,
+      divId: "#" + this.item.id
+      // formData: this.item.questions
     }
   },
   components: { formy: Formy }
@@ -23,17 +34,26 @@ export default {
 </script>
 
 <style>
-.box {
+.box-container {
   display: inline-block;
+}
+
+.box {
   width: 100px;
   height: 100px;
   border: 1px solid black;
+  padding: 7px;
   margin: 10px;
   background-color: #ff9800;
-  padding: 7px;
 }
 
-b:hover {
-  font-weight: bold;
+.box:hover {
+  -webkit-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  transform: scale(1.1);
+  transition-property: all;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  transition-delay: initial;
 }
 </style>
