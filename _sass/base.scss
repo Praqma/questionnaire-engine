@@ -1,12 +1,10 @@
 body{
-  min-width: 900px;
-  background-color: #FFC287;
+  padding-bottom: 50px;
 }
-header.site-header, nav.main-menu>div, .main-area, footer>div{
-  // @extend .container;
+a {
+  color: inherit;
 }
-
-.main-area{
-  margin-top: 40px;
+/* Important part */
+.modal-content{
+  overflow-y: scroll;
 }
-

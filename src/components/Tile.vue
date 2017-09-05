@@ -1,19 +1,19 @@
 <template>
   <div>
     <div id="box-container">
-      <a data-toggle="modal" :data-target="divId">
+      <a href="#" data-toggle="modal" :data-target="divId">
         <div class="box">
           <b> {{item.title}} </b>
         </div>
       </a>
     </div>
-    <div class="modal fade bd-example-modal-lg" v-bind:id="item.id" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <formy :questions="item.questions"></formy>
-        </div>
+
+    <div class="modal fade" v-bind:id="item.id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <formy :formData="item"></formy>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -24,9 +24,7 @@ export default {
   props: ['item'],
   data() {
     return {
-      // title: this.item.title,
       divId: "#" + this.item.id
-      // formData: this.item.questions
     }
   },
   components: { formy: Formy }
