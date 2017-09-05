@@ -16,8 +16,32 @@ export function getAllQuestionnaire() {
   return allData;
 }
 
+export function getQuestionnaireById(id) {
+  let dir = getDirById(id);
+  if (dir) {
+    return getAllDataInDir(dir)
+  }
+}
+
+export function getDirById(id) {
+  let questionnaireDirs = getDirsWithLayoutFile(path.join(basePath, dataDir))
+
+  for (var index = 0; index < questionnaireDirs.length; index++) {
+    var dir = questionnaireDirs[index];
+    let yamlPath = path.join(dir, "Layout.yml")
+    let stat = fs.statSync(yamlPath)
+    if (stat && stat.isFile()) {
+      let yamlString = fs.readFileSync(yamlPath).toString();
+      let jsonData = yamljs.parse(yamlString);
+      if (jsonData.id === id)
+        return dir;
+    }
+  }
+}
+
+
 // returns an array of JSON object questionnaires given the absolute path to a directory
-export function getAllDataInDir(dataDir) {
+function getAllDataInDir(dataDir) {
   let items = getAllFilesInDir(dataDir);
   let responseArray = items.filter(function(item){
     let itemName = item.split('/').slice(-1)[0];
@@ -34,7 +58,6 @@ export function getAllDataInDir(dataDir) {
   })
   return responseArray;
 }
-
 
 function getDirsWithLayoutFile(dir) {
   var dirsWithConfigFile = []
@@ -68,4 +91,3 @@ function getAllFilesInDir(dir, fileList) {
   }
   return fileList;
 }
-

@@ -12,8 +12,13 @@ router.get("/forms", function(req, res) {
 })
 
 router.get("/forms/:id", function(req, res){
-  console.log('Getting form with id: ' + req.params.id);
-
+  let id = parseInt(req.params.id);
+  let jsonData = dataController.getQuestionnaireById(id)
+  if(jsonData){
+    res.json(jsonData)
+  } else {
+    res.json({error: "Something went wrong."})
+  }
 })
 
 module.exports = router;
