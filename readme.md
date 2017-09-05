@@ -63,9 +63,10 @@ $ docker run --rm -it -v /aboslute/path/to/cloned/repo:/usr/src/app -w /usr/src/
 
 ## API Protocol
 
-|Method|URL|Params|
-|---|---|---|
-|**GET**|`api/forms/:id`|id=[integer]|
+|Method|URL|Params|Description|
+|---|---|---|---|
+|**GET**|`api/forms/`|none|All forms|
+|**GET**|`api/forms/:id`|id=[integer]|Form be unique ID|
 
 ## Tools used in this node developer environment
 

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import express from 'express';
 import path from 'path';
 import open from 'open';
@@ -7,7 +8,6 @@ import helmet from 'helmet'
 import config from '../webpack.config.dev';
 var surveyApi = require('../api/survey-api')
 
-/* eslint-disable no-console */
 
 const port = 3000;
 const app = express();
