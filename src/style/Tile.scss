@@ -6,10 +6,9 @@
   position: relative;
   border: 1px solid black;
   padding: 5px;
-  margin: 3px;
-  margin-bottom: 10px;
+  margin-bottom: 10%;
   background-color: #ff9800;
-  word-wrap: break-word;
+  overflow: auto;
 }
 
 .box:before{
@@ -29,9 +28,11 @@
 }
 
 .content{
-	position:  absolute;
+  position:  absolute;
+  padding: 5%;
+  color: white;
 	top: 0;
 	left: 0;
 	bottom: 0;
-	right: 0;
+  right: 0;
 }
