@@ -1,12 +1,11 @@
 .box {
-  width: 80%;
+  width: 85%;
   max-width: 250px;
   max-height: 250px;
   position: relative;
   border: 1px solid black;
   padding: 5px;
   margin-bottom: 10%;
-  overflow: auto;
 }
 
 .box:before{
@@ -26,11 +25,20 @@
 }
 
 .content{
-  position:  absolute;
+  position: absolute;
   padding: 5%;
   color: white;
+  font-size: 1.9vw;
+  word-wrap: break-word;
 	top: 0;
 	left: 0;
 	bottom: 0;
   right: 0;
 }
+
+// set max font-size on widhts over 1000px
+@media all and (min-width: 1000px) {
+  .content {
+      font-size: 22px;
+    }
+  }

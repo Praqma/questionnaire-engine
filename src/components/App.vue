@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container-fluid no-padding">
     <tile v-for="(row, index) in rows" :key="index" :rowIndex="index + 1" :row="row">
     </tile>
   </div>

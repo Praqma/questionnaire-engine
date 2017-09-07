@@ -3,7 +3,7 @@
     <div class="col" v-for="(item, index) in row" :key="index">
       <div v-if="item.id" class="box">
         <a href="" data-toggle="modal" :data-target="'#' + item.id">
-          <div class="content" :class="'color' + rowIndex">
+          <div class="content text-uppercase" :class="'color' + rowIndex" :style="'opacity: ' + colorOpacity(index)">
             <b> {{item.title}} </b>
           </div>
         </a>
@@ -25,10 +25,19 @@ export default {
   props: ['row', 'rowIndex'],
   data() {
     return {
-      // divId: "#" + this.item.id
+      rowLength: this.row.length
     }
   },
-  components: { formy: Formy }
+  components: { formy: Formy },
+  methods: {
+    colorOpacity: function(index) {
+      let base = 0.5;
+      let fading = 1 - base;
+      let individualOpacity = fading / this.rowLength;
+      let opacity = base + individualOpacity * index + individualOpacity;
+      return opacity
+    }
+  }
 }
 </script>
 
