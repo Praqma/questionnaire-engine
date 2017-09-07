@@ -1,5 +1,5 @@
 <template>
-  <div class="tile-container">
+  <div class="container">
     <tile v-for="(row, index) in rows" :key="index" :row="row">
     </tile>
   </div>
@@ -18,7 +18,7 @@ export default {
   components: { tile: Tile },
   mounted: function() {
     var self = this;
-    $.ajax("api/forms/100002")
+    $.ajax("api/forms/100001")
       .done(function(data) {
         self.rows = generateRows(data);
       })
@@ -59,7 +59,5 @@ export default {
 </script>
 
 <style>
-.tile-container {
-  display: inline-block;
-}
+
 </style>

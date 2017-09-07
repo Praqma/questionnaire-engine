@@ -1,14 +1,13 @@
 <template>
-  <div class="row">
+  <div class="row no-gutters">
     <div class="col" v-for="(item, index) in row" :key="index">
-      <div id="box-container" v-if="item.id">
-        <a href="#" data-toggle="modal" :data-target="'#' + item.id">
-          <div class="box">
+      <div v-if="item.id" class="box">
+        <div class="content">
+          <a href="#" data-toggle="modal" :data-target="'#' + item.id">
             <b> {{item.title}} </b>
-          </div>
-        </a>
+          </a>
+        </div>
       </div>
-
       <div class="modal fade" v-bind:id="item.id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
           <formy :formData="item"></formy>
@@ -33,26 +32,5 @@ export default {
 </script>
 
 <style>
-.box-container {
-  display: inline-block;
-}
 
-.box {
-  width: 100px;
-  height: 100px;
-  border: 1px solid black;
-  padding: 7px;
-  margin: 10px;
-  background-color: #ff9800;
-}
-
-.box:hover {
-  -webkit-transform: scale(1.1);
-  -ms-transform: scale(1.1);
-  transform: scale(1.1);
-  transition-property: all;
-  transition-duration: 0.3s;
-  transition-timing-function: ease;
-  transition-delay: initial;
-}
 </style>
