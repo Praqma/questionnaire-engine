@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <tile v-for="(row, index) in rows" :key="index" :row="row">
+    <tile v-for="(row, index) in rows" :key="index" :rowIndex="index + 1" :row="row">
     </tile>
   </div>
 </template>
@@ -18,8 +18,10 @@ export default {
   components: { tile: Tile },
   mounted: function() {
     var self = this;
-    $.ajax("api/forms/100001")
+    $.ajax("api/forms/100003")
       .done(function(data) {
+        // temporarily remove 1st element as it is something weird
+        data.shift();
         self.rows = generateRows(data);
       })
       .fail(function() {

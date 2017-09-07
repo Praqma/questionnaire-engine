@@ -2,12 +2,13 @@
   <div class="row no-gutters">
     <div class="col" v-for="(item, index) in row" :key="index">
       <div v-if="item.id" class="box">
-        <div class="content">
-          <a href="#" data-toggle="modal" :data-target="'#' + item.id">
+        <a href="" data-toggle="modal" :data-target="'#' + item.id">
+          <div class="content" :class="'color' + rowIndex">
             <b> {{item.title}} </b>
-          </a>
-        </div>
+          </div>
+        </a>
       </div>
+
       <div class="modal fade" v-bind:id="item.id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
           <formy :formData="item"></formy>
@@ -21,7 +22,7 @@
 import Formy from './Formy.vue'
 
 export default {
-  props: ['row'],
+  props: ['row', 'rowIndex'],
   data() {
     return {
       // divId: "#" + this.item.id
