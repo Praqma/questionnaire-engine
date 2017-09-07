@@ -1,19 +1,20 @@
 <template>
-  <div>
-    <div id="box-container">
-      <a href="#" data-toggle="modal" :data-target="divId">
-        <div class="box">
-          <b> {{item.title}} </b>
-        </div>
-      </a>
-    </div>
+  <div class="row">
+    <div class="col" v-for="(item, index) in row" :key="index">
+      <div id="box-container" v-if="item.id">
+        <a href="#" data-toggle="modal" :data-target="'#' + item.id">
+          <div class="box">
+            <b> {{item.title}} </b>
+          </div>
+        </a>
+      </div>
 
-    <div class="modal fade" v-bind:id="item.id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-      <div class="modal-dialog modal-lg" role="document">
-        <formy :formData="item"></formy>
+      <div class="modal fade" v-bind:id="item.id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+          <formy :formData="item"></formy>
+        </div>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -21,10 +22,10 @@
 import Formy from './Formy.vue'
 
 export default {
-  props: ['item'],
+  props: ['row'],
   data() {
     return {
-      divId: "#" + this.item.id
+      // divId: "#" + this.item.id
     }
   },
   components: { formy: Formy }
