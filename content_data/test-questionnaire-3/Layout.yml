@@ -1,9 +1,19 @@
 name: test-questionnaire-3
-id: 100003
-version: 1.1
-model:
-- ['tile1', 'tile2', 'tile3', 'tile4', 'tile5']
+id: 100003 # unique id of the questionnaire
+version: 1.0.0 # 3 point decimal precision
+intro: quick-intro # name of the yml file whose form will be the intro
+labels:
+- [Novice, Beginner, Intermediate, Advanced, Expert]
+- [Row1, Row2, Row3, Row4, Row5]
+model: # Each array describes a new row. Each filename (without extension) is a column in a row.
+- [tile1, 'tile2', 'tile3', 'tile4', 'tile5']
 - ['tile6', 'tile7', 'tile8', 'tile9', 'tile10']
 - ['tile11', 'tile12', 'tile13', 'tile14', 'tile15']
 - ['tile16', 'tile17', 'tile18', 'tile19', 'tile20']
 - ['tile21', 'tile22', 'tile23', 'tile24', 'tile25']
+colors: # [start_color, end_color] in HEX (#ff9800)
+- [dd614a, B13B27]
+- [ff9800, FFBA5B]
+- [a8c686, 8BC945]
+- [669bbc, 3785B6]
+- [88958d, 717C75]
