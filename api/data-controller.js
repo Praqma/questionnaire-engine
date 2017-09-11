@@ -1,29 +1,83 @@
+'use strict'
 import fs from 'fs'
 import yamljs from 'yamljs'
 import path from 'path'
-import { dataDir } from './config'
+import {dataDir} from './config'
 
 let basePath = process.env.PWD;
 
 // FEAT: for yaml schema validation use Kwalify
 
-// returns an array of questionnaire JSON objects
-export function getAllQuestionnaire() {
-  let questionnaireDirs = getDirsWithLayoutFile(path.join(basePath, dataDir))
-  let allData = questionnaireDirs.map(function(dir){
-    return getAllDataInDir(dir);
-  })
-  return allData;
-}
-
 export function getQuestionnaireById(id) {
+  let form = {}
   let dir = getDirById(id);
-  if (dir) {
-    return getAllDataInDir(dir)
+  let layoutData = getLayoutFile(id)
+  if (layoutData) {
+    form.name = layoutData.name;
+    form.id = layoutData.id;
+    form.version = layoutData.version;
+    form.labels = {}
+    form.labels.horizontal = layoutData.labels[0]
+    form.labels.vertical = layoutData.labels[1]
+    form.colors = layoutData.colors;
+
+    let pathToIntro = getPathForFilenameInDir(layoutData.intro, dir)
+    form.intro_form = getJsonByPath(pathToIntro)
+
+    form.questionnaire = []
+    let model = layoutData.model;
+
+    for (var i = 0; i < model.length; i++) {
+      let tileNames = model[i];
+      form.questionnaire[i] = []
+      var row = []
+      for (var j = 0; j < tileNames.length; j++) {
+        let tile = tileNames[j];
+        if (tile.length === 0) {
+          row[j] = undefined;
+        } else {
+          let tilePath = getPathForFilenameInDir(tile, dir)
+          let yamlString = fs.readFileSync(tilePath).toString();
+          let jsonData = yamljs.parse(yamlString);
+          row[j] = jsonData
+        }
+      }
+      form.questionnaire[i] = row;
+    }
+    return form
   }
 }
 
-export function getDirById(id) {
+function getPathForFilenameInDir(filename, dir) {
+  let allFiles = getAllFilesInDir(dir)
+  for (var index = 0; index < allFiles.length; index++) {
+    var filePath = allFiles[index];
+    if (filePath.includes(filename + '.yml')) {
+      return filePath;
+    }
+  }
+}
+
+function getLayoutFile(id) {
+  let pathToLayout = path.join(getDirById(id), "Layout.yml")
+  let yamlData = fs
+    .readFileSync(pathToLayout)
+    .toString()
+  let jsonData = yamljs.parse(yamlData);
+  return jsonData;
+}
+
+function getJsonByPath(path){
+  if (fs.statSync(path)) {
+    let yamlString = fs.readFileSync(path).toString();
+    let jsonData = yamljs.parse(yamlString);
+    return jsonData;
+  } else {
+    return null;
+  }
+}
+
+function getDirById(id) {
   let questionnaireDirs = getDirsWithLayoutFile(path.join(basePath, dataDir))
 
   for (var index = 0; index < questionnaireDirs.length; index++) {
@@ -31,31 +85,36 @@ export function getDirById(id) {
     let yamlPath = path.join(dir, "Layout.yml")
     let stat = fs.statSync(yamlPath)
     if (stat && stat.isFile()) {
-      let yamlString = fs.readFileSync(yamlPath).toString();
+      let yamlString = fs
+        .readFileSync(yamlPath)
+        .toString();
       let jsonData = yamljs.parse(yamlString);
-      if (jsonData.id === id)
+      if (jsonData.id == id)
         return dir;
+      }
     }
-  }
 }
 
-
-// returns an array of JSON object questionnaires given the absolute path to a directory
-function getAllDataInDir(dataDir) {
+// returns an array of JSON object questionnaires given the absolute path to a
+// directory
+function getAllQuestionsInDir(dataDir) {
   let items = getAllFilesInDir(dataDir);
-  let responseArray = items.filter(function(item){
-    let itemName = item.split('/').slice(-1)[0];
+  let responseArray = items.filter(function (item) {
+    let itemName = item
+      .split('/')
+      .slice(-1)[0];
     if (itemName !== "Layout.yml" && itemName !== "layout.yml") {
       return true
     } else {
-      return false
-    }
-  }).map(function (item) {
+        return false
+      }
+    })
+    .map(function (item) {
       let data = fs.readFileSync(item);
       let yamlString = data.toString();
       let doc = yamljs.parse(yamlString)
       return doc;
-  })
+    })
   return responseArray;
 }
 
@@ -89,5 +148,6 @@ function getAllFilesInDir(dir, fileList) {
       fileList.push(name);
     }
   }
+
   return fileList;
 }
