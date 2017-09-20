@@ -3,14 +3,14 @@ id: 100004 # unique id of the questionnaire
 version: 1.0.0 # 3 point decimal precision
 intro: quick-intro # name of the yml file whose form will be the intro
 labels:
-- [Novice, Beginner, Intermediate, Advanced, Expert]
-- [5 columns, 1 extra column, One column null, 4 columns, 7 columns]
+- [Novice, Beginner, Intermediate, Advanced, Expert, Master, Exceptional]
+- [5 columns, 1 extra column, Empty columns, 7 columns, 4 columns]
 model: # Each array describes a new row. Filenames represent columns in a row. Filenames must be unique and without .yml extension.
 - [tile_1, tile_2, tile_3, tile_4, tile_5] # 5 columns
 - ['tile_6', 'tile_7', 'tile_8', 'tile_9', 'tile_10', tile_1] # one extra column
-- ['tile_11', 'tile_12', 'tile_13', '', 'tile_15'] # one column is null/undefined
-- ['tile_16', 'tile_17', 'tile_18', 'tile_20'] # 4 columns
+- ['tile_11', '', 'tile_13', '', 'tile_15'] # defining empty columns
 - ['tile_21', 'tile_22', 'tile_23', 'tile_24', 'tile_25', tile_1, tile_1] # 7 columns
+- ['tile_16', 'tile_17', 'tile_18', 'tile_20'] # 4 columns
 colors: # [start_color, end_color] in HEX (#ff9800) per row
 - [dd614a, B13B27]
 - [ff9800, FFBA5B]

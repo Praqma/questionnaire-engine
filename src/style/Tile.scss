@@ -28,7 +28,7 @@
   position: absolute;
   padding: 5%;
   color: white;
-  font-size: 1.9vw;
+  font-size: 1.5vw;
   word-wrap: break-word;
 	top: 0;
 	left: 0;
@@ -39,6 +39,6 @@
 // set max font-size on widhts over 1000px
 @media all and (min-width: 1000px) {
   .content {
-      font-size: 22px;
+      font-size: 18px;
     }
   }

@@ -8,7 +8,7 @@
     </div>
 
     <div v-for="(row, index) in matrix" :key="index">
-      <tile :rowIndex="index + 1" :row="row" :rowLabel="labels.vertical[index]">
+      <tile :rowIndex="index + 1" :row="row" :rowLabel="labels.vertical[index]" :rowLength="rowLength">
       </tile>
     </div>
   </div>
@@ -22,6 +22,7 @@ export default {
     return {
       title: "Title of the Tile.",
       matrix: [],
+      rowLength: 7, // = max row length
       labels: {}
     }
   },

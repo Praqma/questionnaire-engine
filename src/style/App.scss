@@ -14,9 +14,9 @@
 }
 
 .label-horizontal {
-  // @extend .label;
   left: -1vw;
   bottom: 10px;
+  padding-right: 30px;
 }
 
 .label {
@@ -26,15 +26,15 @@
   position: relative;
   text-transform: uppercase;
   text-decoration: none;
-  padding-right: 30px;
-  text-align: justify;
+  text-align: left;
+  width: 80%;
 }
 
 .label:before,
 .label:after {
   content: '';
   position: absolute;
-  bottom: 2px;
+  bottom: -5px;
   left: 0;
   right: 0;
   height: 2px;
