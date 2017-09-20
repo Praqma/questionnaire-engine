@@ -1,10 +1,16 @@
 <template>
   <div class="container-fluid no-padding">
-    <div>
-      <span v-for="(horLabel, index) in labels.horizontal" class="badge badge-info" :key="index">Default</span>
+    <div class="row no-gutters">
+      <div class="col-1"></div>
+      <div class="col text-center label-horizontal" v-for="(horLabels, index) in labels.horizontal" :key="index">
+        <span class="label">{{horLabels}}</span>
+      </div>
     </div>
-    <tile v-for="(row, index) in matrix" :key="index" :rowIndex="index + 1" :row="row">
-    </tile>
+
+    <div v-for="(row, index) in matrix" :key="index">
+      <tile :rowIndex="index + 1" :row="row" :rowLabel="labels.vertical[index]">
+      </tile>
+    </div>
   </div>
 </template>
 
@@ -25,6 +31,8 @@ export default {
     $.ajax("api/forms/100003")
       .done(function(data) {
         self.matrix = data.questionnaire;
+        console.log('length: ' + data.questionnaire.length);
+
         self.labels = data.labels;
       })
       .fail(function() {
@@ -60,5 +68,4 @@ export default {
 </script>
 
 <style>
-
 </style>

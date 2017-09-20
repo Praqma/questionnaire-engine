@@ -1,5 +1,8 @@
 <template>
   <div class="row no-gutters">
+    <div class="col-1 d-flex align-items-center justify-content-center">
+      <span class="label">{{rowLabel}}</span>
+    </div>
     <div class="col" v-for="(item, index) in row" :key="index">
       <div v-if="item.id" class="box">
         <a href="" data-toggle="modal" :data-target="'#' + item.id">
@@ -22,7 +25,7 @@
 import Formy from './Formy.vue'
 
 export default {
-  props: ['row', 'rowIndex'],
+  props: ['row', 'rowIndex', 'rowLabel'],
   data() {
     return {
       rowLength: this.row.length
