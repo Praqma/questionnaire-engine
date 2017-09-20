@@ -1,0 +1,11 @@
+---
+version: 1.0.0
+title: Introduction form  # [mandatory]
+id: intro_01  #[mandatory] maybe we don't need an id? maybe it's just the file name?
+url: questionaire.praqma.com/code-maturity/automated-builds #[optional] if used, it will be availabel for more help/info
+  text: Automated buld blog  #[optional, defauult('Clicke me')]
+  help: Click here to read the block #[optional, default(undefined)] pops us as hep text, whne you hove over the link
+max: 75 # [optional]
+questions:
+  - ask: Your full name # [mandatory]
+    id: question-name #[mandatory] If ID is given, than the value is stored and becomes availaable in template expansion

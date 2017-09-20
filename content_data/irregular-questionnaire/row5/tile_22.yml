@@ -1,0 +1,56 @@
+---
+version: 1.0.0
+title: Automated builds  # [mandatory]
+id: Blaha  #[mandatory] maybe we don't need an id? maybe it's just the file name?
+url: questionaire.praqma.com/code-maturity/automated-builds #[optional] if used, it will be availabel for more help/info
+  text: Automated buld blog  #[optional, defauult('Clicke me')]
+  help: Click here to read the block #[optional, default(undefined)] pops us as hep text, whne you hove over the link
+max: 75 # [optional]
+questions:
+  - ask: Your full name # [mandatory]
+    id: question-name #[mandatory] If ID is given, than the value is stored and becomes availaable in template expansion
+  - ask: What is your email # [mandatory]
+    description: gotta be someone from praqma #[optional]
+    id: question-email #[optional] If ID is given, than the value is stored and becomes availaable in template expansion
+    condition: somonefrompraqma
+    type: edit # [mandatory] edit|choice
+      regexp: /.*@praqma.com/ #[optional] only relevant for `type:edit`
+  - ask: Are your builds automated?
+    description: By automated builds we mean builds that are automatically triggered - on a CI server - by a commit to the version control system.
+    type: choice
+      select: single # [required if type:choice] single|multiple
+      required: true #[optional] default is `false`
+      options: # [required when type:choice]
+        - value: Yes
+          weight: 50 #[optional] default(0)
+          condition: autobuild
+        - value: No
+          weight: 0
+  - ask: What is the reason for the long wait?
+    description:
+    require: autobuild,somonefrompraqma
+    type: choice
+      select: multiple
+      required: false
+      options: # options can be a multi dimensional list
+        columns: ["first column header", "2nd column header"] #[optional] only valid if rows is defined - if omitted, columns do't have any labels
+        rows: ["first row header", "2nd row header"] #[required if the options are multidimensional] lists can contain lists
+          -
+            - value: #[the key is optional when rows/columns are defined - if used it's a hover over help test]
+              weight: 1 #[optional]
+            - value: #[the key is optional when rows/columns are defined - if used it's a hover over help test]
+              weight: 2
+          -
+            - value: #[the key is optional when rows/columns are defined - if used it's a hover over help test]
+              weight: 3 #[optional]
+            - value: #[the key is optional when rows/columns are defined - if used it's a hover over help test]
+              weight: 4
+  - ask: another question
+    description:
+    require: autobuild,somonefrompraqma
+    type: choice
+      select: multiple
+      required: false
+      options: # options can be a multi dimensional list
+        rows: ["first row header", "2nd row header"]
+        columns: ["first column header", "2nd column header"]
