@@ -22,7 +22,7 @@ export default {
     return {
       title: "Title of the Tile.",
       matrix: [],
-      rowLength: 7, // = max row length
+      rowLength: 0, // = max row length
       labels: {}
     }
   },
@@ -32,8 +32,7 @@ export default {
     $.ajax("api/forms/100004")
       .done(function(data) {
         self.matrix = data.questionnaire;
-        console.log('length: ' + data.questionnaire.length);
-
+        self.rowLength = self.calculateRowLength(data.questionnaire)
         self.labels = data.labels;
       })
       .fail(function() {
@@ -42,27 +41,17 @@ export default {
       .always(function() {
         console.log('Request is over.');
       });
-
-    let generateRows = function(items) {
-      let matrix = [];
-      let rowLength = Math.ceil(Math.sqrt(items.length))
-
-      for (var index = 0; index < items.length; index++) {
-        let element = items[index];
-        let rowIndex = Math.ceil((index + 1) / rowLength) - 1;
-        if (typeof matrix[rowIndex] === "undefined") {
-          matrix[rowIndex] = []
+  },
+  methods: {
+    calculateRowLength: function(array) {
+      let maxLength = 0;
+      for (let index = 0; index < array.length; index++) {
+        let element = array[index]
+        if (element.length > maxLength){
+          maxLength = element.length;
         }
-        matrix[rowIndex].push(element)
       }
-
-      // fill out with blank array the last row if there aren't enough elements
-      let lastRow = matrix[matrix.length - 1]
-      while (lastRow.length !== rowLength) {
-        lastRow.push([])
-      }
-      matrix[matrix.length - 1] = lastRow;
-      return matrix;
+      return maxLength;
     }
   }
 }
