@@ -1,5 +1,5 @@
 .matrix-container {
-  padding-top: 20px;
+  padding-top: 30px;
   max-width: 1000px;
 }
 
@@ -16,7 +16,11 @@
 .label-horizontal {
   left: -1vw;
   bottom: 10px;
-  padding-right: 30px;
+}
+
+.label-vertical {
+  right: 25px;
+  margin-left: 20px;
 }
 
 .label {
@@ -79,4 +83,11 @@
 .label:focus:after {
   -webkit-transition: -webkit-transform 0s 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0s 0.2s;
   transition: transform 0s 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0s 0.2s;
+}
+
+// set max font-size on widhts over 1000px
+@media all and (min-width: 800px) {
+  .label {
+    font-size: 14px;
+  }
 }

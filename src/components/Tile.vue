@@ -1,6 +1,6 @@
 <template>
   <div class="row no-gutters">
-    <div class="col-1 d-flex align-items-center justify-content-center">
+    <div class="col-1 d-flex align-items-center justify-content-center label-vertical">
       <span class="label">{{rowLabel}}</span>
     </div>
     <div class="col" v-for="(item, index) in fullRow" :key="index">
