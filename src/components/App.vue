@@ -1,6 +1,9 @@
 <template>
   <div class="container-fluid no-padding">
-    <tile v-for="(row, index) in rows" :key="index" :rowIndex="index + 1" :row="row">
+    <div>
+      <span v-for="(horLabel, index) in labels.horizontal" class="badge badge-info" :key="index">Default</span>
+    </div>
+    <tile v-for="(row, index) in matrix" :key="index" :rowIndex="index + 1" :row="row">
     </tile>
   </div>
 </template>
@@ -12,7 +15,8 @@ export default {
   data() {
     return {
       title: "Title of the Tile.",
-      rows: []
+      matrix: [],
+      labels: {}
     }
   },
   components: { tile: Tile },
@@ -20,41 +24,36 @@ export default {
     var self = this;
     $.ajax("api/forms/100003")
       .done(function(data) {
-        // temporarily remove 1st element as it is something weird
-        data.shift();
-        self.rows = generateRows(data);
+        self.matrix = data.questionnaire;
+        self.labels = data.labels;
       })
       .fail(function() {
-        console.log('Request failed.');
+        console.warn('Request failed.');
       })
       .always(function() {
         console.log('Request is over.');
       });
 
     let generateRows = function(items) {
-      let rows = [];
+      let matrix = [];
       let rowLength = Math.ceil(Math.sqrt(items.length))
 
       for (var index = 0; index < items.length; index++) {
         let element = items[index];
         let rowIndex = Math.ceil((index + 1) / rowLength) - 1;
-        if (typeof rows[rowIndex] === "undefined") {
-          rows[rowIndex] = []
+        if (typeof matrix[rowIndex] === "undefined") {
+          matrix[rowIndex] = []
         }
-        rows[rowIndex].push(element)
+        matrix[rowIndex].push(element)
       }
 
       // fill out with blank array the last row if there aren't enough elements
-      let lastRow = rows[rows.length - 1]
-      console.log("LAST ROW before")
-      console.log(lastRow);
-      while(lastRow.length !== rowLength) {
+      let lastRow = matrix[matrix.length - 1]
+      while (lastRow.length !== rowLength) {
         lastRow.push([])
       }
-      rows[rows.length - 1] = lastRow;
-      console.log("LAST ROW after")
-      console.log(lastRow);
-      return rows;
+      matrix[matrix.length - 1] = lastRow;
+      return matrix;
     }
   }
 }
