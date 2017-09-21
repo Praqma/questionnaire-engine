@@ -1,5 +1,5 @@
-name: test-questionnaire-3
-id: 100003 # unique id of the questionnaire
+name: regular-matrix
+id: 100002 # unique id of the questionnaire
 version: 1.0.0 # 3 point decimal precision
 
 # Content info

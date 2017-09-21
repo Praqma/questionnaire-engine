@@ -1,7 +1,7 @@
 ---
 version: 1.0.0
-title: Automated builds  # [mandatory]
-id: Blaha  #[mandatory] maybe we don't need an id? maybe it's just the file name?
+title: Basic Security  # [mandatory]
+id: basic-security  #[mandatory] maybe we don't need an id? maybe it's just the file name?
 url: questionaire.praqma.com/code-maturity/automated-builds #[optional] if used, it will be availabel for more help/info
   text: Automated buld blog  #[optional, defauult('Clicke me')]
   help: Click here to read the block #[optional, default(undefined)] pops us as hep text, whne you hove over the link

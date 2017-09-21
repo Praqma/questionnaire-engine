@@ -11,7 +11,7 @@
     </div>
 
     <div class="row no-gutters">
-      <div class="col-1"></div>
+      <div class="col-1 label-vertical"></div>
       <div class="col text-center label-horizontal" v-for="(horLabels, index) in data.labels.horizontal" :key="index">
         <span class="label">{{horLabels}}</span>
       </div>

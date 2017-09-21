@@ -1,6 +1,6 @@
 ---
-version: 1.0.0
-title: Automated builds  # [mandatory]
+version: 1.0.1
+title: Orchestrated containers  # [mandatory]
 id: Blaha  #[mandatory] maybe we don't need an id? maybe it's just the file name?
 url: questionaire.praqma.com/code-maturity/automated-builds #[optional] if used, it will be availabel for more help/info
   text: Automated buld blog  #[optional, defauult('Clicke me')]

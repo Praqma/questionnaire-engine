@@ -1,6 +1,6 @@
 # Basic
 name: irregular-questionnaire
-id: 100004 # unique id of the questionnaire
+id: 100001 # unique id of the questionnaire
 version: 1.0.0 # 3 point decimal precision
 
 # Content info
@@ -19,16 +19,16 @@ iconURL: "http://code-maturity.praqma.com/images/praqma-logo.png"
 introYaml: quick-intro # name of the yml file whose form will be the intro
 labels:
 - [Novice, Beginner, Intermediate, Advanced, Expert, Master, Exceptional]
-- [5 columns, 1 extra column, Empty columns, 7 columns, 4 columns]
+- [Security, Backup and Data Management, Infrastructure, Network, Monitoring]
 model: # Each array describes a new row. Filenames represent columns in a row. Filenames must be unique and without .yml extension.
 - [tile_1, tile_2, tile_3, tile_4, tile_5] # 5 columns
-- ['tile_6', 'tile_7', 'tile_8', 'tile_9', 'tile_10', tile_1] # one extra column
+- ['tile_6', 'tile_7', 'tile_8', 'tile_9', 'tile_10', tile_6] # one extra column
 - ['tile_11', '', 'tile_13', '', 'tile_15'] # defining empty columns
-- ['tile_21', 'tile_22', 'tile_23', 'tile_24', 'tile_25', tile_1, tile_1] # 7 columns
-- ['tile_16', 'tile_17', 'tile_18', 'tile_20'] # 4 columns
+- ['tile_17', 'tile_18', 'tile_19', 'tile_20', 'tile_21', tile_22, tile_23] # 7 columns
+- ['tile_24', 'tile_25', 'tile_18', 'tile_20'] # 4 columns
 colors: # [start_color, end_color] in HEX (#ff9800) per row
-- [dd614a, B13B27]
 - [ff9800, FFBA5B]
+- [dd614a, B13B27]
 - [a8c686, 8BC945]
 - [669bbc, 3785B6]
 - [88958d, 717C75]
