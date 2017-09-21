@@ -19,12 +19,15 @@ import Tile from './Tile.vue'
 
 export default {
   data() {
+    console.log('Header data called');
+
     return {
       title: "Title of the Tile.",
       matrix: [],
       rowLength: 0, // = max row length
       labels: {},
-      colors: []
+      colors: [],
+      header: "test"
     }
   },
   components: { tile: Tile },
@@ -35,7 +38,10 @@ export default {
         self.matrix = data.questionnaire;
         self.rowLength = self.calculateRowLength(data.questionnaire)
         self.labels = data.labels;
-        self.colors = data.colors;
+        self.colors = data.colors
+        self.header = data.header;
+        console.log('Header data received');
+
       })
       .fail(function() {
         console.warn('Request failed.');

@@ -1,7 +1,20 @@
+# Basic
 name: irregular-questionnaire
 id: 100004 # unique id of the questionnaire
 version: 1.0.0 # 3 point decimal precision
-intro: quick-intro # name of the yml file whose form will be the intro
+
+# Content info
+header: An Irregular Questionnaire
+footer: In order to understand recursion you must first understand recursion.
+links:
+  - title: Ops Maturity
+    url: "http://code.praqma.com/ops-maturity/"
+  - title: Code Maturity
+    url: "http://code-maturity.praqma.com/"
+iconURL: "http://code-maturity.praqma.com/images/praqma-logo.png"
+
+# Content body
+introYaml: quick-intro # name of the yml file whose form will be the intro
 labels:
 - [Novice, Beginner, Intermediate, Advanced, Expert, Master, Exceptional]
 - [5 columns, 1 extra column, Empty columns, 7 columns, 4 columns]

@@ -15,31 +15,33 @@
 
 <body>
   <!-- As a link -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">Maturity Model</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
-      aria-expanded="false" aria-label="Toggle navigation">
+  <div id="app">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">{{header}}</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
+        aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
-        <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
-        <a class="nav-item nav-link" href="http://praqma.com/">Praqma</a>
-        <a class="nav-item nav-link" href="http://code-maturity.praqma.com/">Code Maturity</a>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
+          <a class="nav-item nav-link" href="http://praqma.com/">Praqma</a>
+          <a class="nav-item nav-link" href="http://code-maturity.praqma.com/">Code Maturity</a>
+        </div>
       </div>
-    </div>
-  </nav>
-  <div class="container-fluid">
+    </nav>
+    <div class="container-fluid">
 
-    <div id="matrix" class="container-fluid matrix-container no-padding">
-      <app></app>
+      <div id="matrix" class="container-fluid matrix-container no-padding">
+        <app></app>
+      </div>
+
     </div>
 
+    <nav class="navbar fixed-bottom navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">Maturity Model</a>
+    </nav>
   </div>
-
-  <nav class="navbar fixed-bottom navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">Maturity Model</a>
-  </nav>
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
     crossorigin="anonymous"></script>

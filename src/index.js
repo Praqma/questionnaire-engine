@@ -13,6 +13,12 @@ var matrix = new Vue({
   components: { App }
 })
 
+let infoComponent = new Vue({
+  el: '#app',
+  data: {
+    header: matrix.components.App.data().header
+  }
+})
 
 $(document).ready(function () {
 

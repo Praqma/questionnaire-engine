@@ -21,7 +21,13 @@ export function getQuestionnaireById(id) {
     form.labels.vertical = layoutData.labels[1]
     form.colors = layoutData.colors;
 
-    let pathToIntro = getPathForFilenameInDir(layoutData.intro, dir)
+    form.header = layoutData.header;
+    form.footer = layoutData.footer;
+    form.links = layoutData.links;
+    form.iconURL = layoutData.iconURL;
+
+
+    let pathToIntro = getPathForFilenameInDir(layoutData.introYaml, dir)
     form.intro_form = getJsonByPath(pathToIntro)
 
     form.questionnaire = []
@@ -68,6 +74,11 @@ function getLayoutFile(id) {
 }
 
 function getJsonByPath(path){
+  if (!path) {
+    console.warn("Path to JSON could not be found.")
+    return null;
+  }
+
   if (fs.statSync(path)) {
     let yamlString = fs.readFileSync(path).toString();
     let jsonData = yamljs.parse(yamlString);
