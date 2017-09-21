@@ -8,7 +8,7 @@
     </div>
 
     <div v-for="(row, index) in matrix" :key="index">
-      <tile :rowIndex="index + 1" :row="row" :rowLabel="labels.vertical[index]" :rowLength="rowLength">
+      <tile :rowIndex="index + 1" :row="row" :rowLabel="labels.vertical[index]" :rowLength="rowLength" :color="colors[index]">
       </tile>
     </div>
   </div>
@@ -23,7 +23,8 @@ export default {
       title: "Title of the Tile.",
       matrix: [],
       rowLength: 0, // = max row length
-      labels: {}
+      labels: {},
+      colors: []
     }
   },
   components: { tile: Tile },
@@ -34,6 +35,7 @@ export default {
         self.matrix = data.questionnaire;
         self.rowLength = self.calculateRowLength(data.questionnaire)
         self.labels = data.labels;
+        self.colors = data.colors;
       })
       .fail(function() {
         console.warn('Request failed.');

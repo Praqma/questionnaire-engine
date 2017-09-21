@@ -8,7 +8,7 @@
       <div v-if="item">
         <div class="box">
           <a href="" data-toggle="modal" :data-target="'#' + item.id">
-            <div class="content text-uppercase" :class="'color' + rowIndex" :style="'opacity: ' + colorOpacity(index)">
+            <div class="content text-uppercase" :style="'background-color: #' + color[0] + '; opacity: ' + colorOpacity(index)">
               <b> {{item.title}} </b>
             </div>
           </a>
@@ -30,7 +30,7 @@
 import Formy from './Formy.vue'
 
 export default {
-  props: ['row', 'rowIndex', 'rowLabel', "rowLength"],
+  props: ['row', 'rowIndex', 'rowLabel', "rowLength", 'color'],
   computed: {
     fullRow: function() {
       let fullRow = this.row;
