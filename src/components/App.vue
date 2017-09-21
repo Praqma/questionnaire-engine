@@ -1,47 +1,49 @@
 <template>
-  <div class="container-fluid no-padding">
-    <div class="row no-gutters">
-      <div class="col-1"></div>
-      <div class="col text-center label-horizontal" v-for="(horLabels, index) in labels.horizontal" :key="index">
-        <span class="label">{{horLabels}}</span>
+  <div>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">{{respData.header}}</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-item nav-link active" href="#">Home
+            <span class="sr-only">(current)</span>
+          </a>
+          <a class="nav-item nav-link" href="http://praqma.com/">Praqma</a>
+          <a class="nav-item nav-link" href="http://code-maturity.praqma.com/">Code Maturity</a>
+        </div>
       </div>
+    </nav>
+    <div class="container-fluid">
+
+      <div id="matrix" class="container-fluid matrix-container no-padding">
+        <matrix v-bind:data="respData"></matrix>
+      </div>
+
     </div>
 
-    <div v-for="(row, index) in matrix" :key="index">
-      <tile :rowIndex="index + 1" :row="row" :rowLabel="labels.vertical[index]" :rowLength="rowLength" :color="colors[index]">
-      </tile>
-    </div>
+    <nav class="navbar fixed-bottom navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">{{respData.footer}}</a>
+    </nav>
   </div>
 </template>
 
 <script>
-import Tile from './Tile.vue'
+import Matrix from './Matrix.vue'
 
 export default {
   data() {
-    console.log('Header data called');
-
     return {
-      title: "Title of the Tile.",
-      matrix: [],
-      rowLength: 0, // = max row length
-      labels: {},
-      colors: [],
-      header: "test"
+      respData: {}
     }
   },
-  components: { tile: Tile },
+  components: { matrix: Matrix },
   mounted: function() {
     var self = this;
     $.ajax("api/forms/100004")
       .done(function(data) {
-        self.matrix = data.questionnaire;
-        self.rowLength = self.calculateRowLength(data.questionnaire)
-        self.labels = data.labels;
-        self.colors = data.colors
-        self.header = data.header;
-        console.log('Header data received');
-
+        self.respData = data;
       })
       .fail(function() {
         console.warn('Request failed.');
@@ -49,21 +51,10 @@ export default {
       .always(function() {
         console.log('Request is over.');
       });
-  },
-  methods: {
-    calculateRowLength: function(array) {
-      let maxLength = 0;
-      for (let index = 0; index < array.length; index++) {
-        let element = array[index]
-        if (element.length > maxLength){
-          maxLength = element.length;
-        }
-      }
-      return maxLength;
-    }
   }
 }
 </script>
 
 <style>
+
 </style>

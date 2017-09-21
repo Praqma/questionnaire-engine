@@ -30,7 +30,7 @@
 import Formy from './Formy.vue'
 
 export default {
-  props: ['row', 'rowIndex', 'rowLabel', "rowLength", 'color'],
+  props: ['row', 'rowIndex', 'rowLabel', 'rowLength', 'color'],
   computed: {
     fullRow: function() {
       let fullRow = this.row;

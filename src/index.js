@@ -8,16 +8,9 @@ import App from './components/App.vue'
 // import Tile from './components/Tile.vue'
 // Vue.component('tile', Tile)
 
-var matrix = new Vue({
-  el: "#matrix",
+var app = new Vue({
+  el: "#app",
   components: { App }
-})
-
-let infoComponent = new Vue({
-  el: '#app',
-  data: {
-    header: matrix.components.App.data().header
-  }
 })
 
 $(document).ready(function () {
