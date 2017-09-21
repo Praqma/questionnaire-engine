@@ -9,3 +9,5 @@ max: 75 # [optional]
 questions:
   - ask: Your full name # [mandatory]
     id: question-name #[mandatory] If ID is given, than the value is stored and becomes availaable in template expansion
+  - ask: Email address
+    id: email
