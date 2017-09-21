@@ -1,17 +1,16 @@
 <template>
   <div>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">
+        <img v-bind:src="respData.iconURL" width="30" height="30" alt="">
+      </a>
       <a class="navbar-brand" href="#">{{respData.header}}</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-item nav-link active" href="#">Home
-            <span class="sr-only">(current)</span>
-          </a>
-          <a class="nav-item nav-link" href="http://praqma.com/">Praqma</a>
-          <a class="nav-item nav-link" href="http://code-maturity.praqma.com/">Code Maturity</a>
+          <a class="nav-item nav-link" v-for="(link, index) in respData.links" :key="index" v-bind:href="link.url"> {{link.title}} </a>
         </div>
       </div>
     </nav>
@@ -41,7 +40,7 @@ export default {
   components: { matrix: Matrix },
   mounted: function() {
     var self = this;
-    $.ajax("api/forms/100004")
+    $.ajax("api/forms/100003")
       .done(function(data) {
         self.respData = data;
       })

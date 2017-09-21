@@ -1,7 +1,18 @@
 name: test-questionnaire-3
 id: 100003 # unique id of the questionnaire
 version: 1.0.0 # 3 point decimal precision
-intro: quick-intro # name of the yml file whose form will be the intro
+
+# Content info
+header: A Perfect Matrix Questionnaire
+footer: Why do Java developers wear glasses? Because they can't C#
+links:
+  - title: Ops Maturity
+    url: "http://code.praqma.com/ops-maturity/"
+  - title: Code Maturity
+    url: "http://code-maturity.praqma.com/"
+iconURL: "http://code-maturity.praqma.com/images/praqma-logo.png"
+
+introYaml: quick-intro # name of the yml file whose form will be the intro
 labels:
 - [Novice, Beginner, Intermediate, Advanced, Expert]
 - [Row1, Row2, Row3, Row4, Row5]
