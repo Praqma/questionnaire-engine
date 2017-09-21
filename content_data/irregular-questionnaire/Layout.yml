@@ -7,6 +7,8 @@ version: 1.0.0 # 3 point decimal precision
 header: An Irregular Questionnaire
 footer: In order to understand recursion you must first understand recursion.
 links:
+  - title: Praqma
+    url: http://praqma.com
   - title: Ops Maturity
     url: "http://code.praqma.com/ops-maturity/"
   - title: Code Maturity
