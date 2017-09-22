@@ -1,17 +1,68 @@
 <template>
   <div class="modal-content">
     <div class="modal-header">
-      <h5 class="modal-title" id="exampleModalLongTitle">{{formData.title}}</h5>
+      <h3 class="modal-title" id="exampleModalLongTitle">{{formData.title}}</h3>
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body">
-      <div class="form-group" v-for="(question, index) in formData.questions" :key="index">
-        <label for="exampleInputEmail1">{{question.ask}}</label>
-        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-      </div>
+      <p>{{response}}</p>
+      <form>
+        <div class="form-group" v-for="(question, index) in formData.questions" :key="index">
+
+          <div v-if="question.short_answer">
+            <legend>{{question.short_answer.ask}}</legend>
+            <label class="form-text text-muted">{{question.short_answer.description}}</label>
+            <input type="text" class="form-control" v-model="response[question.short_answer.id]" :id="question.short_answer.id" :required="question.short_answer.conditions.required">
+          </div>
+
+          <div v-else-if="question.paragraph">
+            <legend>{{question.paragraph.ask}}</legend>
+            <label class="form-text text-muted">{{question.paragraph.description}}</label>
+            <textarea class="form-control" v-model="response[question.paragraph.id]" :id="question.paragraph.id" :required="question.paragraph.conditions.required" placeholder="add multiple lines"></textarea>
+          </div>
+
+          <div v-else-if="question.radio">
+            <fieldset class="form-group">
+              <legend>{{question.radio.ask}}</legend>
+              <label class="form-text text-muted">{{question.radio.description}}</label>
+              <div class="form-check" v-for="(option, index) in question.radio.options" :key="index">
+                <label class="form-check-label">
+                  <input v-model="response[question.radio.id]" type="radio" class="form-check-input" :id="option" :value="option" checked> {{option}}
+                </label>
+              </div>
+            </fieldset>
+          </div>
+
+          <div v-else-if="question.checkboxes">
+            <legend>{{question.checkboxes.ask}}</legend>
+            <label class="form-text text-muted">{{question.checkboxes.description}}</label>
+            <span v-for="(option, index) in question.checkboxes.options" :key="index">
+              <input type="checkbox" v-model="response[question.checkboxes.id]" :id="option" :value="option" :name="question.checkboxes.id">
+              <label :for="question.checkboxes.id">{{option}}</label>
+              <br>
+            </span>
+          </div>
+
+          <div v-else-if="question.dropdown">
+            <legend>{{question.dropdown.ask}}</legend>
+            <label class="form-text text-muted">{{question.dropdown.description}}</label>
+            <select class="form-control" id="dropdown" v-model="response[question.dropdown.id]">
+              <option v-for="(option, index) in question.dropdown.options" :key="index">{{option}}</option>
+            </select>
+          </div>
+
+          <div v-else>
+            <div class="alert alert-danger" role="alert">
+              <strong>Oh snap!</strong> Question type
+              <code>{{ Object.keys(question)[0].toString() }}</code> not supported yet. Change it and try again.
+            </div>
+          </div>
+
+        </div>
+      </form>
+
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -22,7 +73,26 @@
 
 <script>
 export default {
-  props: ['formData']
+  props: ['formData'],
+  data() {
+    return {
+      response: this.initResponse()
+    }
+  },
+  methods: {
+    initResponse() {
+      let response = {};
+      for (let i = 0; i < this.formData.questions.length; i++) {
+        let question = this.formData.questions[i]
+        let key = Object.keys(question)[0];
+        let question_id = question[key].id
+        if (question_id) {
+          response[question_id] = []
+        }
+      }
+      return response;
+    }
+  }
 }
 </script>
 

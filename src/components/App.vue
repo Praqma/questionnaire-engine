@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
       <a class="navbar-brand" href="#">
         <img v-bind:src="respData.iconURL" width="30" height="30" alt="">
       </a>
@@ -40,7 +40,7 @@ export default {
   components: { matrix: Matrix },
   mounted: function() {
     var self = this;
-    $.ajax("api/forms/100002")
+    $.ajax("api/forms/100001")
       .done(function(data) {
         self.respData = data;
       })

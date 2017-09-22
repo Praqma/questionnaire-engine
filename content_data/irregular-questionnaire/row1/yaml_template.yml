@@ -1,0 +1,73 @@
+---
+title: Automated Builds
+version: 1.0.0
+id: automated-builds
+link:
+    url: questionaire.praqma.com/code-maturity/automated-builds
+    text: Automated build blog
+    help: Click here to read the block
+max: 75
+questions:
+    - short_answer:
+        id: preferred-language
+        ask: Which programming language do you like the most?
+        description: There is a huge selection to choose from
+        conditions:
+            required: true
+            prerequisites: []
+    - short_answer:
+        id: second-short-answer
+        ask: Second short answer?
+        conditions:
+            required: true
+            prerequisites: []
+    - paragraph:
+        id: language-why
+        ask: Why that language?
+        description: Can you further elaborate on something so obvious?
+        conditions:
+            required: true
+            prerequisites: ['preferred-language']
+    - radio:
+        id: radio-options
+        ask: Which one option would you pick?
+        description: It is really only one you can pick. Sorry.
+        conditions:
+            required: true
+            prerequisites: []
+        options:
+            - First option
+            - Second option
+            - Third option
+    - checkboxes:
+        ask: Which of the following options do you like?
+        description: Congratulations! You have been chosen to choose!
+        id: checkbox-options
+        conditions:
+            required: true
+            prerequisites: []
+        options:
+            - First option
+            - Second option
+            - Third option
+    - dropdown:
+        ask: Can you pick only one?
+        descrpition: No comments... ¯\_(⊙︿⊙)_/¯
+        id: tricky-question
+        conditions:
+            required: false
+            prerequisites: []
+        options:
+            - First option
+            - Second option
+            - Third option
+    # - multiple_choice:
+    #     ask: Can you pick only one?
+    #     descrpition: No comments... ¯\_(⊙︿⊙)_/¯
+    #     id: tricky-question
+    #     conditions:
+    #         required: false
+    #     options:
+    #         - First option
+    #         - Second option
+    #         - Third option
