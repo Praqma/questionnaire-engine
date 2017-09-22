@@ -1,17 +1,21 @@
+# Questionnaire basics
 name: regular-matrix
 id: 100002 # unique id of the questionnaire
 version: 1.0.0 # 3 point decimal precision
 
 # Content info
+iconURL: "http://code-maturity.praqma.com/images/praqma-logo.png"
 header: A Perfect Matrix Questionnaire
-footer: Why do Java developers wear glasses? Because they can't C#
 links:
+  - title: Praqma
+    url: http://praqma.com
   - title: Ops Maturity
     url: "http://code.praqma.com/ops-maturity/"
   - title: Code Maturity
     url: "http://code-maturity.praqma.com/"
-iconURL: "http://code-maturity.praqma.com/images/praqma-logo.png"
+footer: Why do Java developers wear glasses? Because they can't C#
 
+# Content body
 introYaml: quick-intro # name of the yml file whose form will be the intro
 labels:
 - [Novice, Beginner, Intermediate, Advanced, Expert]
