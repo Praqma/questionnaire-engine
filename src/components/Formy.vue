@@ -8,47 +8,63 @@
     </div>
     <div class="modal-body">
       <p>{{response}}</p>
+      <div style="color: red; margin-bottom: 15px;">* Required</div>
       <form>
         <div class="form-group" v-for="(question, index) in formData.questions" :key="index">
 
           <div v-if="question.short_answer">
-            <legend>{{question.short_answer.ask}}</legend>
+            <legend>
+              {{question.short_answer.ask}}
+              <span v-show="question.short_answer.conditions.required" style="color: red;">*</span>
+            </legend>
             <label class="form-text text-muted">{{question.short_answer.description}}</label>
             <input type="text" class="form-control" v-model="response[question.short_answer.id]" :id="question.short_answer.id" :required="question.short_answer.conditions.required">
           </div>
 
           <div v-else-if="question.paragraph">
-            <legend>{{question.paragraph.ask}}</legend>
+            <legend>
+              {{question.paragraph.ask}}
+              <span v-show="question.paragraph.conditions.required" style="color: red;">*</span>
+            </legend>
             <label class="form-text text-muted">{{question.paragraph.description}}</label>
             <textarea class="form-control" v-model="response[question.paragraph.id]" :id="question.paragraph.id" :required="question.paragraph.conditions.required" placeholder="add multiple lines"></textarea>
           </div>
 
           <div v-else-if="question.radio">
             <fieldset class="form-group">
-              <legend>{{question.radio.ask}}</legend>
+              <legend>
+                {{question.radio.ask}}
+                <span v-show="question.radio.conditions.required" style="color: red;">*</span>
+              </legend>
               <label class="form-text text-muted">{{question.radio.description}}</label>
               <div class="form-check" v-for="(option, index) in question.radio.options" :key="index">
                 <label class="form-check-label">
-                  <input v-model="response[question.radio.id]" type="radio" class="form-check-input" :id="option" :value="option" checked> {{option}}
+                  <input v-model="response[question.radio.id]" type="radio" class="form-check-input" :id="option" :value="option" checked :required="question.radio.conditions.required"> {{option}}
                 </label>
               </div>
             </fieldset>
           </div>
 
           <div v-else-if="question.checkboxes">
-            <legend>{{question.checkboxes.ask}}</legend>
+            <legend>
+              {{question.checkboxes.ask}}
+              <span v-show="question.checkboxes.conditions.required" style="color: red;">*</span>
+            </legend>
             <label class="form-text text-muted">{{question.checkboxes.description}}</label>
             <span v-for="(option, index) in question.checkboxes.options" :key="index">
-              <input type="checkbox" v-model="response[question.checkboxes.id]" :id="option" :value="option" :name="question.checkboxes.id">
+              <input type="checkbox" v-model="response[question.checkboxes.id]" :id="option" :value="option" :name="question.checkboxes.id" :required="question.checkboxes.conditions.required">
               <label :for="question.checkboxes.id">{{option}}</label>
               <br>
             </span>
           </div>
 
           <div v-else-if="question.dropdown">
-            <legend>{{question.dropdown.ask}}</legend>
+            <legend>
+              {{question.dropdown.ask}}
+              <span v-show="question.dropdown.conditions.required" style="color: red;">*</span>
+            </legend>
             <label class="form-text text-muted">{{question.dropdown.description}}</label>
-            <select class="form-control" id="dropdown" v-model="response[question.dropdown.id]">
+            <select class="form-control" id="dropdown" v-model="response[question.dropdown.id]" :required="question.dropdown.conditions.required">
               <option v-for="(option, index) in question.dropdown.options" :key="index">{{option}}</option>
             </select>
           </div>
@@ -66,7 +82,7 @@
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      <button type="button" class="btn btn-primary">Save changes</button>
+      <button type="submit" class="btn btn-primary">Save changes</button>
     </div>
   </div>
 </template>
