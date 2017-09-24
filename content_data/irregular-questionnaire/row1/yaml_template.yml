@@ -52,7 +52,7 @@ questions:
             - Third option
     - dropdown:
         ask: Can you pick only one?
-        descrpition: No comments... ¯\_(⊙︿⊙)_/¯
+        description: No comments... ¯\_(⊙︿⊙)_/¯
         id: tricky-question
         conditions:
             required: false
@@ -61,6 +61,9 @@ questions:
             - First option
             - Second option
             - Third option
+
+
+
     # - multiple_choice:
     #     ask: Can you pick only one?
     #     descrpition: No comments... ¯\_(⊙︿⊙)_/¯

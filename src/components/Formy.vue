@@ -7,7 +7,7 @@
       </button>
     </div>
     <div class="modal-body">
-      <p>{{response}}</p>
+      <!-- <p>{{response}}</p> -->
       <div style="color: red; margin-bottom: 15px;">* Required</div>
       <form>
         <div class="form-group" v-for="(question, index) in formData.questions" :key="index">
@@ -107,6 +107,9 @@ export default {
         }
       }
       return response;
+    },
+    submitForm() {
+      console.log(data)
     }
   }
 }
