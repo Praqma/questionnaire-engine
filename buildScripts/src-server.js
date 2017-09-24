@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import express from 'express';
 import path from 'path';
+import bodyParser from 'body-parser'
 import open from 'open';
 import webpack from 'webpack';
 import helmet from 'helmet'
@@ -19,6 +20,8 @@ app.use(require('webpack-dev-middleware')(compiler, {
   noInfo: true,
   publicPath: config.output.publicPath
 }));
+
+app.use(bodyParser.json());
 
 app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, '../src/index.html'));

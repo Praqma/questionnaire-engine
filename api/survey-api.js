@@ -21,4 +21,10 @@ router.get("/forms/:id", function(req, res){
   }
 })
 
+router.post('/forms/:id', function (req, res) {
+  let id = req.params.id;
+  console.log(id + "\n" + req.body);
+  res.send(req.body);
+});
+
 module.exports = router;

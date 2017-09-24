@@ -43,11 +43,14 @@
   "author": "Edmond Petres",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.16.2",
+    "body-parser": "^1.18.2",
     "helmet": "^3.8.1",
     "jquery": "^3.2.1",
     "json-schema-faker": "^0.3.6",
     "mongodb": "^2.2.31",
     "vue": "^2.4.2",
+    "vue-axios": "^2.0.2",
     "whatwg-fetch": "^2.0.3",
     "yamljs": "^0.3.0"
   },

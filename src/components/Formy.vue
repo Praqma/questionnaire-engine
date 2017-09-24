@@ -6,10 +6,10 @@
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-    <div class="modal-body">
-      <!-- <p>{{response}}</p> -->
-      <div style="color: red; margin-bottom: 15px;">* Required</div>
-      <form>
+    <form id="main-form" v-on:submit.prevent="onSubmit(formData.id)">
+      <div class="modal-body">
+        <p>{{ JSON.stringify(response, null, 2) }}</p>
+        <div class="required">* Required</div>
         <div class="form-group" v-for="(question, index) in formData.questions" :key="index">
 
           <div v-if="question.short_answer">
@@ -51,8 +51,8 @@
               <span v-show="question.checkboxes.conditions.required" style="color: red;">*</span>
             </legend>
             <label class="form-text text-muted">{{question.checkboxes.description}}</label>
-            <span v-for="(option, index) in question.checkboxes.options" :key="index">
-              <input type="checkbox" v-model="response[question.checkboxes.id]" :id="option" :value="option" :name="question.checkboxes.id" :required="question.checkboxes.conditions.required">
+            <span v-for="(option, index) in question.checkboxes.options" :key="index" :required="question.checkboxes.conditions.required">
+              <input type="checkbox" v-model="response[question.checkboxes.id]" :id="option" :value="option" :name="question.checkboxes.id">
               <label :for="question.checkboxes.id">{{option}}</label>
               <br>
             </span>
@@ -77,17 +77,24 @@
           </div>
 
         </div>
-      </form>
 
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      <button type="submit" class="btn btn-primary">Save changes</button>
-    </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <!-- <button type="submit" class="btn btn-primary">Save changes</button> -->
+        <input type="submit" class="btn btn-primary" value="Save changes">
+      </div>
+    </form>
   </div>
 </template>
 
 <script>
+import Vue from 'vue'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+
+Vue.use(VueAxios, axios)
+
 export default {
   props: ['formData'],
   data() {
@@ -108,15 +115,26 @@ export default {
       }
       return response;
     },
-    submitForm() {
-      console.log(data)
+    onSubmit(formID) {
+      let formResp = this.$data.response;
+
+      this.axios.post('/api/forms/' + formID, formResp)
+        .then(function(response) {
+          console.log('saved successfully')
+        });
     }
   }
 }
 </script>
 
-<style>
+<style lang="sass">
 .form {
   all: revert;
+}
+.required {
+  color: red;
+  .label {
+    margin-bottom: 15px;
+  }
 }
 </style>
