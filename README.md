@@ -66,9 +66,9 @@ $ docker run --rm -it -v /aboslute/path/to/cloned/repo:/usr/src/app -w /usr/src/
 |Method|URL|Params|Description|Example|
 |---|---|---|---|---|
 |**GET**|`/<form-id>`|`id=[String]`|Load site with matrix form by it's unique ID name|`forms.praqma.com/<maturity-model>`|
-|**POST**|`/forms/<form-id>`|`id=[String]`|Get JSON form data by it's unique ID name|`forms.praqma.com/forms/<maturity-model>`|
+|**POST**|`/forms/<form-id>`|`id=[String]`|Get JSON form data by it's unique ID name|`.../forms/<maturity-model>`|
 |**PUT**|`/forms/<form-id>`|`id=[String]`|Update a previously submitted answer|`.../forms/<maturity-model>`|
-|**GET**|`/report/<form-id>`|`id=[String]`|See the result for a form with ID|`forms.praqma.com/report/<maturity-model>`|
+|**GET**|`/report/<form-id>`|`id=[String]`|See the result for a form with ID|`.../report/<maturity-model>`|
 
 ## Tools used in this node developer environment
 
