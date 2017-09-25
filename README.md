@@ -63,10 +63,12 @@ $ docker run --rm -it -v /aboslute/path/to/cloned/repo:/usr/src/app -w /usr/src/
 
 ## API Protocol
 
-|Method|URL|Params|Description|
-|---|---|---|---|
-|**GET**|`api/forms/`|none|All forms|
-|**GET**|`api/forms/:id`|id=[integer]|Form be unique ID|
+|Method|URL|Params|Description|Example|
+|---|---|---|---|---|
+|**GET**|`/<form-id>`|`id=[String]`|Load site with matrix form by it's unique ID name|`forms.praqma.com/<maturity-model>`|
+|**POST**|`/forms/<form-id>`|`id=[String]`|Get JSON form data by it's unique ID name|`forms.praqma.com/forms/<maturity-model>`|
+|**PUT**|`/forms/<form-id>`|`id=[String]`|Update a previously submitted answer|`.../forms/<maturity-model>`|
+|**GET**|`/report/<form-id>`|`id=[String]`|See the result for a form with ID|`forms.praqma.com/report/<maturity-model>`|
 
 ## Tools used in this node developer environment
 
