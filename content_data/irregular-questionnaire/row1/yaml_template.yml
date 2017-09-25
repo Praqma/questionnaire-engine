@@ -1,6 +1,7 @@
 ---
 title: Automated Builds
 version: 1.0.0
+# Immutable after the creation of the survey. Any change will create a separate database for the new answers.
 id: automated-builds
 link:
     url: questionaire.praqma.com/code-maturity/automated-builds
@@ -9,6 +10,8 @@ link:
 max: 75
 questions:
     - short_answer:
+        # The ID must be unique within this questionnaire.
+        # It is immutable after publishing. Any change will trigger the new answers to be recorded separately.
         id: preferred-language
         ask: Which programming language do you like the most?
         description: There is a huge selection to choose from

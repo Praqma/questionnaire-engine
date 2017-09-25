@@ -10,6 +10,7 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
+          <button class="btn btn-outline-success" v-show="didOpenIntro" data-toggle="modal" data-target="#intro-form" @click="onIntroOpen" type="button">{{respData.intro_form.title.toUpperCase()}}</button>
           <a class="nav-item nav-link" v-for="(link, index) in respData.links" :key="index" v-bind:href="link.url"> {{link.title}} </a>
         </div>
       </div>
@@ -17,7 +18,7 @@
     <div class="container-fluid">
 
       <div id="matrix" class="container-fluid matrix-container no-padding">
-        <matrix v-bind:data="respData"></matrix>
+        <matrix v-bind:data="respData" v-on:introOpened="onIntroOpen"></matrix>
       </div>
 
     </div>
@@ -34,7 +35,8 @@ import Matrix from './Matrix.vue'
 export default {
   data() {
     return {
-      respData: {}
+      respData: {},
+      didOpenIntro: false
     }
   },
   components: { matrix: Matrix },
@@ -50,6 +52,11 @@ export default {
       .always(function() {
         console.log('Request is over.');
       });
+  },
+  methods: {
+    onIntroOpen() {
+      this.didOpenIntro = true;
+    }
   }
 }
 </script>

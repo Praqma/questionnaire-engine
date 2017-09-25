@@ -2,7 +2,7 @@
   <div class="container-fluid no-padding">
 
     <div id="startIntroBtn" class="container">
-      <button v-if="!openedIntro" type="button" class="btn btn-secondary btn-lg btn-block" data-toggle="modal" data-target="#intro-form" @click="openedIntro = true">Start here...</button>
+      <button v-if="!didOpenIntro" type="button" class="btn btn-secondary btn-lg btn-block" data-toggle="modal" data-target="#intro-form" @click="onIntroOpen">Start here...</button>
       <div class="modal fade" id="intro-form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
           <div class="modal-dialog modal-lg" role="document">
             <formy :formData="data.intro_form"></formy>
@@ -34,7 +34,7 @@ export default {
   data() {
     return {
       rowLength: 0,
-      openedIntro: false
+      didOpenIntro: false
     }
   },
   beforeUpdate() {
@@ -54,7 +54,10 @@ export default {
       } else {
         return 5;
       }
-
+    },
+    onIntroOpen() {
+      this.didOpenIntro = true;
+      this.$emit('introOpened')
     }
   }
 }
