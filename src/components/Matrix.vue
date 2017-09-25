@@ -18,6 +18,7 @@
     </div>
 
     <div v-for="(row, index) in data.questionnaire" :key="index">
+      {{rowLength}}
       <tile :rowIndex="index + 1" :row="row" :rowLabel="data.labels.vertical[index]" :rowLength="rowLength" :color="data.colors[index]">
       </tile>
     </div>
@@ -33,12 +34,9 @@ export default {
   components: { tile: Tile, formy: Formy },
   data() {
     return {
-      rowLength: 0,
+      rowLength: this.calculateRowLength(this.data.questionnaire),
       didOpenIntro: false
     }
-  },
-  beforeUpdate() {
-    this.rowLength = this.calculateRowLength(this.data.questionnaire)
   },
   methods: {
     calculateRowLength: function(array) {
@@ -52,7 +50,7 @@ export default {
         }
         return maxLength;
       } else {
-        return 5;
+        return 0;
       }
     },
     onIntroOpen() {
