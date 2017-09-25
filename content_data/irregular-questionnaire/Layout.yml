@@ -1,11 +1,11 @@
 # Questionnaire basics
-name: irregular-questionnaire
-id: 100001 # unique id of the questionnaire
+id: irregular-questionnaire # unique name id of the questionnaire
 version: 1.0.0 # 3 point decimal precision
 
 # Content info
-iconURL: "http://code-maturity.praqma.com/images/praqma-logo.png"
 header: An Irregular Questionnaire
+footer: In order to understand recursion you must first understand recursion.
+iconURL: "http://code-maturity.praqma.com/images/praqma-logo.png"
 links:
   - title: Praqma
     url: http://praqma.com
@@ -13,7 +13,6 @@ links:
     url: "http://code.praqma.com/ops-maturity/"
   - title: Code Maturity
     url: "http://code-maturity.praqma.com/"
-footer: In order to understand recursion you must first understand recursion.
 
 # Content body
 introYaml: quick-intro # name of the yml file whose form will be the intro

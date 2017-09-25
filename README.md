@@ -65,10 +65,14 @@ $ docker run --rm -it -v /aboslute/path/to/cloned/repo:/usr/src/app -w /usr/src/
 
 |Method|URL|Params|Description|Example|
 |---|---|---|---|---|
-|**GET**|`/<form-id>`|`id=[String]`|Load site with matrix form by it's unique ID name|`forms.praqma.com/<maturity-model>`|
-|**POST**|`/forms/<form-id>`|`id=[String]`|Get JSON form data by it's unique ID name|`.../forms/<maturity-model>`|
-|**PUT**|`/forms/<form-id>`|`id=[String]`|Update a previously submitted answer|`.../forms/<maturity-model>`|
-|**GET**|`/report/<form-id>`|`id=[String]`|See the result for a form with ID|`.../report/<maturity-model>`|
+|**GET**|`/<questionnaire-id>`|`id=[String]`|Load site with matrix form by it's unique ID name|`forms.praqma.com/<maturity-model>`|
+|**POST**|`/forms/<questionnaire-id>/<form-id>`|`id=[String]`|Submit JSON form data with it's unique ID name|`.../forms/<maturity-model>/<automated-builds>`|
+|**PUT**|`/forms/<questionnaire-id>/<form-id>`|`id=[String]`|Update a previously submitted answer|`.../forms/<maturity-model>/<automated-builds>`|
+|**GET**|`/report/<questionnaire-id>`|`id=[String]`|See the results for a questionnaire with ID|`.../report/<maturity-model>`|
+
+> *Questionnaire refers to the whole matrix with its Tiles and forms
+
+> *Form reffers to an individual tile's form data - a single yaml file.
 
 ## Tools used in this node developer environment
 

@@ -42,7 +42,9 @@ export default {
   components: { matrix: Matrix },
   mounted: function() {
     var self = this;
-    $.ajax("api/forms/100001")
+    let regular_matrix = "api/forms/regular-matrix"
+    let irregular_matrix = "api/forms/irregular-questionnaire"
+    $.ajax(irregular_matrix)
       .done(function(data) {
         self.respData = data;
       })

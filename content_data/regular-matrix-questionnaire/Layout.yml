@@ -1,6 +1,5 @@
 # Questionnaire basics
-name: regular-matrix
-id: 100002 # unique id of the questionnaire
+id: regular-matrix # unique id of the questionnaire
 version: 1.0.0 # 3 point decimal precision
 
 # Content info

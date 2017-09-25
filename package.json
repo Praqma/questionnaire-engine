@@ -5,7 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "prestart": "babel-node buildScripts/start-message.js",
-    "start": "npm-run-all --parallel security-check open:src lint:watch test:watch start-mockapi",
+    "start_full": "npm-run-all --parallel security-check open:src lint:watch test:watch start-mockapi",
+    "start": "npm run open:src",
     "build": "(npm run open:src &) && sleep 15 && pkill node",
     "open:src": "babel-node buildScripts/src-server.js",
     "lint": "esw webpack.config.* src buildScripts --color",

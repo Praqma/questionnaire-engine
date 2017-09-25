@@ -2,13 +2,13 @@
   <div class="modal-content">
     <div class="modal-header">
       <h3 class="modal-title" id="exampleModalLongTitle">{{formData.title}}</h3>
+      <code>{{questionnaireID}}</code>
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-    <form id="main-form" v-on:submit.prevent="onSubmit(formData.id)">
+    <form id="main-form" v-on:submit.prevent="onSubmit()">
       <div class="modal-body">
-        <p>{{ JSON.stringify(response, null, 2) }}</p>
         <div class="required">* Required</div>
         <div class="form-group" v-for="(question, index) in formData.questions" :key="index">
 
@@ -96,7 +96,7 @@ import VueAxios from 'vue-axios'
 Vue.use(VueAxios, axios)
 
 export default {
-  props: ['formData'],
+  props: ['formData', 'questionnaireID'],
   data() {
     return {
       response: this.initResponse()
@@ -115,12 +115,22 @@ export default {
       }
       return response;
     },
-    onSubmit(formID) {
-      let formResp = this.$data.response;
+    onSubmit() {
+      // replace client id with an auto generated one
+      let clientID = '12345'
 
-      this.axios.post('/api/forms/' + formID, formResp)
+      let questionnaireID = this.questionnaireID;
+      let formID = this.$props.formData.id;
+
+      let formResp = {}
+      formResp.version = this.$props.formData.version;
+      formResp.clientID = clientID;
+      formResp.answers = {}
+      formResp.answers[formID] = this.$data.response;
+
+      this.axios.post('/form/' + questionnaireID, formResp)
         .then(function(response) {
-          console.log('saved successfully')
+          console.log('posted successfully')
         });
     }
   }

@@ -26,7 +26,6 @@ export function getQuestionnaireById(id) {
     form.links = layoutData.links;
     form.iconURL = layoutData.iconURL;
 
-
     let pathToIntro = getPathForFilenameInDir(layoutData.introYaml, dir)
     form.intro_form = getJsonByPath(pathToIntro)
 
@@ -43,7 +42,9 @@ export function getQuestionnaireById(id) {
           row[j] = undefined;
         } else {
           let tilePath = getPathForFilenameInDir(tile, dir)
-          let yamlString = fs.readFileSync(tilePath).toString();
+          let yamlString = fs
+            .readFileSync(tilePath)
+            .toString();
           let jsonData = yamljs.parse(yamlString);
           row[j] = jsonData
         }
@@ -65,6 +66,10 @@ function getPathForFilenameInDir(filename, dir) {
 }
 
 function getLayoutFile(id) {
+  let dir = getDirById(id);
+  if (!dir) {
+    return null;
+  }
   let pathToLayout = path.join(getDirById(id), "Layout.yml")
   let yamlData = fs
     .readFileSync(pathToLayout)
@@ -73,14 +78,14 @@ function getLayoutFile(id) {
   return jsonData;
 }
 
-function getJsonByPath(path){
+function getJsonByPath(path) {
   if (!path) {
-    console.warn("Path to JSON could not be found.")
     return null;
   }
-
   if (fs.statSync(path)) {
-    let yamlString = fs.readFileSync(path).toString();
+    let yamlString = fs
+      .readFileSync(path)
+      .toString();
     let jsonData = yamljs.parse(yamlString);
     return jsonData;
   } else {
@@ -92,7 +97,7 @@ function getDirById(id) {
   let questionnaireDirs = getDirsWithLayoutFile(path.join(basePath, dataDir))
 
   for (var index = 0; index < questionnaireDirs.length; index++) {
-    var dir = questionnaireDirs[index];
+    let dir = questionnaireDirs[index];
     let yamlPath = path.join(dir, "Layout.yml")
     let stat = fs.statSync(yamlPath)
     if (stat && stat.isFile()) {
@@ -100,10 +105,11 @@ function getDirById(id) {
         .readFileSync(yamlPath)
         .toString();
       let jsonData = yamljs.parse(yamlString);
-      if (jsonData.id == id)
+      if (jsonData.id === id) {
         return dir;
       }
     }
+  }
 }
 
 // returns an array of JSON object questionnaires given the absolute path to a

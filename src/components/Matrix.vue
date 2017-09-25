@@ -18,8 +18,7 @@
     </div>
 
     <div v-for="(row, index) in data.questionnaire" :key="index">
-      {{rowLength}}
-      <tile :rowIndex="index + 1" :row="row" :rowLabel="data.labels.vertical[index]" :rowLength="rowLength" :color="data.colors[index]">
+      <tile :rowIndex="index + 1" :row="row" :rowLabel="data.labels.vertical[index]" :rowLength="rowLength" :color="data.colors[index]" :questionnaireID="data.id">
       </tile>
     </div>
   </div>

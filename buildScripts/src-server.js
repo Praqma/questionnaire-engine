@@ -8,6 +8,7 @@ import helmet from 'helmet'
 
 import config from '../webpack.config.dev';
 var surveyApi = require('../api/survey-api')
+import responseAPI from '../api/response-api'
 
 
 const port = 3000;
@@ -27,7 +28,9 @@ app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, '../src/index.html'));
 });
 
-app.use('/api', surveyApi)
+app.use('/api', surveyApi);
+
+app.use('/form', responseAPI);
 
 app.listen(port, function(err) {
   if (err) {
