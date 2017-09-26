@@ -1,11 +1,11 @@
 var express = require('express')
 var router = express.Router();
-import * as dataController from '../models/yamlData'
-import * as db from '../models/db'
+import * as yalmData from '../models/yamlData'
+import * as formDB from '../models/formDB'
 
 router.get("/:id", function(req, res){
   let id = req.params.id;
-  let jsonData = dataController.getQuestionnaireById(id)
+  let jsonData = yalmData.getQuestionnaireById(id)
   if(jsonData){
     res.json(jsonData)
   } else {
@@ -16,19 +16,22 @@ router.get("/:id", function(req, res){
 
 router.post('/:questionnaireID', function (req, res) {
   let questionnaireID = req.params.questionnaireID;
-  db.addAnswer(req.body, function(err, result) {
+  let formResponse = req.body;
+
+  if (!formResponse) {
+    req.status(400);
+    res.json({error: "Did not receive payload."})
+  }
+
+  formDB.insertFormResponse(questionnaireID, formResponse, (err, result) => {
     if (err) {
       res.status(501)
       res.json({error: "The data could not be stored in the database."})
+    } else {
+      res.json({status: 100, message: "Successfuly inserted data."})
     }
-    db.allAnswers(function(err, docs) {
-      if (err) {
-        res.status(501)
-        res.json({error: "All answers cannot be loaded."})
-      }
-      res.send(docs);
-    })
   })
+
 });
 
 export default router;

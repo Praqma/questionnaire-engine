@@ -2,12 +2,21 @@
   <div class="modal-content">
     <div class="modal-header">
       <h3 class="modal-title" id="exampleModalLongTitle">{{formData.title}}</h3>
-      <code>{{questionnaireID}}</code>
+
+      <div class="d-flex justify-content-end">
+        <div class="p-2" v-show="saveSuccess">
+          <small class="d-inline">&#10003; Up to date!</small>
+        </div>
+        <div class="p-2">
+          <small class="d-inline">{{statusUpdate}}</small>
+        </div>
+      </div>
+
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-    <form id="main-form" v-on:submit.prevent="onSubmit()">
+    <form id="main-form" v-on:change="onFormChange()" v-on:submit.prevent="onSubmit()">
       <div class="modal-body">
         <div class="required">* Required</div>
         <div class="form-group" v-for="(question, index) in formData.questions" :key="index">
@@ -82,7 +91,8 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <!-- <button type="submit" class="btn btn-primary">Save changes</button> -->
-        <input type="submit" class="btn btn-primary" value="Save changes">
+        <input v-show="!saveSuccess" type="submit" class="btn btn-primary" value="Save changes">
+        <button v-show="saveSuccess" type="button" class="btn btn-success">Saved successfully!</button>
       </div>
     </form>
   </div>
@@ -99,7 +109,10 @@ export default {
   props: ['formData', 'questionnaireID'],
   data() {
     return {
-      response: this.initResponse()
+      response: this.initResponse(),
+      saveSuccess: false,
+      lastUpdated: null,
+      statusUpdate: ""
     }
   },
   methods: {
@@ -127,10 +140,29 @@ export default {
       formResp.answers = {}
       formResp.answers[formID] = this.$data.response;
 
+      let onSuccessfulSubmit = this.onSuccessfulSubmit;
+
       this.axios.post('/forms/' + questionnaireID, formResp)
         .then(function(response) {
           console.log('posted successfully')
+          let respMessage = response.data.message
+          let resCode = response.data.status
+          if (resCode == 100)
+            onSuccessfulSubmit(respMessage)
         });
+    },
+    onSuccessfulSubmit() {
+      this.$data.saveSuccess = true;
+      this.$data.lastUpdated = new Date().getTime()
+
+      var self = this;
+      setInterval(function() {
+        let minsSinceUpdated = Math.floor((new Date().getTime() - self.$data.lastUpdated) / 1000 / 60)
+        self.$data.statusUpdate = "Last saved " + minsSinceUpdated + " minute(s) ago.";
+      }, 1000);
+    },
+    onFormChange() {
+      this.$data.saveSuccess = false;
     }
   }
 }
@@ -142,8 +174,6 @@ export default {
 }
 .required {
   color: red;
-  .label {
-    margin-bottom: 15px;
-  }
+  margin-bottom: 20px;
 }
 </style>

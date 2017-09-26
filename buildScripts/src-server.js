@@ -7,7 +7,7 @@ import webpack from 'webpack';
 import helmet from 'helmet'
 
 import config from '../webpack.config.dev';
-import formsAPI from '../api/controllers/forms'
+import formsAPI from '../api/controllers/formsAPI'
 import * as db from '../api/config/dbConnection'
 
 
