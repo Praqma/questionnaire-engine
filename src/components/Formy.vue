@@ -118,7 +118,6 @@ export default {
     onSubmit() {
       // replace client id with an auto generated one
       let clientID = '12345'
-
       let questionnaireID = this.questionnaireID;
       let formID = this.$props.formData.id;
 
@@ -128,7 +127,7 @@ export default {
       formResp.answers = {}
       formResp.answers[formID] = this.$data.response;
 
-      this.axios.post('/form/' + questionnaireID, formResp)
+      this.axios.post('/forms/' + questionnaireID, formResp)
         .then(function(response) {
           console.log('posted successfully')
         });

@@ -7,8 +7,8 @@ import webpack from 'webpack';
 import helmet from 'helmet'
 
 import config from '../webpack.config.dev';
-var surveyApi = require('../api/survey-api')
-import responseAPI from '../api/response-api'
+import formsAPI from '../api/controllers/forms'
+import * as db from '../api/config/dbConnection'
 
 
 const port = 3000;
@@ -28,9 +28,17 @@ app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, '../src/index.html'));
 });
 
-app.use('/api', surveyApi);
+app.use('/forms', formsAPI);
 
-app.use('/form', responseAPI);
+db.connect(function (err) {
+  console.log("Connecting to Database...")
+  if (err) {
+    console.log("Could not connect to Database");
+    return;
+  } else {
+    console.log("Connection successful. Listeting on port " + port);
+  }
+});
 
 app.listen(port, function(err) {
   if (err) {
@@ -39,3 +47,4 @@ app.listen(port, function(err) {
     open('http://localhost:' + port);
   }
 });
+

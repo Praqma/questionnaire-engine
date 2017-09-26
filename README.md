@@ -66,6 +66,7 @@ $ docker run --rm -it -v /aboslute/path/to/cloned/repo:/usr/src/app -w /usr/src/
 |Method|URL|Params|Description|Example|
 |---|---|---|---|---|
 |**GET**|`/<questionnaire-id>`|`id=[String]`|Load site with matrix form by it's unique ID name|`forms.praqma.com/<maturity-model>`|
+|**GET**|`/forms/<questionnaire-id>`|`id=[String]`|Request form data as JSON|`.../forms/<maturity-model>`|
 |**POST**|`/forms/<questionnaire-id>/<form-id>`|`id=[String]`|Submit JSON form data with it's unique ID name|`.../forms/<maturity-model>/<automated-builds>`|
 |**PUT**|`/forms/<questionnaire-id>/<form-id>`|`id=[String]`|Update a previously submitted answer|`.../forms/<maturity-model>/<automated-builds>`|
 |**GET**|`/report/<questionnaire-id>`|`id=[String]`|See the results for a questionnaire with ID|`.../report/<maturity-model>`|

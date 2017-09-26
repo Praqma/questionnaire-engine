@@ -2,7 +2,7 @@
 import fs from 'fs'
 import yamljs from 'yamljs'
 import path from 'path'
-import {dataDir} from './config'
+import {dataDir} from '../config/config'
 
 let basePath = process.env.PWD;
 
