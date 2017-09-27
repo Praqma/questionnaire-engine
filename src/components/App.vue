@@ -1,5 +1,6 @@
 <template>
-  <div>
+<div>
+  <div v-if="requestOk">
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
       <a class="navbar-brand" href="#">
         <img v-bind:src="respData.iconURL" width="30" height="30" alt="">
@@ -16,43 +17,52 @@
       </div>
     </nav>
     <div class="container-fluid">
-
       <div id="matrix" class="container-fluid matrix-container no-padding">
         <matrix v-bind:data="respData" v-on:introOpened="onIntroOpen"></matrix>
       </div>
-
     </div>
-
     <nav class="navbar fixed-bottom navbar-dark bg-dark">
       <a class="navbar-brand" href="#">{{respData.footer}}</a>
     </nav>
   </div>
+  <div v-if="requestOk === false">
+    <not-found></not-found>
+  </div>
+</div>
+
 </template>
 
 <script>
 import Matrix from './Matrix.vue'
+import NotFound from './NotFound.vue'
+import path from 'path'
 
 export default {
   data() {
     return {
       respData: {},
-      didOpenIntro: false
+      didOpenIntro: false,
+      requestOk: null
     }
   },
-  components: { matrix: Matrix },
+  components: { matrix: Matrix, notFound: NotFound },
   mounted: function() {
     var self = this;
-    let regular_matrix = "forms/regular-matrix"
-    let irregular_matrix = "forms/irregular-questionnaire"
-    $.ajax(irregular_matrix)
+    let pathname = window.location.pathname.replace("/", "")
+    if (!pathname){
+      return self.requestOk = false;
+    }
+    $.ajax("forms/" + pathname)
       .done(function(data) {
         self.respData = data;
+        self.requestOk = true;
       })
       .fail(function() {
         console.warn('Request failed.');
+        self.requestOk = false;
       })
       .always(function() {
-        console.log('Request is over.');
+        // console.log('Request is over.');
       });
   },
   methods: {

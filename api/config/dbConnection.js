@@ -11,19 +11,13 @@ var connect = function(done) {
       return done(err);
     }
     connection = db;
-    console.log('DB assigned to Connection');
-
     done();
   })
 }
 var get = function() {
-  console.log('Returning: ' + connection);
-
   return connection;
 }
 var close = function(done) {
-  console.log('XXX closing connection');
-
   if (connection) {
     connection.close(function(err, result) {
       connection = null;

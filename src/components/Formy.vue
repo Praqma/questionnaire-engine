@@ -3,14 +3,13 @@
     <div class="modal-header">
       <h3 class="modal-title" id="exampleModalLongTitle">{{formData.title}}</h3>
 
-      <div class="d-flex justify-content-end">
+
         <div class="p-2" v-show="saveSuccess">
           <small class="d-inline">&#10003; Up to date!</small>
         </div>
         <div class="p-2">
           <small class="d-inline">{{statusUpdate}}</small>
         </div>
-      </div>
 
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>

@@ -3,10 +3,11 @@ var router = express.Router();
 import * as yalmData from '../models/yamlData'
 import * as formDB from '../models/formDB'
 
-router.get("/:id", function(req, res){
-  let id = req.params.id;
-  let jsonData = yalmData.getQuestionnaireById(id)
-  if(jsonData){
+router.get("/:questionnaireID", function(req, res){
+  let questionnaireID = req.params.questionnaireID;
+  let jsonData = yalmData.getQuestionnaireById(questionnaireID)
+
+  if (jsonData){
     res.json(jsonData)
   } else {
     res.status(501)
