@@ -141,14 +141,17 @@ export default {
 
       let onSuccessfulSubmit = this.onSuccessfulSubmit;
 
+      let self = this;
       this.axios.post('/forms/' + questionnaireID, formResp)
         .then(function(response) {
-          console.log('posted successfully')
           let respMessage = response.data.message
           let resCode = response.data.status
           if (resCode == 100)
             onSuccessfulSubmit(respMessage)
-        });
+        })
+        .catch(function(error){
+          self.$data.statusUpdate = "Modifications could not be saved. \_(ʘ_ʘ)_/"
+        })
     },
     onSuccessfulSubmit() {
       this.$data.saveSuccess = true;

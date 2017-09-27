@@ -20,7 +20,7 @@ export function allAnswers(callback) {
 }
 
 export function insertFormResponse(questionnaireID, requestPayload, callback) {
-  let formVersion = requestPayload.version;
+  let version = requestPayload.version;
   let clientID = requestPayload.clientID;
   let formID = Object.keys(requestPayload.answers)[0]
   let formResponse = requestPayload.answers[formID]
@@ -29,19 +29,38 @@ export function insertFormResponse(questionnaireID, requestPayload, callback) {
     var db = connection.get();
     var collection = db.collection(questionnaireID);
 
-    let insertObj = {
-      version: formVersion,
-      clientID: clientID,
-      formID: formID,
-      answers: formResponse
-    }
+    let queryObj = {"version": version, clientID: clientID, formID: formID}
+    collection.find(queryObj).toArray(function (err, docs) {
 
-    collection.insertOne(insertObj, function(err, result) {
-      if (err) {
-        return callback(err)
-      }
-      return callback(err, result)
-    })
+        let insertObj = {
+          version: version,
+          clientID: clientID,
+          formID: formID,
+          answers: formResponse
+        }
+
+        if (docs.length > 0) {
+          assert.equal(1, docs.length);
+          let writeResult = collection.update(
+            queryObj,
+            insertObj,
+            { upsert: true }
+          )
+          if (writeResult.writeError) {
+            return callback(writeResult.writeError)
+          }
+          return callback(null, writeResult)
+
+        } else if (docs.length === 0) {
+          collection.insertOne(insertObj, function (err, result) {
+              if (err) {
+                return callback(err)
+              }
+              return callback(err, result)
+            })
+        }
+      })
+
   })
 
 }
