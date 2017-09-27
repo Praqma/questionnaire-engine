@@ -31,12 +31,9 @@ app.get('/', function(req, res) {
 app.use('/forms', formsAPI);
 
 db.connect(function (err) {
-  console.log("Connecting to Database...")
   if (err) {
     console.log("Could not connect to Database");
     return;
-  } else {
-    console.log("Connection successful. Listeting on port " + port);
   }
 });
 

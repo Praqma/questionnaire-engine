@@ -5,9 +5,6 @@ export function allAnswers(callback) {
   connection
     .connect(function () {
       var db = connection.get();
-      console.log('got... :');
-      console.log(db);
-
       var collection = db.collection("test-collection");
       collection
         .find({})
