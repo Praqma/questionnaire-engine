@@ -36,6 +36,7 @@ export function insertFormResponse(questionnaireID, requestPayload, callback) {
           version: version,
           clientID: clientID,
           formID: formID,
+          lastUpdated: new Date(),
           answers: formResponse
         }
 
