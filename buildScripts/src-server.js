@@ -27,11 +27,7 @@ app.use(bodyParser.json());
 app.use('/api/forms', formsAPI);
 app.use('/api/results', resultsAPI)
 
-app.get('/', function(req, res) {
-  res.sendFile(path.join(__dirname, '../src/index.html'));
-});
-
-app.get('/:id', function(req, res) {
+app.get('/*', function(req, res) {
   res.sendFile(path.join(__dirname, '../src/index.html'));
 });
 

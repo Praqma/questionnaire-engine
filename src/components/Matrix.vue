@@ -4,10 +4,10 @@
     <div id="startIntroBtn" class="container">
       <button v-if="!didOpenIntro" type="button" class="btn btn-secondary btn-lg btn-block" data-toggle="modal" data-target="#intro-form" @click="onIntroOpen">Start here...</button>
       <div class="modal fade" id="intro-form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-          <div class="modal-dialog modal-lg" role="document">
-            <formy :formData="data.intro_form"></formy>
-          </div>
+        <div class="modal-dialog modal-lg" role="document">
+          <formy :formData="data.intro_form"></formy>
         </div>
+      </div>
     </div>
 
     <div class="row no-gutters">
@@ -35,6 +35,17 @@ export default {
     return {
       rowLength: this.calculateRowLength(this.data.questionnaire),
       didOpenIntro: false
+    }
+  },
+  watch: {
+    'data.questionnaire': function(val) {
+      this.$data.rowLength = this.calculateRowLength(this.data.questionnaire);
+      // console.log('updated rl');
+    },
+    data: function(val) {
+      console.log('data changed');
+      // console.log(this.data);
+
     }
   },
   methods: {

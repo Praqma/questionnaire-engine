@@ -52,6 +52,7 @@
     "mongodb": "^2.2.31",
     "vue": "^2.4.2",
     "vue-axios": "^2.0.2",
+    "vue-router": "^2.7.0",
     "whatwg-fetch": "^2.0.3",
     "yamljs": "^0.3.0"
   },
