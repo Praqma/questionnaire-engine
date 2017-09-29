@@ -8,8 +8,8 @@ import helmet from 'helmet'
 
 import config from '../webpack.config.dev';
 import formsAPI from '../api/controllers/formsAPI'
+import resultsAPI from '../api/controllers/resultsAPI'
 import * as db from '../api/config/dbConnection'
-
 
 const port = 3000;
 const app = express();
@@ -24,6 +24,9 @@ app.use(require('webpack-dev-middleware')(compiler, {
 
 app.use(bodyParser.json());
 
+app.use('/api/forms', formsAPI);
+app.use('/api/results', resultsAPI)
+
 app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, '../src/index.html'));
 });
@@ -31,8 +34,6 @@ app.get('/', function(req, res) {
 app.get('/:id', function(req, res) {
   res.sendFile(path.join(__dirname, '../src/index.html'));
 });
-
-app.use('/forms', formsAPI);
 
 db.connect(function (err) {
   if (err) {
