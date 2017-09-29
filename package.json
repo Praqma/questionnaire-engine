@@ -46,6 +46,7 @@
   "dependencies": {
     "axios": "^0.16.2",
     "body-parser": "^1.18.2",
+    "chart.js": "^2.7.0",
     "helmet": "^3.8.1",
     "jquery": "^3.2.1",
     "json-schema-faker": "^0.3.6",

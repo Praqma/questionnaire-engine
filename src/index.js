@@ -3,6 +3,8 @@
 import $ from 'jquery'
 import './style/main.scss'
 
+import Chart from 'chart.js'
+
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import App from './components/App.vue'
