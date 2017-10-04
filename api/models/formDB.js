@@ -1,70 +1,85 @@
 import * as connection from '../config/dbConnection'
 import * as yamlData from './yamlData'
-// import * as prepareData from './prepareData'
 import assert from 'assert'
 
 export function getAllAnswersById(questionnaireID, callback) {
 
-  prepareData(questionnaireID, function (res) {
-    return callback(null, res)
-  })
-
-}
-
-function prepareData(questionnaireID, callback) {
-  let response = {}
-
   getFormInfo(questionnaireID, 'authentication-and-access', (formInfo) => {
+    let response = {}
+    let objectsToFill = formInfo.questions.length
 
     for (let index = 0; index < formInfo.questions.length; index++) {
       let question = formInfo.questions[index]
       let questionType = Object.keys(question)[0]
-      response[questionType] = {}
-
-      switch (questionType) {
-        case "short_answer":
-          {
-            break;
+      let questionID = question[questionType].id
+      response[questionID] = undefined
+      getAnswersByQuestionID(questionnaireID, formInfo.id).then(answers => {
+        prepareData(question, answers, function (data) {
+          response[questionID] = data
+          if (objectCount(response) === objectsToFill) {
+            console.log('Finished filling response with data. Returning now.');
+            return callback(null, response)
           }
-        case "paragraph":
-          {
-            break;
-          }
-        case "radio":
-          {
-            console.log('RADIO CALLED ONCE');
-
-            getAnswersByQuestionID(questionnaireID, formInfo.id).then((answers) => {
-              prepareRadioData(question.radio, answers).then((data) => {
-                response[questionType] = data
-                console.log('-- RADIO DATA CAME BACK');
-
-                return callback(response)
-              })
-
-            })
-            break;
-          }
-          case 'checkboxes':
-          {
-            break;
-          }
-        case 'dropdown':
-          {
-            break;
-          }
-        default:
-          {
-
-            break;
-          }
-      }
+        })
+      })
+      .catch(err => {
+        throw err
+      })
     }
-    console.log('for should be done');
-    console.log(response);
-
-
   })
+}
+
+function objectCount(obj){
+  let keys = Object.keys(obj)
+  let count = 0;
+  for (var index = 0; index < keys.length; index++) {
+    var key = keys[index];
+    if (typeof obj[key] !== 'undefined') {
+      count++
+    }
+  }
+  return count
+}
+
+
+function prepareData(question, answers, callback) {
+  let response = {}
+  let questionType = Object.keys(question)[0]
+
+  switch (questionType) {
+    case "short_answer":
+      {
+        callback(null)
+        break;
+      }
+    case "paragraph":
+      {
+        callback(null)
+        break;
+      }
+    case "radio":
+      {
+        var radioData = prepareRadioData(question.radio, answers)
+        radioData.then((data) => {
+          callback(data)
+        })
+      }
+    case 'checkboxes':
+      {
+        callback(null)
+        break;
+      }
+    case 'dropdown':
+      {
+        callback(null)
+        break;
+      }
+    default:
+      {
+        break;
+      }
+
+  }
 }
 
 function prepareRadioData(question, answers) {
@@ -74,22 +89,23 @@ function prepareRadioData(question, answers) {
     response.datasets = []
     let data = []
 
-    question.options.forEach((label, labelIndex) => {
-        data[labelIndex] = 0
-        answers.forEach((singleAnswer) => {
-          if (singleAnswer.answers[question.id] === label) {
-            data[labelIndex]++
-          }
-        })
-      })
+    for (let labelIndex = 0; labelIndex < question.options.length; labelIndex++) {
+      let label = question.options[labelIndex]
+      data[labelIndex] = 0
+      for (let answerIndex = 0; answerIndex < answers.length; answerIndex++) {
+        let singleAnswer = answers[answerIndex]
+        if (singleAnswer.answers[question.id] === label) {
+          data[labelIndex]++
+        }
+      }
+    }
 
-    response.datasets.push(data)
+    response
+      .datasets
+      .push(data)
     if (data.length === 0) {
       reject("Options null")
     }
-    console.log('resolved');
-    console.log(response);
-
     resolve(response)
   })
 }
@@ -105,36 +121,39 @@ function getAnswersByQuestionID(questionnaireID, formID) {
         if (err) {
           reject(err)
         }
-        console.log('formid: ' + formID);
         docs.toArray((err, docs) => {
           resolve(docs)
         })
       })
+      connection.close()
     })
-
   })
 }
 
-// FOR EACH DOESN'T WORK
-// returns an array of form id's in a questionnaire
+// FOR EACH DOESN'T WORK returns an array of form id's in a questionnaire
 function getFormIDsInQuestionnaire(questionnaireID, callback) {
   let questionnaireData = yamlData
     .getQuestionnaireById(questionnaireID)
     .questionnaire
   let formIDs = []
-  questionnaireData.forEach(function (rowArray) {
-    rowArray
-      .forEach(function (form) {
-        if (typeof form === 'undefined') {
-          return
-        }
-        if (!formIDs.includes(form.id)) {
-          formIDs.push(form.id)
-        }
-      }, function () {
-        return callback(formIDs)
-      })
-  })
+
+  for (let i = 0; i < questionnaireData.length; i++) {
+    let rowArray = questionnaireData[i]
+    for (let j = 0; j < rowArray.length; j++) {
+      let form = rowArray[j]
+
+      if (typeof form === 'undefined') {
+        return
+      }
+      if (!formIDs.includes(form.id)) {
+        formIDs.push(form.id)
+      }
+    }
+  }
+  console.log('returning this:');
+  console.log(formIDs);
+  return callback(formIDs)
+
 }
 
 function getDBObjectsByForm(formID, callback) {
