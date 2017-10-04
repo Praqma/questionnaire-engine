@@ -60,12 +60,28 @@ function distributePreparation(question, answers, callback) {
     case "radio":
       {
         prepareRadioData(question.radio, answers).then(data => {
-          callback(data)
+          if (data !== null) {
+            return callback(data)
+          } else {
+            return callback(undefined)
+          }
         })
+        .catch(err => {
+          console.error(err)
+          return null
+        })
+        // DON'T FORGET THE BREAK!!
+        break;
       }
     case 'checkboxes':
       {
-        callback(null)
+        prepareCheckboxData(question.checkboxes, answers).then( data => {
+          return callback(data)
+        })
+        .catch(err => {
+          console.error(err)
+          return null
+        })
         break;
       }
     case 'dropdown':
@@ -98,6 +114,38 @@ function prepareRadioData(question, answers) {
       for (let answerIndex = 0; answerIndex < answers.length; answerIndex++) {
         let singleAnswer = answers[answerIndex]
         if (singleAnswer.answers[question.id] === label) {
+          dataPoints[labelIndex]++
+        }
+      }
+    }
+    singleDataset.data = dataPoints
+    data.datasets.push(singleDataset)
+    response.type = 'pie'
+    response.data = data
+    if (dataPoints.length === 0) {
+      reject("Options null")
+    }
+    resolve(response)
+  })
+}
+
+function prepareCheckboxData (question, answers) {
+  return new Promise((resolve, reject) => {
+    let response = {}
+    let data = {}
+    data.labels = question.options
+    data.datasets = []
+    let singleDataset = {}
+    singleDataset.backgroundColor = []
+    let dataPoints = []
+
+    for (let labelIndex = 0; labelIndex < question.options.length; labelIndex++) {
+      let label = question.options[labelIndex]
+      dataPoints[labelIndex] = 0
+      singleDataset.backgroundColor[labelIndex] = randomColor()
+      for (let answerIndex = 0; answerIndex < answers.length; answerIndex++) {
+        let checkboxOptions = answers[answerIndex].answers[question.id]
+        if (checkboxOptions.length > 0 && checkboxOptions.includes(label)) {
           dataPoints[labelIndex]++
         }
       }
@@ -153,8 +201,6 @@ function getFormIDsInQuestionnaire(questionnaireID, callback) {
       }
     }
   }
-  console.log('returning this:');
-  console.log(formIDs);
   return callback(formIDs)
 
 }
