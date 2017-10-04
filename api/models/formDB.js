@@ -59,8 +59,7 @@ function distributePreparation(question, answers, callback) {
       }
     case "radio":
       {
-        var radioData = prepareRadioData(question.radio, answers)
-        radioData.then((data) => {
+        prepareRadioData(question.radio, answers).then(data => {
           callback(data)
         })
       }
