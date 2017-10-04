@@ -1,6 +1,7 @@
 import * as connection from '../config/dbConnection'
 import * as yamlData from './yamlData'
 import assert from 'assert'
+import randomColor from '../helpers/randomColor'
 
 export function getAllAnswersById(questionnaireID, callback) {
 
@@ -14,10 +15,9 @@ export function getAllAnswersById(questionnaireID, callback) {
       let questionID = question[questionType].id
       response[questionID] = undefined
       getAnswersByQuestionID(questionnaireID, formInfo.id).then(answers => {
-        prepareData(question, answers, function (data) {
+        distributePreparation(question, answers, function (data) {
           response[questionID] = data
           if (objectCount(response) === objectsToFill) {
-            console.log('Finished filling response with data. Returning now.');
             return callback(null, response)
           }
         })
@@ -42,7 +42,7 @@ function objectCount(obj){
 }
 
 
-function prepareData(question, answers, callback) {
+function distributePreparation(question, answers, callback) {
   let response = {}
   let questionType = Object.keys(question)[0]
 
@@ -87,11 +87,14 @@ function prepareRadioData(question, answers) {
     let response = {}
     response.labels = question.options
     response.datasets = []
+    let singleDataset = {}
+    singleDataset.backgroundColor = []
     let data = []
 
     for (let labelIndex = 0; labelIndex < question.options.length; labelIndex++) {
       let label = question.options[labelIndex]
       data[labelIndex] = 0
+      singleDataset.backgroundColor[labelIndex] = randomColor()
       for (let answerIndex = 0; answerIndex < answers.length; answerIndex++) {
         let singleAnswer = answers[answerIndex]
         if (singleAnswer.answers[question.id] === label) {
@@ -99,10 +102,8 @@ function prepareRadioData(question, answers) {
         }
       }
     }
-
-    response
-      .datasets
-      .push(data)
+    singleDataset.data = data
+    response.datasets.push(singleDataset)
     if (data.length === 0) {
       reject("Options null")
     }
