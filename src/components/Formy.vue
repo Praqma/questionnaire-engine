@@ -129,7 +129,7 @@ export default {
     },
     onSubmit() {
       // replace client id with an auto generated one
-      let clientID = '12345'
+      let clientID = Math.random(1000, 9999)
       let questionnaireID = this.questionnaireID;
       let formID = this.$props.formData.id;
 

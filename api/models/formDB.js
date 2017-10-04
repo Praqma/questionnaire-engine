@@ -84,26 +84,29 @@ function distributePreparation(question, answers, callback) {
 function prepareRadioData(question, answers) {
   return new Promise((resolve, reject) => {
     let response = {}
-    response.labels = question.options
-    response.datasets = []
+    let data = {}
+    data.labels = question.options
+    data.datasets = []
     let singleDataset = {}
     singleDataset.backgroundColor = []
-    let data = []
+    let dataPoints = []
 
     for (let labelIndex = 0; labelIndex < question.options.length; labelIndex++) {
       let label = question.options[labelIndex]
-      data[labelIndex] = 0
+      dataPoints[labelIndex] = 0
       singleDataset.backgroundColor[labelIndex] = randomColor()
       for (let answerIndex = 0; answerIndex < answers.length; answerIndex++) {
         let singleAnswer = answers[answerIndex]
         if (singleAnswer.answers[question.id] === label) {
-          data[labelIndex]++
+          dataPoints[labelIndex]++
         }
       }
     }
-    singleDataset.data = data
-    response.datasets.push(singleDataset)
-    if (data.length === 0) {
+    singleDataset.data = dataPoints
+    data.datasets.push(singleDataset)
+    response.type = 'pie'
+    response.data = data
+    if (dataPoints.length === 0) {
       reject("Options null")
     }
     resolve(response)
