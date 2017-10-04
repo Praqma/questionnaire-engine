@@ -1,56 +1,57 @@
 # Praqma - Questionnaire
 
 ## Getting started
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+These instructions will get you a running copy of the questionnaire engine on your local machine for development and testing purposes.
 
 ### Prerequisites
+**Skip if you have these installed:**
+- `npm`
+- `docker`
 
-Update your packages
+**Otherwise run:**
 ```shell
+# Update your packages
 $ sudo apt-get update && sudo apt-get upgrade
-```
 
-Follow [this](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04) tutorial to install Docker on Ubuntu
-
-
-Then install npm
-```shell
+# Install `npm`
 $ sudo apt-get install npm
-```
 
-Verify npm version
-```shell
+# Verify npm version
 $ npm --version
 ```
+
+Follow [[this]](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04) 
+tutorial to install Docker on Ubuntu
+
+#### Gotchas
 If you installed `npm` with a package manager, there might be a misnaming error and node will be called nodejs. 
 Run the following command to solve this:
 ```shell
 $ sudo ln -s /usr/bin/nodejs /usr/bin/node
 ```
 
-### Installing
-Clone this repository
+### Getting the source code to your device
+Clone this repository and move dir:
 ```shell
-$ git clone <this_repos_url>
-```
+# Clone this repo
+$ git clone <this-repo>
 
-Move to the newly installed directory
-```shell
-$ cd <cloned_repo>
-```
+# move to dir
+$ cd <cloned-repo>
 
-Install dependencies by running
-```shell
+# Install dependencies
 $ npm install
 ```
 
-### Running the app
-The docker hub image `node:8` works fine as developer and build environment.
+### Running the web application
+The docker hub image `node:8` runs as developer and build environment.
 
-To start the dockerized app type
+Start the dockerized app:
 ```shell
-$ sudo docker run --rm -it -v /aboslute/path/to/cloned/repo:/usr/src/app -w /usr/src/app -p 3003:3000 node:8 npm start
+$ sudo docker run --rm -it -v <repo-path>:/usr/src/app -w /usr/src/app -p 3003:3000 node:8 npm start
 ```
+Replace `<repo-path>` with the absolute path to the cloned repository.
+
 This will expose the server running in Docker on port 3000 to localhost:3003.
 
 It will also block the terminal. To stop the server press <kbd>control</kbd> + <kbd>C</kbd>
@@ -58,7 +59,7 @@ It will also block the terminal. To stop the server press <kbd>control</kbd> + <
 ### Running the tests
 Replace the command `npm start` with `npm test` to run the tests:
 ```shell
-$ docker run --rm -it -v /aboslute/path/to/cloned/repo:/usr/src/app -w /usr/src/app -p 3003:3000 node:8 npm test
+$ docker run --rm -it -v <repo-path>:/usr/src/app -w /usr/src/app -p 3003:3000 node:8 npm test
 ```
 
 ## API Protocol
@@ -69,17 +70,16 @@ $ docker run --rm -it -v /aboslute/path/to/cloned/repo:/usr/src/app -w /usr/src/
 |**GET**|`/forms/<questionnaire-id>`|`id=[String]`|Request form data as JSON|`.../forms/<maturity-model>`|
 |**POST**|`/forms/<questionnaire-id>/<form-id>`|`id=[String]`|Submit JSON form data with it's unique ID name|`.../forms/<maturity-model>/<automated-builds>`|
 |**PUT**|`/forms/<questionnaire-id>/<form-id>`|`id=[String]`|Update a previously submitted answer|`.../forms/<maturity-model>/<automated-builds>`|
-|**GET**|`/report/<questionnaire-id>`|`id=[String]`|See the results for a questionnaire with ID|`.../report/<maturity-model>`|
+|**GET**|`/results/<questionnaire-id>`|`id=[String]`|See the results for a questionnaire with ID|`.../results/<maturity-model>`|
 
-> *Questionnaire refers to the whole matrix with its Tiles and forms
+> *Questionnaire refers to the whole matrix including all the forms
 
-> *Form reffers to an individual tile's form data - a single yaml file.
+> *Form reffers to an individual box's form data - a single yaml file.
 
 ## Tools used in this node developer environment
 
 |Type|Package|
 |---|---|
-|Editor config|-|
 |Package management|npm|
 |Package security|nsp|
 |Web server|express|
@@ -90,7 +90,4 @@ $ docker run --rm -it -v /aboslute/path/to/cloned/repo:/usr/src/app -w /usr/src/
 |Linting|eslint|
 |Testing|mocha|
 |Asserting|chai|
-|Helper library|jsdom, cheerio|
-|Mocking|faker, chance, randexp|
-|Code coverage|istanbul|
-|Continuous integration|gitlab, travis, appveyor|
+|Continuous integration|Jenkins|
