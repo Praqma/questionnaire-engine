@@ -7,8 +7,8 @@ import Chart from 'chart.js'
 
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import App from './components/App.vue'
-import Results from './components/Results.vue'
+import App from './components/matrix/App.vue'
+import Results from './components/results/Results.vue'
 import NotFound from './components/NotFound.vue'
 
 Vue.use(VueRouter)

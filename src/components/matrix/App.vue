@@ -33,7 +33,7 @@
 
 <script>
 import Matrix from './Matrix.vue'
-import NotFound from './NotFound.vue'
+import NotFound from '../NotFound.vue'
 import path from 'path'
 
 export default {
