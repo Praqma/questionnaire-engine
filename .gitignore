@@ -60,6 +60,7 @@ typings/
 
 # add db-<0123456>.json file
 
+.idea/
 
 package-lock.json
 src/api/db.json
