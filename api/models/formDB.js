@@ -4,21 +4,29 @@ import assert from 'assert'
 import randomColor from '../helpers/randomColor'
 
 export function getAllAnswersById(questionnaireID, callback) {
+  let response = {}
+  // yamlData.getQuestionnaireById(questionnaireID)
+  // let allForms = yamlData.getAllFormsInQuestionnaire(questionnaireID)
+
 
   getFormInfo(questionnaireID, 'authentication-and-access', (formInfo) => {
-    let response = {}
+    let results = {}
     let objectsToFill = formInfo.questions.length
 
     for (let index = 0; index < formInfo.questions.length; index++) {
       let question = formInfo.questions[index]
       let questionType = Object.keys(question)[0]
       let questionID = question[questionType].id
-      response[questionID] = undefined
+      results[questionID] = undefined
       getAnswersByQuestionID(questionnaireID, formInfo.id).then(answers => {
+        if (!answers) {
+          throw new Error("Could not query database.")
+        }
+
         distributePreparation(question, answers, function (data) {
-          response[questionID] = data
-          if (objectCount(response) === objectsToFill) {
-            return callback(null, response)
+          results[questionID] = data
+          if (objectCount(results) === objectsToFill) {
+            return callback(null, results)
           }
         })
       })
@@ -99,7 +107,6 @@ function distributePreparation(question, answers, callback) {
 
 function prepareRadioData(question, answers) {
   return new Promise((resolve, reject) => {
-    let response = {}
     let data = {}
     data.labels = question.options
     data.datasets = []
@@ -120,8 +127,11 @@ function prepareRadioData(question, answers) {
     }
     singleDataset.data = dataPoints
     data.datasets.push(singleDataset)
-    response.type = 'pie'
-    response.data = data
+    let response = {
+      type: 'pie',
+      data: data,
+      question: question
+    }
     if (dataPoints.length === 0) {
       reject("Options null")
     }
@@ -131,7 +141,6 @@ function prepareRadioData(question, answers) {
 
 function prepareCheckboxData (question, answers) {
   return new Promise((resolve, reject) => {
-    let response = {}
     let data = {}
     data.labels = question.options
     data.datasets = []
@@ -152,8 +161,11 @@ function prepareCheckboxData (question, answers) {
     }
     singleDataset.data = dataPoints
     data.datasets.push(singleDataset)
-    response.type = 'pie'
-    response.data = data
+    let response = {
+      type: 'pie',
+      data: data,
+      question: question
+    }
     if (dataPoints.length === 0) {
       reject("Options null")
     }
@@ -173,10 +185,13 @@ function getAnswersByQuestionID(questionnaireID, formID) {
           reject(err)
         }
         docs.toArray((err, docs) => {
+          if (err) {
+            reject(err)
+          }
           resolve(docs)
         })
+        // connection.close()
       })
-      connection.close()
     })
   })
 }
@@ -247,7 +262,10 @@ function getQuestionInfo(questionnaireID, formID, questionID, callback) {
 }
 
 function getFormInfo(questionnaireID, formID, callback) {
+  assert.notEqual(questionnaireID, undefined)
+  assert.notEqual(formID, undefined)
   let questionnaireData = yamlData.getQuestionnaireById(questionnaireID)
+
   questionnaireData
     .questionnaire
     .forEach(function (rowArray) {
