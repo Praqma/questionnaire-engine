@@ -5,7 +5,7 @@
       <button v-if="!didOpenIntro" type="button" class="btn btn-secondary btn-lg btn-block" data-toggle="modal" data-target="#intro-form" @click="onIntroOpen">Start here...</button>
       <div class="modal fade" id="intro-form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
-          <formy :formData="data.intro_form"></formy>
+          <formy :formData="data.intro_form" :questionnaireID="data.id"></formy>
         </div>
       </div>
     </div>
