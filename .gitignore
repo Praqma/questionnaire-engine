@@ -61,6 +61,7 @@ typings/
 # add db-<0123456>.json file
 
 .idea/
+.vscode/
 
 package-lock.json
 src/api/db.json
