@@ -1,4 +1,4 @@
-# Praqma - Questionnaire
+# Questionnaire Engine
 
 ## Getting started
 These instructions will get you a running copy of the questionnaire engine on your local machine for development and testing purposes.
@@ -61,6 +61,9 @@ Replace the command `npm start` with `npm test` to run the tests:
 ```shell
 $ docker run --rm -it -v <repo-path>:/usr/src/app -w /usr/src/app -p 3003:3000 node:8 npm test
 ```
+
+### Deploying to production
+![Engine Diagram](/docs/engine-diagram.png)
 
 ## API Protocol
 

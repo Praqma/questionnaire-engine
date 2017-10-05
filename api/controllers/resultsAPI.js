@@ -1,51 +1,19 @@
-import * as yalmData from '../models/yamlData'
+import * as formDB from '../models/formDB'
 import * as responseData from '../models/formDB'
 import express from 'express'
 let router = express.Router();
 
 router.get("/:id", function(req, res){
-  let questionnaireID = req.params.questionnaireID;
-  let jsonData = yalmData.getQuestionnaireById(questionnaireID)
+  let questionnaireID = req.params.id;
 
-  let chartData = {results: [
-    {
-      type: 'bar',
-      data: {
-        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-        datasets: [{
-          label: '# of Votes',
-          data: [12, 19, 3, 5, 2, 3],
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(255, 159, 64, 0.2)'
-          ],
-          borderColor: [
-            'rgba(255,99,132,1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)'
-          ],
-          borderWidth: 1
-        }]
-      },
-      options: {
-        scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: true
-            }
-          }]
-        }
-      }
+  formDB.getAllAnswersById(questionnaireID, (err, results) => {
+    if (err) {
+      res.status(501)
+      return res.json({error: "The requested questionnaire could not be found."})
     }
-  ]}
-  res.json(chartData)
+    res.json(results)
+  })
+
 })
 
 export default router;

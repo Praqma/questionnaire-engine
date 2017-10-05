@@ -10,18 +10,16 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <button class="btn btn-outline-success" v-show="didOpenIntro" data-toggle="modal" data-target="#intro-form" @click="onIntroOpen" type="button">btn </button>
-
         </div>
       </div>
     </nav>
     <div class="container-fluid">
-      <div class="row">
+
         <div class="col-md-4" v-for="(chart, index) in results" :key="index">
           <chart :id="index" :chartData="chart"></chart>
         </div>
 
-      </div>
+
     </div>
     <nav class="navbar fixed-bottom navbar-dark bg-dark">
       <a class="navbar-brand" href="#">footer</a>
