@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid no-padding">
 
-    <div id="startIntroBtn" class="container">
+    <div id="startIntroBtn" class="container" v-if="data.intro_form">
       <button v-if="!didOpenIntro" type="button" class="btn btn-secondary btn-lg btn-block" data-toggle="modal" data-target="#intro-form" @click="onIntroOpen">Start here...</button>
       <div class="modal fade" id="intro-form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">

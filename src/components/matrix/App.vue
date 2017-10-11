@@ -19,7 +19,7 @@
           <li class="nav-item">
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
               <div class="navbar-nav">
-                <button class="btn btn-outline-success" v-show="didOpenIntro" data-toggle="modal" data-target="#intro-form" @click="onIntroOpen" type="button"> {{ respData.intro_form.title }} </button>
+                <button class="btn btn-outline-success" v-if="respData.intro_form" v-show="didOpenIntro" data-toggle="modal" data-target="#intro-form" @click="onIntroOpen" type="button"> {{ respData.intro_form.title }} </button>
                 <a class="nav-item nav-link" v-for="(link, index) in respData.links" :key="index" v-bind:href="link.url" target="_blank"> {{link.title}} </a>
               </div>
             </div>

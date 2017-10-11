@@ -1,0 +1,66 @@
+---
+title: This is another one.
+version: 1.0.0
+# Immutable after the creation of the survey. Any change will create a separate database for the new answers.
+id: form2
+link:
+    url: questionaire.praqma.com/code-maturity/automated-builds
+    text: Automated build blog
+    help: Click here to read the block
+max: 75
+questions:
+    - short_answer:
+        # The ID must be unique within this questionnaire.
+        # It is immutable after publishing. Any change will trigger the new answers to be recorded separately.
+        id: question1
+        ask: Which programming language do you like the most?
+        description: There is a huge selection to choose from
+        conditions:
+            required: true
+            prerequisites: []
+    - short_answer:
+        id: question2
+        ask: Second short answer?
+        conditions:
+            required: false
+            prerequisites: []
+    - paragraph:
+        id: question3
+        ask: Why that language?
+        description: Can you further elaborate on something so obvious?
+        conditions:
+            required: false
+            prerequisites: ['preferred-language']
+    - radio:
+        id: question4
+        ask: Which one option would you pick?
+        description: It is really only one you can pick. Sorry.
+        conditions:
+            required: true
+            prerequisites: []
+        options:
+            - First option
+            - Second option
+            - Third option
+    - checkboxes:
+        ask: Which of the following options do you like?
+        description: Congratulations! You have been chosen to choose!
+        id: question5
+        conditions:
+            required: true
+            prerequisites: []
+        options:
+            - First option
+            - Second option
+            - Third option
+    - dropdown:
+        ask: Can you pick only one?
+        description: No comments... ¯\_(⊙︿⊙)_/¯
+        id: question6
+        conditions:
+            required: false
+            prerequisites: []
+        options:
+            - First option
+            - Second option
+            - Third option

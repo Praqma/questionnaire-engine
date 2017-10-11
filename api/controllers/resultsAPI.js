@@ -6,6 +6,11 @@ let router = express.Router();
 router.get("/:id", function(req, res){
   let questionnaireID = req.params.id;
 
+  if (!questionnaireID) {
+    res.status(501)
+    return res.json({error: "The requested questionnaire could not be found."})
+  }
+
   formDB.getAllAnswersById(questionnaireID, (err, results) => {
     if (err) {
       res.status(501)

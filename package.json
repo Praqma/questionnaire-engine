@@ -8,6 +8,7 @@
     "start_full": "npm-run-all --parallel security-check open:src lint:watch test:watch start-mockapi",
     "start": "npm run open:src",
     "build": "(npm run open:src &) && sleep 15 && pkill node",
+    "babel-build": "babel api --out-dir dist --watch --source-maps",
     "open:src": "babel-node buildScripts/src-server.js",
     "lint": "esw webpack.config.* src buildScripts --color",
     "lint:watch": "npm run lint -- --watch",
@@ -44,6 +45,7 @@
   "author": "Edmond Petres",
   "license": "ISC",
   "dependencies": {
+    "async": "^2.5.0",
     "axios": "^0.16.2",
     "body-parser": "^1.18.2",
     "chart.js": "^2.7.0",
@@ -84,6 +86,7 @@
     "json-schema-faker": "0.3.6",
     "json-server": "0.8.22",
     "localtunnel": "1.8.1",
+    "lodash": "^4.17.4",
     "mocha": "3.1.2",
     "nock": "8.1.0",
     "node-sass": "^4.5.3",

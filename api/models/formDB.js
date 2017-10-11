@@ -1,43 +1,66 @@
 import * as connection from '../config/dbConnection'
 import * as yamlData from './yamlData'
 import assert from 'assert'
+import async from 'async'
 import randomColor from '../helpers/randomColor'
+import _ from 'lodash'
 
 export function getAllAnswersById(questionnaireID, callback) {
-  let response = {}
-  // yamlData.getQuestionnaireById(questionnaireID)
-  // let allForms = yamlData.getAllFormsInQuestionnaire(questionnaireID)
+  let response = {
+    results: {}
+  }
+  let formIDs = yamlData.getAllFormsInQuestionnaire(questionnaireID)
 
+  async.each(formIDs, (formID, asyncDone) => {
 
-  getFormInfo(questionnaireID, 'authentication-and-access', (formInfo) => {
-    let results = {}
-    let objectsToFill = formInfo.questions.length
+    // Remove this timeout later by figuring out when all the answers have arrived
+    // back into formResults in each for
+    setTimeout(() => {
+      // console.log('asyncDone called for: '+formID);
+      return asyncDone()
+    }, 2000)
 
-    for (let index = 0; index < formInfo.questions.length; index++) {
-      let question = formInfo.questions[index]
-      let questionType = Object.keys(question)[0]
-      let questionID = question[questionType].id
-      results[questionID] = undefined
-      getAnswersByQuestionID(questionnaireID, formInfo.id).then(answers => {
+    getFormInfo(questionnaireID, formID, (formInfo) => {
+      let formResult = []
+      let objectsToFill = formInfo.questions.length
+
+      getAnswersByQuestionID(questionnaireID, formID).then(answers => {
         if (!answers) {
           throw new Error("Could not query database.")
         }
+        for (let index = 0; index < formInfo.questions.length; index++) {
+          let question = formInfo.questions[index]
+          distributePreparation(question, answers, function (data) {
+            if (!data) {
+              return
+            }
+            formResult.push(data)
+            if (formResult.length === objectsToFill) {
+              response.results[formID] = formResult
+            }
+          })
+        }
 
-        distributePreparation(question, answers, function (data) {
-          results[questionID] = data
-          if (objectCount(results) === objectsToFill) {
-            return callback(null, results)
-          }
-        })
-      })
-      .catch(err => {
+      }).catch(err => {
         throw err
       })
+    })
+  }, (err) => {
+    // if any of the file processing produced an error, err would equal that error
+    if (err) {
+      // One of the iterations produced an error. All processing will now stop.
+      console.log('A file failed to process');
+      return callback(err)
+    } else {
+      console.log('All files have been processed successfully');
+      connection.close()
+      return callback(null, response)
     }
   })
+
 }
 
-function objectCount(obj){
+function objectCount(obj) {
   let keys = Object.keys(obj)
   let count = 0;
   for (var index = 0; index < keys.length; index++) {
@@ -49,7 +72,7 @@ function objectCount(obj){
   return count
 }
 
-
+var distributePreparationCalled = 0
 function distributePreparation(question, answers, callback) {
   let response = {}
   let questionType = Object.keys(question)[0]
@@ -57,48 +80,43 @@ function distributePreparation(question, answers, callback) {
   switch (questionType) {
     case "short_answer":
       {
-        callback(null)
+        return callback("ERR: [" + questionType + "] not supported yet")
         break;
       }
     case "paragraph":
       {
-        callback(null)
+        return callback("ERR: [" + questionType + "] not supported yet")
         break;
       }
     case "radio":
       {
         prepareRadioData(question.radio, answers).then(data => {
-          if (data !== null) {
-            return callback(data)
-          } else {
-            return callback(undefined)
-          }
-        })
-        .catch(err => {
+          return callback(data)
+        }).catch(err => {
           console.error(err)
-          return null
+          return callback(null)
         })
         // DON'T FORGET THE BREAK!!
         break;
       }
     case 'checkboxes':
       {
-        prepareCheckboxData(question.checkboxes, answers).then( data => {
+        prepareCheckboxData(question.checkboxes, answers).then(data => {
           return callback(data)
-        })
-        .catch(err => {
+        }).catch(err => {
           console.error(err)
-          return null
-        })
+          return callback(null)
+        });
         break;
       }
     case 'dropdown':
       {
-        callback(null)
+        return callback("ERR: [" + questionType + "] not supported yet")
         break;
       }
     default:
       {
+        return callback("ERR: [" + questionType + "] not supported yet")
         break;
       }
 
@@ -126,8 +144,11 @@ function prepareRadioData(question, answers) {
       }
     }
     singleDataset.data = dataPoints
-    data.datasets.push(singleDataset)
+    data
+      .datasets
+      .push(singleDataset)
     let response = {
+      id: question.id,
       type: 'pie',
       data: data,
       question: question
@@ -139,7 +160,7 @@ function prepareRadioData(question, answers) {
   })
 }
 
-function prepareCheckboxData (question, answers) {
+function prepareCheckboxData(question, answers) {
   return new Promise((resolve, reject) => {
     let data = {}
     data.labels = question.options
@@ -154,14 +175,22 @@ function prepareCheckboxData (question, answers) {
       singleDataset.backgroundColor[labelIndex] = randomColor()
       for (let answerIndex = 0; answerIndex < answers.length; answerIndex++) {
         let checkboxOptions = answers[answerIndex].answers[question.id]
+
+        if (!checkboxOptions) {
+          break;
+        }
+
         if (checkboxOptions.length > 0 && checkboxOptions.includes(label)) {
           dataPoints[labelIndex]++
         }
       }
     }
     singleDataset.data = dataPoints
-    data.datasets.push(singleDataset)
+    data
+      .datasets
+      .push(singleDataset)
     let response = {
+      id: question.id,
       type: 'pie',
       data: data,
       question: question
@@ -172,10 +201,13 @@ function prepareCheckboxData (question, answers) {
     resolve(response)
   })
 }
-
+var tempCounter = 0
 function getAnswersByQuestionID(questionnaireID, formID) {
   return new Promise(function (resolve, reject) {
-    connection.connect(() => {
+    connection.connect((err) => {
+      if (err) {
+        throw err
+      }
       let db = connection.get()
       let collection = db.collection(questionnaireID)
       collection.find({
@@ -190,13 +222,11 @@ function getAnswersByQuestionID(questionnaireID, formID) {
           }
           resolve(docs)
         })
-        // connection.close()
       })
     })
   })
 }
 
-// FOR EACH DOESN'T WORK returns an array of form id's in a questionnaire
 function getFormIDsInQuestionnaire(questionnaireID, callback) {
   let questionnaireData = yamlData
     .getQuestionnaireById(questionnaireID)
@@ -207,7 +237,6 @@ function getFormIDsInQuestionnaire(questionnaireID, callback) {
     let rowArray = questionnaireData[i]
     for (let j = 0; j < rowArray.length; j++) {
       let form = rowArray[j]
-
       if (typeof form === 'undefined') {
         return
       }
@@ -217,7 +246,6 @@ function getFormIDsInQuestionnaire(questionnaireID, callback) {
     }
   }
   return callback(formIDs)
-
 }
 
 function getDBObjectsByForm(formID, callback) {
@@ -262,8 +290,9 @@ function getQuestionInfo(questionnaireID, formID, questionID, callback) {
 }
 
 function getFormInfo(questionnaireID, formID, callback) {
-  assert.notEqual(questionnaireID, undefined)
-  assert.notEqual(formID, undefined)
+  if (!questionnaireID || !formID)
+    return
+
   let questionnaireData = yamlData.getQuestionnaireById(questionnaireID)
 
   questionnaireData
@@ -271,7 +300,7 @@ function getFormInfo(questionnaireID, formID, callback) {
     .forEach(function (rowArray) {
       rowArray
         .forEach(function (form) {
-          if (typeof form === 'undefined') {
+          if (!form) {
             return
           }
           if (form.id === formID) {
@@ -326,7 +355,5 @@ export function insertFormResponse(questionnaireID, requestPayload, callback) {
             })
         }
       })
-
   })
-
 }

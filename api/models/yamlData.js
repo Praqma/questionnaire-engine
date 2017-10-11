@@ -55,35 +55,17 @@ export function getQuestionnaireById(id) {
   }
 }
 
-// refactor this
+// returns an unordered array of all forms
 export function getAllFormsInQuestionnaire(id) {
   let form = {}
+  let formIDs = []
   let dir = getDirById(id);
   let layoutData = getLayoutFile(id)
   if (layoutData) {
-    form.name = layoutData.name;
-    form.id = layoutData.id;
-    form.version = layoutData.version;
-    form.labels = {}
-    form.labels.horizontal = layoutData.labels[0]
-    form.labels.vertical = layoutData.labels[1]
-    form.colors = layoutData.colors;
-
-    form.header = layoutData.header;
-    form.footer = layoutData.footer;
-    form.links = layoutData.links;
-    form.iconURL = layoutData.iconURL;
-
-    let pathToIntro = getPathForFilenameInDir(layoutData.introYaml, dir)
-    form.intro_form = getJsonByPath(pathToIntro)
-
-    form.questionnaire = []
     let model = layoutData.model;
 
     for (var i = 0; i < model.length; i++) {
       let tileNames = model[i];
-      form.questionnaire[i] = []
-      var row = []
       for (var j = 0; j < tileNames.length; j++) {
         let tile = tileNames[j];
         let tilePath = getPathForFilenameInDir(tile, dir)
@@ -91,12 +73,10 @@ export function getAllFormsInQuestionnaire(id) {
           .readFileSync(tilePath)
           .toString();
         let jsonData = yamljs.parse(yamlString);
-        form
-          .questionnaire
-          .push(jsonData)
+        formIDs.push(jsonData.id)
       }
     }
-    return form
+    return formIDs
   }
 }
 
