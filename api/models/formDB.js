@@ -7,7 +7,7 @@ import _ from 'lodash'
 
 export function getAllAnswersById(questionnaireID, callback) {
   let response = {
-    results: {}
+    results: []
   }
   let formIDs = yamlData.getAllFormsInQuestionnaire(questionnaireID)
 
@@ -21,7 +21,7 @@ export function getAllAnswersById(questionnaireID, callback) {
     }, 2000)
 
     getFormInfo(questionnaireID, formID, (formInfo) => {
-      let formResult = []
+      let formResults = []
       let objectsToFill = formInfo.questions.length
 
       getAnswersByQuestionID(questionnaireID, formID).then(answers => {
@@ -34,9 +34,11 @@ export function getAllAnswersById(questionnaireID, callback) {
             if (!data) {
               return
             }
-            formResult.push(data)
-            if (formResult.length === objectsToFill) {
-              response.results[formID] = formResult
+            formResults.push(data)
+            if (formResults.length === objectsToFill) {
+              response.results.push({
+                formID, formResults
+              })
             }
           })
         }
@@ -52,7 +54,7 @@ export function getAllAnswersById(questionnaireID, callback) {
       console.log('A file failed to process');
       return callback(err)
     } else {
-      console.log('All files have been processed successfully');
+      // console.log('All files have been processed successfully');
       connection.close()
       return callback(null, response)
     }
