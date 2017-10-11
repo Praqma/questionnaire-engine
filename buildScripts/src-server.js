@@ -24,6 +24,8 @@ app.use(require('webpack-dev-middleware')(compiler, {
 
 app.use(bodyParser.json());
 
+app.use('/static', express.static('src/static'))
+
 app.use('/api/forms', formsAPI);
 app.use('/api/results', resultsAPI)
 

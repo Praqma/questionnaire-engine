@@ -13,13 +13,34 @@
         </div>
       </div>
     </nav>
-    <div class="container-fluid">
+    <div class="container-fluid" v-if="requestOk">
+      <div class="row">
+        <div class="col" v-for="(result, index) in results" :key="index">
+          <div v-if="chartData.id" v-for="(chartData, index) in result.formResults" :key="index" class="card" style="width: 20rem;">
+            <div class="card-body">
+              <h4 class="card-title">{{result.formID}}</h4>
+              <h6 class="card-subtitle mb-2 text-muted">{{chartData.question.ask}}</h6>
+              <p class="card-text">{{chartData.question.description}}</p>
+              <chart :id="index" :chartData="chartData"></chart>
+            </div>
+          </div>
 
-        <div class="col-md-4" v-for="(chart, index) in results" :key="index">
-          <chart :id="index" :chartData="chart"></chart>
+          <div v-else>
+            <div class="alert alert-warning" role="alert">
+              This data type is in development.
+            </div>
+          </div>
         </div>
-
-
+      </div>
+    </div>
+    <div v-if="requestOk === null" class="alert-center">
+      <img src="/static/Preloader_3.gif" alt="">
+      <h2>Loading...</h2>
+    </div>
+    <div v-if="requestOk === false">
+      <div class="alert alert-danger" role="alert">
+        The server responded with an error. That's all we know now.
+      </div>
     </div>
     <nav class="navbar fixed-bottom navbar-dark bg-dark">
       <a class="navbar-brand" href="#">footer</a>
@@ -53,7 +74,6 @@ export default {
           self.results = data.results;
           console.log(self.results);
           self.requestOk = true;
-          console.log('requestok: ' + self.requestOk);
         })
         .fail(function() {
           console.warn('Request failed.');
@@ -67,3 +87,9 @@ export default {
 }
 </script>
 
+<style>
+.alert-center {
+  margin-left: 40vw;
+  margin-top: 10vw;
+}
+</style>
