@@ -31,12 +31,11 @@ $ sudo ln -s /usr/bin/nodejs /usr/bin/node
 ```
 
 ### Getting the source code to your device
-Clone this repository and move dir:
 ```shell
 # Clone this repo
 $ git clone <this-repo>
 
-# move to dir
+# Move to dir
 $ cd <cloned-repo>
 
 # Install dependencies
