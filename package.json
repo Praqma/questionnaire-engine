@@ -8,7 +8,7 @@
     "start_full": "npm-run-all --parallel security-check open:src lint:watch test:watch start-mockapi",
     "start": "npm run open:src",
     "build": "(npm run open:src &) && sleep 15 && pkill node",
-    "babel-build": "babel api --out-dir dist --watch --source-maps",
+    "compile": "rm -rf .compiled && babel api --out-dir .compiled",
     "open:src": "babel-node buildScripts/src-server.js",
     "lint": "esw webpack.config.* src buildScripts --color",
     "lint:watch": "npm run lint -- --watch",

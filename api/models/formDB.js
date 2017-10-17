@@ -82,12 +82,14 @@ function distributePreparation(question, answers, callback) {
   switch (questionType) {
     case "short_answer":
       {
-        return callback("ERR: [" + questionType + "] not supported yet")
+        let data = prepareShortAsnwer(question.short_answer, answers)
+        return callback(data)
         break;
       }
     case "paragraph":
       {
-        return callback("ERR: [" + questionType + "] not supported yet")
+        let data = prepareShortAsnwer(question.paragraph, answers)
+        return callback(data)
         break;
       }
     case "radio":
@@ -123,6 +125,27 @@ function distributePreparation(question, answers, callback) {
       }
 
   }
+}
+
+function prepareShortAsnwer(question, answers) {
+  let response = {
+    id: question.id,
+    type: 'short_answer',
+    data: [],
+    question
+  }
+  for (var index = 0; index < answers.length; index++) {
+    var element = answers[index];
+    let singleEntry = element.answers[question.id]
+    if (!singleEntry) {
+      break
+    }
+    if (singleEntry.length === 0) {
+      break
+    }
+    response.data.push(singleEntry)
+  }
+  return response
 }
 
 function prepareRadioData(question, answers) {
