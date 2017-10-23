@@ -64,6 +64,9 @@ $ docker run --rm -it -v <repo-path>:/usr/src/app -w /usr/src/app -p 3003:3000 n
 ### Deploying to production
 ![Engine Diagram](/docs/engine-diagram.png)
 
+## Deployment Description
+![Deployment Description](/docs/deployment-description.png)
+
 ## API Protocol
 
 |Method|URL|Params|Description|Example|

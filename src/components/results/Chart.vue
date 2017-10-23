@@ -5,7 +5,7 @@
 </template>
 <script>
 export default {
-  props: ['id', 'chartData'],
+  props: ['id', 'chart-data'],
   data() {
     return {
       canvasID: this.getCanvasID()

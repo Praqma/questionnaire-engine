@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="requestOk">
-      <nav class="navbar navbar-expand-sm navbar-dark justify-content-center bg-dark">
+      <nav class="navbar fixed-top navbar-expand-sm navbar-dark justify-content-center bg-dark">
         <ul class="nav ">
           <li class="nav-item">
             <a class="navbar-brand" href="#">
@@ -33,6 +33,17 @@
       </div>
       <nav class="navbar fixed-bottom navbar-dark bg-dark">
         <a class="navbar-brand" href="#">{{respData.footer}}</a>
+        <ul class="nav">
+          <li class="nav-item">
+            <router-link class="nav-link" to="/irregular-questionnaire">Irregular questionnaire</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/regular-matrix">Regular matrix</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/results/irregular-questionnaire">Results</router-link>
+          </li>
+        </ul>
       </nav>
     </div>
     <div v-if="requestOk === false">
@@ -42,9 +53,9 @@
 </template>
 
 <script>
-import Matrix from './Matrix.vue'
-import NotFound from '../NotFound.vue'
-import path from 'path'
+import Matrix from "./Matrix.vue";
+import NotFound from "../NotFound.vue";
+import path from "path";
 
 export default {
   data() {
@@ -52,15 +63,15 @@ export default {
       respData: {},
       didOpenIntro: false,
       requestOk: null
-    }
+    };
   },
   components: { matrix: Matrix, notFound: NotFound },
   mounted: function() {
     this.loadData();
   },
   watch: {
-    '$route.path': function(val) {
-      this.loadData()
+    "$route.path": function(val) {
+      this.loadData();
     }
   },
   methods: {
@@ -69,9 +80,9 @@ export default {
     },
     loadData() {
       var self = this;
-      let pathname = window.location.pathname.replace("/", "")
+      let pathname = window.location.pathname.replace("/", "");
       if (!pathname) {
-        return self.requestOk = false;
+        return (self.requestOk = false);
       }
       $.ajax("api/forms/" + pathname)
         .done(function(data) {
@@ -79,7 +90,7 @@ export default {
           self.requestOk = true;
         })
         .fail(function() {
-          console.warn('Request failed.');
+          console.warn("Request failed.");
           self.requestOk = false;
         })
         .always(function() {
@@ -87,7 +98,7 @@ export default {
         });
     }
   }
-}
+};
 </script>
 
 <style>
