@@ -9,23 +9,21 @@
             <a class="navbar-brand" href="#">Navbar</a>
             <nav class="nav nav-pills flex-column dropdown">
               <div v-for="(result, formIndex) in results" :key="formIndex">
-                <a class="nav-link" :href="'#item-' + formIndex">{{result.formID }}</a>
+                <a class="nav-link" :href="'#item-' + formIndex">{{result.formID | titleCase}}</a>
               </div>
             </nav>
           </nav>
         </div>
 
         <div class="col">
-
           <div class="row" v-for="(result, formIndex) in results" :key="formIndex" :id="'item-' + formIndex" role="tablist">
 
-            <div class="col-12">
-              <h1>Container for {{result.formID}}</h1><hr>
+            <div class="col-12" style="margin-top:10px;">
+              <h1>{{result.formID | titleCase}}</h1><hr>
             </div>
 
-            <div v-for="(singleResult, itemIndex) in result.formResults" :key="itemIndex" :id="'item-' + formIndex + '-' + itemIndex"
-              class="col-lg-6 col-xl-4" style="width: 20rem;">
-
+            <div v-for="(singleResult, itemIndex) in result.formResults" :key="itemIndex"   v-if="singleResult"
+            :id="'item-' + formIndex + '-' + itemIndex" class="col-lg-6 col-xl-4" style="width: 20rem;">
               <div class="card" style="width: 20rem;">
                 <!-- <h2>Item {{formIndex}}-{{itemIndex}}</h2> -->
 
@@ -39,12 +37,12 @@
                   </div>
                 </div>
 
-                <div v-if="singleResult.type === 'short_answer'">
+                <div v-else-if="singleResult.type === 'short_answer'">
                   <!-- {{result.formID}} -->
                   <div class="card-body">
                     <h4 class="card-title">{{singleResult.question.ask}}</h4>
                     <h6 class="card-subtitle mb-2 text-muted">{{singleResult.question.description}}</h6>
-                    <p class="card-text">{{singleResult.id}}</p>
+                    <!-- <p class="card-text">{{singleResult.id}}</p> -->
                     <div v-if="singleResult.data.length > 0">
                       <ul class="list-group list-group-hover list-group-striped">
                         <li class="list-group-item" v-for="(listElem, index) in singleResult.data" :key="index">
@@ -55,6 +53,14 @@
                     <div v-else>
                       <p>No answers yet.</p>
                     </div>
+                  </div>
+                </div>
+
+                <div v-else>
+                  <div class="card-body">
+                    <h4 class="card-title">&#9888; Nothing to show</h4>
+                    <h6 class="card-subtitle mb-2 text-muted">This feature is currently under development.</h6>
+                    <p class="card-text"><code>{{singleResult}}</code></p>
                   </div>
                 </div>
 
@@ -114,6 +120,13 @@
     mounted: function () {
       this.loadChartData();
     },
+    filters: {
+      titleCase: function(value) {
+        return value.split('-').map(function(word) {
+          return word.charAt(0).toUpperCase() + word.substr(1).toLowerCase()
+        }).join(' ')
+      }
+    },
     methods: {
       loadChartData() {
         let self = this;
@@ -171,7 +184,7 @@
   /* Ensure navbar scrolling behaviour */
 
   #main-wrapper {
-    position: relative;
+    position: fixed;
     height: 100vh;
     overflow-y: scroll;
   }
