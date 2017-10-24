@@ -6,7 +6,7 @@
 
         <div class="col-md-4 col-lg-3 col-xl-2">
           <nav id="navbar-results" class="navbar navbar-light bg-light">
-            <a class="navbar-brand" href="#">Navbar</a>
+            <a class="navbar-brand" href="#">Forms</a>
             <nav class="nav nav-pills flex-column dropdown">
               <div v-for="(result, formIndex) in results" :key="formIndex">
                 <a class="nav-link" :href="'#item-' + formIndex">{{result.formID | titleCase}}</a>
