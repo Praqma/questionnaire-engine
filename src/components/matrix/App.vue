@@ -81,9 +81,7 @@ export default {
     loadData() {
       var self = this;
       let pathname = window.location.pathname.replace("/", "");
-      if (!pathname) {
-        return (self.requestOk = false);
-      }
+      // if path is missing then still load the default template content
       $.ajax("api/forms/" + pathname)
         .done(function(data) {
           self.respData = data;

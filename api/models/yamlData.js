@@ -2,7 +2,7 @@
 import fs from 'fs'
 import yamljs from 'yamljs'
 import path from 'path'
-import {dataDir} from '../config/config'
+import {contentDir, defaultQuestionnaire} from '../config/config'
 
 let basePath = process.env.PWD;
 
@@ -119,7 +119,7 @@ function getJsonByPath(path) {
 }
 
 function getDirById(id) {
-  let questionnaireDirs = getDirsWithLayoutFile(path.join(basePath, dataDir))
+  let questionnaireDirs = getDirsWithLayoutFile(path.join(basePath, contentDir))
 
   for (var index = 0; index < questionnaireDirs.length; index++) {
     let dir = questionnaireDirs[index];
@@ -139,8 +139,8 @@ function getDirById(id) {
 
 // returns an array of JSON object questionnaires given the absolute path to a
 // directory
-function getAllQuestionsInDir(dataDir) {
-  let items = getAllFilesInDir(dataDir);
+function getAllQuestionsInDir(contentDirectory) {
+  let items = getAllFilesInDir(contentDirectory);
   let responseArray = items.filter(function (item) {
     let itemName = item
       .split('/')

@@ -1,5 +1,5 @@
 ---
-title: This is a template form.
+title: Demo of all question types
 version: 1.0.0
 # Immutable after the creation of the survey. Any change will create a separate database for the new answers.
 id: form1
@@ -13,28 +13,22 @@ questions:
         # The ID must be unique within this questionnaire.
         # It is immutable after publishing. Any change will trigger the new answers to be recorded separately.
         id: question1
-        ask: Which programming language do you like the most?
-        description: There is a huge selection to choose from
+        ask: This is what a question looks like
+        description: This is the description of the question
         conditions:
             required: true
             prerequisites: []
-    - short_answer:
-        id: question2
-        ask: Second short answer?
-        conditions:
-            required: false
-            prerequisites: []
     - paragraph:
-        id: question3
-        ask: Why that language?
-        description: Can you further elaborate on something so obvious?
+        id: question2
+        ask: This question takes longer answers
+        description: You will have more space to elaborate on your reply
         conditions:
             required: false
             prerequisites: ['preferred-language']
     - radio:
-        id: question4
-        ask: Which one option would you pick?
-        description: It is really only one you can pick. Sorry.
+        id: question3
+        ask: Radio button questions look like this
+        description: You can pick a single option
         conditions:
             required: true
             prerequisites: []
@@ -43,20 +37,19 @@ questions:
             - Second option
             - Third option
     - checkboxes:
-        ask: Which of the following options do you like?
-        description: Congratulations! You have been chosen to choose!
-        id: question5
+        ask: Checkboxes allow you to pick multiple options
+        id: question4
         conditions:
             required: true
             prerequisites: []
         options:
-            - First option
-            - Second option
-            - Third option
+            - Cats
+            - Dogs
+            - Parrots
     - dropdown:
-        ask: Can you pick only one?
-        description: No comments... ¯\_(⊙︿⊙)_/¯
-        id: question6
+        ask: This is an optional question with dropdown options
+        description: You can pick only one response
+        id: question5
         conditions:
             required: false
             prerequisites: []

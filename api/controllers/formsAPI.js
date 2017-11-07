@@ -2,8 +2,21 @@ var express = require('express')
 var router = express.Router();
 import * as yalmData from '../models/yamlData'
 import * as formDB from '../models/formDB'
+import { defaultQuestionnaire } from '../config/config'
 
-router.get("/:questionnaireID", function(req, res){
+router.get('/', function(req, res) {
+  // load default template content
+  let jsonData = yalmData.getQuestionnaireById(defaultQuestionnaire)
+
+  if (jsonData){
+    res.json(jsonData)
+  } else {
+    res.status(501)
+    res.json({error: "The requested questionnaire could not be found."})
+  }
+})
+
+router.get('/:questionnaireID', function(req, res){
   let questionnaireID = req.params.questionnaireID;
   let jsonData = yalmData.getQuestionnaireById(questionnaireID)
 
