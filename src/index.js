@@ -18,7 +18,7 @@ const router = new VueRouter({
   routes: [
     {
       path: '*',
-      component: NotFound
+      component: App
     },
     {
       path: '/:id',
