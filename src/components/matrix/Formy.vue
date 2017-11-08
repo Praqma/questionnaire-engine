@@ -154,6 +154,8 @@ export default {
         .catch(function(error){
           self.$data.statusUpdate = "Modifications could not be saved. Try again. \_(ʘ_ʘ)_/"
         })
+
+      this.$emit('submitted', formID)
     },
     onSuccessfulSubmit() {
       this.$data.saveSuccess = true;

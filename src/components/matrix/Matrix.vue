@@ -18,19 +18,19 @@
     </div>
 
     <div v-for="(row, index) in data.questionnaire" :key="index">
-      <tile :rowIndex="index + 1" :row="row" :rowLabel="data.labels.vertical[index]" :rowLength="rowLength" :color="data.colors[index]" :questionnaireID="data.id">
-      </tile>
+      <tile-row :rowIndex="index + 1" :row="row" :rowLabel="data.labels.vertical[index]" :rowLength="rowLength" :color="data.colors[index]" :questionnaireID="data.id">
+      </tile-row>
     </div>
   </div>
 </template>
 
 <script>
-import Tile from './Tile.vue'
+import TileRow from './TileRow.vue'
 import Formy from './Formy.vue'
 
 export default {
   props: ['data'],
-  components: { tile: Tile, formy: Formy },
+  components: { tileRow: TileRow, formy: Formy },
   data() {
     return {
       rowLength: this.calculateRowLength(this.data.questionnaire),
