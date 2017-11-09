@@ -1,9 +1,6 @@
 /* eslint-disable no-console */
 import express from 'express';
-import path from 'path';
 import bodyParser from 'body-parser'
-import open from 'open';
-import chalk from 'chalk'
 
 import config from '../webpack.config.prod';
 import formsAPI from './controllers/formsAPI'
@@ -23,7 +20,7 @@ app.use('/api/results', resultsAPI)
 
 db.connect(function (err) {
   if (err) {
-    console.log(chalk.red("Could not connect to Database"));
+    console.log("Could not connect to Database");
     return;
   }
 });
@@ -32,7 +29,7 @@ app.listen(port, function(err) {
   if (err) {
     console.log(err);
   } else {
-    console.log(chalk.green('API server started on port ' + port));
+    console.log('API server started on port ' + port);
   }
 });
 
