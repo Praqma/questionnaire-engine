@@ -4,9 +4,9 @@
   "description": "Praqma Maturity Model",
   "main": "src/index.js",
   "scripts": {
-    "prestart": "babel-node buildScripts/start-message.js",
+    "prestart_TMP": "babel-node buildScripts/start-message.js",
     "start_full": "npm-run-all --parallel security-check open:src lint:watch test:watch start-mockapi",
-    "start": "npm run open:src",
+    "start": "node build/apiServer.js",
     "dev": "nodemon buildScripts/src-server.js --exec babel-node --presets es2015,stage-2",
     "compile": "rm -rf .compiled && babel api --out-dir .compiled",
     "open:src": "babel-node buildScripts/src-server.js",
