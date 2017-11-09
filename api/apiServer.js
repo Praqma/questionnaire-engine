@@ -2,7 +2,6 @@
 import express from 'express';
 import bodyParser from 'body-parser'
 
-import config from '../webpack.config.prod';
 import formsAPI from './controllers/formsAPI'
 import resultsAPI from './controllers/resultsAPI'
 import * as db from './config/dbConnection'
