@@ -1,10 +1,10 @@
-import path from "path";
-import webpack from "webpack";
-import HtmlWebpackPlugin from 'html-webpack-plugin'
-import WebpackMd5Hash from 'webpack-md5-hash'
-import ExtractTextPlugin from 'extract-text-webpack-plugin'
+const path = require("path")
+const webpack = require("webpack")
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const WebpackMd5Hash = require('webpack-md5-hash')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
-export default {
+exports.default = {
   debug: true,
   devtool: "source-map",
   noInfo: false,

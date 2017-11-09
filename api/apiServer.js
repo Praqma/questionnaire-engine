@@ -6,9 +6,9 @@ import open from 'open';
 import chalk from 'chalk'
 
 import config from '../webpack.config.prod';
-import formsAPI from '../api/controllers/formsAPI'
-import resultsAPI from '../api/controllers/resultsAPI'
-import * as db from '../api/config/dbConnection'
+import formsAPI from './controllers/formsAPI'
+import resultsAPI from './controllers/resultsAPI'
+import * as db from './config/dbConnection'
 var cors = require('cors');
 
 const port = process.env.PORT || 3030;
