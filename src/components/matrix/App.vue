@@ -50,13 +50,14 @@
       <not-found></not-found>
     </div>
     <div v-if="requestOk === null">
-      <p>Waiting for API to load...</p>
+      <generic-message message-title="Loading..." message-content="Waiting for API request."></generic-message>
     </div>
   </div>
 </template>
 
 <script>
 import Matrix from "./Matrix.vue";
+import GenericMessage from '../GenericMessage.vue'
 import NotFound from "../NotFound.vue";
 import path from "path";
 
@@ -68,7 +69,7 @@ export default {
       requestOk: null
     };
   },
-  components: { matrix: Matrix, notFound: NotFound },
+  components: { matrix: Matrix, notFound: NotFound, genericMessage: GenericMessage },
   mounted: function() {
     this.loadData();
   },
