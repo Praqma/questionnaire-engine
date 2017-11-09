@@ -85,7 +85,9 @@ export default {
       var self = this;
       let pathname = window.location.pathname.replace("/", "");
       // if path is missing then still load the default template content
-      $.ajax("api/forms/" + pathname)
+      const backendUrl = process.env.BACKEND_URL || "http://localhost:3000"
+      console.log('backend url', process.env.BACKEND_URL)
+      $.ajax(backendUrl + "/api/forms/" +  pathname)
         .done(function(data) {
           self.respData = data;
           self.requestOk = true;

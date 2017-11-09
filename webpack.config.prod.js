@@ -19,6 +19,13 @@ export default {
     filename: "[name].[chunkhash].js"
   },
   plugins: [
+    // Define environment variables
+    new webpack.DefinePlugin({
+      'process.env': {
+        "BACKEND_URL": JSON.stringify('http://localhost:3030')
+      }
+    }),
+
     new webpack.ProvidePlugin({ $: "jquery", jQuery: "jquery" }),
 
     // Generate an external css file with a hash in the filename
