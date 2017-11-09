@@ -105,7 +105,7 @@ import VueAxios from 'vue-axios'
 Vue.use(VueAxios, axios)
 
 export default {
-  props: ['formData', 'questionnaireID'],
+  props: ['formData', 'questionnaireId'],
   data() {
     return {
       response: this.initResponse(),
@@ -132,7 +132,7 @@ export default {
       let maximum = 9999;
       let minimum = 1000;
       let clientID =Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
-      let questionnaireID = this.questionnaireID;
+      let questionnaireId = this.questionnaireId;
       let formID = this.$props.formData.id;
 
       let formResp = {}
@@ -144,7 +144,8 @@ export default {
       let onSuccessfulSubmit = this.onSuccessfulSubmit;
 
       let self = this;
-      this.axios.post('/api/forms/' + questionnaireID, formResp)
+      const backendUrl = process.env.BACKEND_URL || "http://localhost:3030"
+      this.axios.post(backendUrl + '/api/forms/' + questionnaireId, formResp)
         .then(function(response) {
           let respMessage = response.data.message
           let resCode = response.data.status

@@ -5,7 +5,7 @@
       <button v-if="!didOpenIntro" type="button" class="btn btn-secondary btn-lg btn-block" data-toggle="modal" data-target="#intro-form" @click="onIntroOpen">Start here...</button>
       <div class="modal fade" id="intro-form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
-          <formy :formData="data.intro_form" :questionnaireID="data.id"></formy>
+          <formy :form-data="data.intro_form" :questionnaire-id="data.id"></formy>
         </div>
       </div>
     </div>
@@ -18,7 +18,7 @@
     </div>
 
     <div v-for="(row, index) in data.questionnaire" :key="index">
-      <tile-row :rowIndex="index + 1" :row="row" :rowLabel="data.labels.vertical[index]" :rowLength="rowLength" :color="data.colors[index]" :questionnaireID="data.id">
+      <tile-row :row-index="index + 1" :row="row" :row-label="data.labels.vertical[index]" :row-length="rowLength" :color="data.colors[index]" :questionnaire-id="data.id">
       </tile-row>
     </div>
   </div>

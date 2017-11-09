@@ -49,11 +49,15 @@
     <div v-if="requestOk === false">
       <not-found></not-found>
     </div>
+    <div v-if="requestOk === null">
+      <generic-message message-title="Loading..." message-content="Waiting for API request."></generic-message>
+    </div>
   </div>
 </template>
 
 <script>
 import Matrix from "./Matrix.vue";
+import GenericMessage from '../GenericMessage.vue'
 import NotFound from "../NotFound.vue";
 import path from "path";
 
@@ -65,7 +69,7 @@ export default {
       requestOk: null
     };
   },
-  components: { matrix: Matrix, notFound: NotFound },
+  components: { matrix: Matrix, notFound: NotFound, genericMessage: GenericMessage },
   mounted: function() {
     this.loadData();
   },
@@ -82,7 +86,9 @@ export default {
       var self = this;
       let pathname = window.location.pathname.replace("/", "");
       // if path is missing then still load the default template content
-      $.ajax("api/forms/" + pathname)
+      const backendUrl = process.env.BACKEND_URL || "http://localhost:3000"
+      console.log('backend url', process.env.BACKEND_URL)
+      $.ajax(backendUrl + "/api/forms/" +  pathname)
         .done(function(data) {
           self.respData = data;
           self.requestOk = true;

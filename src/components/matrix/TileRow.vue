@@ -15,7 +15,7 @@
         </div>
         <div class="modal fade" v-bind:id="item.id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
           <div class="modal-dialog modal-lg" role="document">
-            <formy :formData="item" :questionnaireID="questionnaireID" @submitted="onSubmitted"></formy>
+            <formy :form-data="item" :questionnaire-id="questionnaireId"></formy>
           </div>
         </div>
       </div>
@@ -27,7 +27,7 @@
 import Formy from './Formy.vue'
 
 export default {
-  props: ['row', 'rowIndex', 'rowLabel', 'rowLength', 'color', 'questionnaireID'],
+  props: ['row', 'rowIndex', 'rowLabel', 'rowLength', 'color', 'questionnaireId'],
   data() {
     return {
       submitted: []
