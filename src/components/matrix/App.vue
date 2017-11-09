@@ -49,6 +49,9 @@
     <div v-if="requestOk === false">
       <not-found></not-found>
     </div>
+    <div v-if="requestOk === null">
+      <p>Waiting for API to load...</p>
+    </div>
   </div>
 </template>
 

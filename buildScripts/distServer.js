@@ -15,6 +15,7 @@ const app = express();
 
 app.use(express.static('dist'))
 app.use(compression)
+
 app.use(helmet());
 app.use(bodyParser.json());
 

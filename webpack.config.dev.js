@@ -1,5 +1,6 @@
 import path from 'path';
 import webpack from 'webpack'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
 
 export default {
   debug : true,
@@ -12,7 +13,13 @@ export default {
     publicPath: '/',
     filename: 'bundle.js'
   },
-  plugins : [new webpack.ProvidePlugin({$: "jquery", jQuery: "jquery"})],
+  plugins : [
+    new webpack.ProvidePlugin({$: "jquery", jQuery: "jquery"}),
+    new HtmlWebpackPlugin({
+      template: 'src/index.html',
+      inject: true
+    })
+  ],
   module : {
     loaders: [
       {

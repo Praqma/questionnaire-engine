@@ -1,15 +1,11 @@
 /*eslint no-unused-vars: 1*/
 
-import $ from 'jquery'
-import './style/main.scss'
-
-import Chart from 'chart.js'
-
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import App from './components/matrix/App.vue'
 import Results from './components/results/Results.vue'
 import NotFound from './components/NotFound.vue'
+import './style/main.scss'
 
 Vue.use(VueRouter)
 
