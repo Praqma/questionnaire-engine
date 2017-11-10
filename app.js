@@ -4,6 +4,7 @@ const path = require('path')
 const helmet = require('helmet')
 const compression = require('compression')
 const cors = require('cors');
+const fallback = require('express-history-api-fallback')
 
 const formsAPI = require('./build/controllers/formsAPI').default;
 const resultsAPI = require('./build/controllers/resultsAPI').default;
@@ -27,6 +28,9 @@ app.get('/', function(req, res) {
 
 app.use('/api/forms', formsAPI);
 app.use('/api/results', resultsAPI)
+
+// handle fallback for HTML5 history API - respect order of requests (fallback last)
+app.use(fallback(path.join(__dirname, './dist/index.html')))
 
 db.connect(function (err) {
   if (err) {
