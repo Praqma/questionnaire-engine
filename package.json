@@ -22,10 +22,18 @@
     "generate-mock-data": "babel-node buildScripts/mock-data-generator.js",
     "prestart-mockapi": "npm run generate-mock-data",
     "start-mockapi": "json-server --watch src/api/db.json --port 3001",
+
+    "build": "npm-run-all build:client build:server",
+    "publish": "git push aws master",
+
+    "prebuild:server": "rimraf ./build && mkdir build",
+    "build:server": "babel api -d build",
+
     "clean-dist": "rimraf ./dist && mkdir dist",
-    "prebuild": "npm-run-all clean-dist test lint",
-    "build": "babel-node buildScripts/build.js",
-    "postbuild": "babel-node buildScripts/distServer.js",
+    "prebuild:client": "npm-run-all clean-dist test lint",
+    "build:client": "babel-node buildScripts/build.js",
+
+    "serve:client": "babel-node buildScripts/distServer.js",
     "api": "node build/apiServer.js"
   },
   "nyc": {

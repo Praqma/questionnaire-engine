@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const WebpackMd5Hash = require('webpack-md5-hash')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
-exports.default = {
+module.exports = {
   debug: true,
   devtool: "source-map",
   noInfo: false,
@@ -22,7 +22,7 @@ exports.default = {
     // Define environment variables
     new webpack.DefinePlugin({
       'process.env': {
-        "BACKEND_URL": JSON.stringify('http://localhost:3030')
+        "BACKEND_URL": JSON.stringify('http://praqma-formsapp.dhqhgmey3m.eu-west-1.elasticbeanstalk.com')
       }
     }),
 

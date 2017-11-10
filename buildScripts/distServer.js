@@ -1,40 +1,21 @@
 /* eslint-disable no-console */
-import express from 'express';
-import path from 'path';
-import bodyParser from 'body-parser'
-import open from 'open';
-import helmet from 'helmet'
-import compression from 'compression'
+const express = require('express')
+const bodyParser = require('body-parser')
+const path = require('path')
+const helmet = require('helmet')
+const compression = require('compression')
+// import open from 'open';
 
-import formsAPI from '../api/controllers/formsAPI'
-import resultsAPI from '../api/controllers/resultsAPI'
-import * as db from '../api/config/dbConnection'
-
-const port = 3000;
+const port = process.env.PORT || 3000;
 const app = express();
-
-process.env.BACKEND_URL = JSON.stringify("http://localhost:3030")
-
 app.use(express.static('dist'))
 app.use(compression)
 
 app.use(helmet());
 app.use(bodyParser.json());
 
-app.use('/static', express.static('src/static'))
-
-app.use('/api/forms', formsAPI);
-app.use('/api/results', resultsAPI)
-
-app.get('/*', function(req, res) {
-  res.sendFile(path.join(__dirname, '../src/index.html'));
-});
-
-db.connect(function (err) {
-  if (err) {
-    console.log("Could not connect to Database");
-    return;
-  }
+app.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname, '../dist/index.html'));
 });
 
 app.listen(port, function(err) {
@@ -42,8 +23,8 @@ app.listen(port, function(err) {
     console.log(err);
   } else {
     console.log('Dev server started on port ' + port);
-
-    open('http://localhost:' + port);
+    // Don't run open in prod
+    // open('http://localhost:' + port);
   }
 });
 
