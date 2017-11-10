@@ -20,11 +20,12 @@ module.exports = {
   },
   plugins: [
     // Define environment variables
-    new webpack.DefinePlugin({
-      'process.env': {
-        "BACKEND_URL": JSON.stringify('http://praqma-formsapp.dhqhgmey3m.eu-west-1.elasticbeanstalk.com')
-      }
-    }),
+    // enable env variable for backendUrl if backend is separated into different project
+    // new webpack.DefinePlugin({
+    //   'process.env': {
+    //     "BACKEND_URL": JSON.stringify('http://praqma-formsapp.dhqhgmey3m.eu-west-1.elasticbeanstalk.com')
+    //   }
+    // }),
 
     new webpack.ProvidePlugin({ $: "jquery", jQuery: "jquery" }),
 

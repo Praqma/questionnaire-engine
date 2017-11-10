@@ -22,17 +22,14 @@
     "generate-mock-data": "babel-node buildScripts/mock-data-generator.js",
     "prestart-mockapi": "npm run generate-mock-data",
     "start-mockapi": "json-server --watch src/api/db.json --port 3001",
-
     "build": "npm-run-all build:client build:server",
+    "postbuild": "node app.js",
     "publish": "git push aws master",
-
     "prebuild:server": "rimraf ./build && mkdir build",
     "build:server": "babel api -d build",
-
     "clean-dist": "rimraf ./dist && mkdir dist",
     "prebuild:client": "npm-run-all clean-dist test lint",
     "build:client": "babel-node buildScripts/build.js",
-
     "serve:client": "babel-node buildScripts/distServer.js",
     "api": "node build/apiServer.js"
   },
@@ -63,12 +60,14 @@
     "babel-runtime": "^5.8.0",
     "body-parser": "^1.18.2",
     "chart.js": "^2.7.0",
+    "compression": "1.6.2",
     "cors": "^2.8.4",
     "express": "4.14.0",
     "helmet": "^3.8.1",
     "jquery": "^3.2.1",
     "json-schema-faker": "^0.3.6",
     "mongodb": "^2.2.31",
+    "path": "^0.12.7",
     "vue": "^2.4.2",
     "vue-axios": "^2.0.2",
     "vue-router": "^2.7.0",
@@ -88,7 +87,6 @@
     "chai": "4.0.2",
     "chalk": "1.1.3",
     "cheerio": "0.22.0",
-    "compression": "1.6.2",
     "cross-env": "3.1.3",
     "css-loader": "0.25.0",
     "eslint": "3.19.0",

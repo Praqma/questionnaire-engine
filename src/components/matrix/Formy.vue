@@ -144,7 +144,9 @@ export default {
       let onSuccessfulSubmit = this.onSuccessfulSubmit;
 
       let self = this;
-      const backendUrl = process.env.BACKEND_URL || "http://localhost:3030"
+      // enable env variable for backendUrl if backend is separated into different project
+      // const backendUrl = process.env.BACKEND_URL || "http://localhost:3030"
+      const backendUrl = ''
       this.axios.post(backendUrl + '/api/forms/' + questionnaireId, formResp)
         .then(function(response) {
           let respMessage = response.data.message
