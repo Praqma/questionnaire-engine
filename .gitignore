@@ -63,8 +63,6 @@ typings/
 .idea/
 .vscode/
 
-dist/
-
 package-lock.json
 src/api/db.json
 tester.js
