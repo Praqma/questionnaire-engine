@@ -1,0 +1,25 @@
+---
+title: One
+version: 1.0.0
+# Immutable after the creation of the survey. Any change will create a separate database for the new answers.
+id: form1
+questions:
+    - short_answer:
+        # The ID must be unique within this questionnaire.
+        # It is immutable after publishing. Any change will trigger the new answers to be recorded separately.
+        id: question1
+        ask: What's the name of your comapny?
+        description: This question is required as the red asterisk indicates
+        conditions:
+            required: true
+            prerequisites: []
+    - checkboxes:
+        ask: Choosing from these checkboxes is optional
+        id: question2
+        conditions:
+            required: true
+            prerequisites: []
+        options:
+            - Red
+            - Green
+            - Blue

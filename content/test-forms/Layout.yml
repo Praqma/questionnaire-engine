@@ -1,0 +1,30 @@
+# Questionnaire basics
+id: test-form # unique id of the questionnaire
+version: 1.0.0 # 3 point decimal precision
+
+# Content info
+iconURL: "http://code-maturity.praqma.com/images/praqma-logo.png"
+header: A test questionnaire
+links:
+  - title: Praqma
+    url: http://praqma.com
+  - title: Ops Maturity
+    url: "http://code.praqma.com/ops-maturity/"
+  - title: Code Maturity
+    url: "http://code-maturity.praqma.com/"
+footer: Why do Java developers wear glasses? Because they can't C#
+
+# Content body
+# introYaml: quick-intro # name of the yml file whose form will be the intro
+labels:
+- [Column]
+- [Start here, Continuou here]
+model: # Each array describes a new row. Filenames represent columns in a row. Filenames must be unique and without .yml extension.
+- [testForm1]
+- [testForm2]
+colors: # [start_color, end_color] in HEX (#ff9800) per row
+- [ff9800, FFBA5B]
+- [dd614a, B13B27]
+- [a8c686, 8BC945]
+- [669bbc, 3785B6]
+- [88958d, 717C75]
