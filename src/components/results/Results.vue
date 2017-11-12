@@ -1,6 +1,6 @@
 <template>
   <div id="main-wrapper" data-spy="scroll" data-target="#navbar-results" data-offset="20" v-if="results">
-    <navbar></navbar>
+    <navbar :title="id"></navbar>
     <div class="container-fluid" v-if="requestOk">
       <div class="row">
 
@@ -74,8 +74,9 @@
           </div>
         </div>
       </div>
+    </div>
       <div v-if="requestOk === null" class="alert-center">
-        <img src="/static/Preloader_3.gif" alt="">
+        <img src="/Preloader_3.gif" alt="">
         <h2>Loading...</h2>
       </div>
       <div v-if="requestOk === false">
@@ -139,7 +140,7 @@
         //  REPLACE:
         //  /api/results/ + pathname
         // =========== END OF DEBUG =========
-        $.ajax("/template.json")
+        $.ajax("/api/results/" + pathname)
           .done(function (data) {
             self.results = data.results;
             console.log(self.results);

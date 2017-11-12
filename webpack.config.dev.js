@@ -23,13 +23,6 @@ export default {
       inject: true
     }),
 
-    // Define environment variables
-    new webpack.DefinePlugin({
-      'process.env': {
-        "BACKEND_URL": JSON.stringify('')
-      }
-    }),
-
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor'
     }),

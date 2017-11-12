@@ -10,6 +10,7 @@ import config from '../webpack.config.dev';
 import formsAPI from '../api/controllers/formsAPI'
 import resultsAPI from '../api/controllers/resultsAPI'
 import * as db from '../api/config/dbConnection'
+const fallback = require('express-history-api-fallback')
 
 const port = 3000;
 const app = express();
@@ -29,9 +30,12 @@ app.use('/static', express.static('src/static'))
 app.use('/api/forms', formsAPI);
 app.use('/api/results', resultsAPI)
 
-app.get('/*', function(req, res) {
+app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, '../src/index.html'));
 });
+
+// handle fallback for HTML5 history API - respect order of requests (fallback last)
+app.use(fallback(path.join(__dirname, '../src/index.html')))
 
 db.connect(function (err) {
   if (err) {

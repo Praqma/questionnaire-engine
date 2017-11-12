@@ -9,13 +9,13 @@
           <div class="error-details">
             <p>{{messageContent}}</p>
           </div>
-          <div class="error-actions">
+          <!-- <div class="error-actions">
             <a href="http://www.praqma.com" class="btn btn-primary btn-lg">
               <span class="glyphicon glyphicon-home"></span>
               Take Me to Praqma </a>
             <a href="http://www.praqma.com" class="btn btn-default btn-lg">
               <span class="glyphicon glyphicon-envelope"></span> Contact Support </a>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
