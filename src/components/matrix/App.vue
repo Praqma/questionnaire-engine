@@ -31,20 +31,7 @@
           <matrix v-bind:data="respData" v-on:introOpened="onIntroOpen"></matrix>
         </div>
       </div>
-      <nav class="navbar fixed-bottom navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">{{respData.footer}}</a>
-        <ul class="nav text-muted">
-          <li class="nav-item">
-            <router-link class="nav-link" to="/irregular-questionnaire">Irregular questionnaire</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/regular-matrix">Regular matrix</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/results/template">Results</router-link>
-          </li>
-        </ul>
-      </nav>
+      <footer-bar></footer-bar>
     </div>
     <div v-if="requestOk === false">
       <not-found></not-found>
@@ -57,6 +44,7 @@
 
 <script>
 import Matrix from "./Matrix.vue";
+import FooterBar from '../FooterBar.vue'
 import GenericMessage from '../GenericMessage.vue'
 import NotFound from "../NotFound.vue";
 import path from "path";
@@ -69,7 +57,12 @@ export default {
       requestOk: null
     };
   },
-  components: { matrix: Matrix, notFound: NotFound, genericMessage: GenericMessage },
+  components: {
+    matrix: Matrix,
+    notFound: NotFound,
+    genericMessage: GenericMessage,
+    footerBar: FooterBar
+  },
   mounted: function() {
     this.loadData();
   },
