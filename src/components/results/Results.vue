@@ -139,7 +139,7 @@
         //  REPLACE:
         //  /api/results/ + pathname
         // =========== END OF DEBUG =========
-        $.ajax("/static/template.json")
+        $.ajax("/template.json")
           .done(function (data) {
             self.results = data.results;
             console.log(self.results);

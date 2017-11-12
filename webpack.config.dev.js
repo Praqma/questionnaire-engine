@@ -6,12 +6,15 @@ export default {
   debug : true,
   devtool : 'inline-source-map',
   noInfo : false,
-  entry : [path.resolve(__dirname, 'src/index')],
+  entry : {
+    vendor: path.resolve(__dirname, 'src/vendor'),
+    main: path.resolve(__dirname, "src/index")
+  },
   target : 'web',
   output : {
     path: path.resolve(__dirname, 'src'),
     publicPath: '/',
-    filename: 'bundle.js'
+    filename: '[name].js'
   },
   plugins : [
     new webpack.ProvidePlugin({$: "jquery", jQuery: "jquery"}),
@@ -25,7 +28,11 @@ export default {
       'process.env': {
         "BACKEND_URL": JSON.stringify('')
       }
-    })
+    }),
+
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor'
+    }),
   ],
   module : {
     loaders: [

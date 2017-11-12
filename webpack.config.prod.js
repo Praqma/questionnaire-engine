@@ -3,6 +3,7 @@ const webpack = require("webpack")
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const WebpackMd5Hash = require('webpack-md5-hash')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
   debug: true,
@@ -26,6 +27,10 @@ module.exports = {
     //     "BACKEND_URL": JSON.stringify('http://praqma-formsapp.dhqhgmey3m.eu-west-1.elasticbeanstalk.com')
     //   }
     // }),
+
+    new CopyWebpackPlugin([
+      { from: 'src/static' }
+    ]),
 
     new webpack.ProvidePlugin({ $: "jquery", jQuery: "jquery" }),
 
