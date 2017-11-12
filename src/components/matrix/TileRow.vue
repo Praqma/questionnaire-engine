@@ -15,7 +15,7 @@
         </div>
         <div class="modal fade" v-bind:id="item.id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
           <div class="modal-dialog modal-lg" role="document">
-            <formy :form-data="item" :questionnaire-id="questionnaireId"></formy>
+            <formy :form-data="item" :questionnaire-id="questionnaireId" @submitted="onSubmitted"></formy>
           </div>
         </div>
       </div>

@@ -1,0 +1,31 @@
+---
+title: I'm duplicate!
+version: 1.0.0
+# Immutable after the creation of the survey. Any change will create a separate database for the new answers.
+id: form3
+questions:
+    - radio:
+        # The ID must be unique within this questionnaire.
+        # It is immutable after publishing. Any change will trigger the new answers to be recorded separately.
+        id: question1
+        ask: How do you like the concept of this web application?
+        description: This question is required as the red asterisk indicates
+        conditions:
+            required: true
+            prerequisites: []
+        options:
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+    - checkboxes:
+        ask: Choosing from these checkboxes is optional
+        id: question2
+        conditions:
+            required: false
+            prerequisites: []
+        options:
+            - Red
+            - Green
+            - Blue

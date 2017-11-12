@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid no-padding">
+  <div class="container-fluid no-padding matrix-wrapper">
 
     <div id="startIntroBtn" class="container" v-if="data.intro_form">
       <button v-if="!didOpenIntro" type="button" class="btn btn-secondary btn-lg btn-block" data-toggle="modal" data-target="#intro-form" @click="onIntroOpen">Start here...</button>
@@ -70,7 +70,9 @@ export default {
   }
 }
 </script>
-
-<style>
-
+<style scoped>
+.matrix-wrapper {
+  margin-bottom: 7vh;
+}
 </style>
+

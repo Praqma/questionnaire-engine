@@ -153,12 +153,11 @@ export default {
           let resCode = response.data.status
           if (resCode == 100)
             onSuccessfulSubmit(respMessage)
+            self.$emit('submitted', formID)
         })
         .catch(function(error){
           self.$data.statusUpdate = "Modifications could not be saved. Try again. \_(ʘ_ʘ)_/"
         })
-
-      this.$emit('submitted', formID)
     },
     onSuccessfulSubmit() {
       this.$data.saveSuccess = true;
@@ -167,7 +166,7 @@ export default {
       var self = this;
       setInterval(function() {
         let minsSinceUpdated = Math.floor((new Date().getTime() - self.$data.lastUpdated) / 1000 / 60)
-        self.$data.statusUpdate = "Last saved " + minsSinceUpdated + " minute(s) ago.";
+        self.$data.statusUpdate = "Saved " + minsSinceUpdated + " m ago";
       }, 1000);
     },
     onFormChange() {
