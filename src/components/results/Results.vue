@@ -171,7 +171,7 @@
   }
 
   .list-group-item {
-    height: 40px;
+    height: 100%;
     padding-top: 0.5rem;
   }
 

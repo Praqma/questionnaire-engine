@@ -33,7 +33,7 @@
       </div>
       <nav class="navbar fixed-bottom navbar-dark bg-dark">
         <a class="navbar-brand" href="#">{{respData.footer}}</a>
-        <ul class="nav">
+        <ul class="nav text-muted">
           <li class="nav-item">
             <router-link class="nav-link" to="/irregular-questionnaire">Irregular questionnaire</router-link>
           </li>
@@ -41,7 +41,7 @@
             <router-link class="nav-link" to="/regular-matrix">Regular matrix</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/results/irregular-questionnaire">Results</router-link>
+            <router-link class="nav-link" to="/results/template">Results</router-link>
           </li>
         </ul>
       </nav>
