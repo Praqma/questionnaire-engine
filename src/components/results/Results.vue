@@ -84,20 +84,7 @@
           The server responded with an error. That's all we know now.
         </div>
       </div>
-      <nav class="navbar fixed-bottom navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">footer</a>
-                <ul class="nav">
-          <li class="nav-item">
-            <router-link class="nav-link" to="/irregular-questionnaire">Irregular questionnaire</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/regular-matrix">Regular matrix</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/results/irregular-questionnaire">Results</router-link>
-          </li>
-        </ul>
-      </nav>
+      <footer-bar></footer-bar>
     </div>
 </template>
 
@@ -105,6 +92,7 @@
 <script>
   import Chart from "./Chart.vue";
   import Navbar from "../Navbar.vue";
+  import FooterBar from '../FooterBar.vue'
 
   export default {
     props: ["id"],
@@ -116,7 +104,8 @@
     },
     components: {
       chart: Chart,
-      navbar: Navbar
+      navbar: Navbar,
+      footerBar: FooterBar
     },
     mounted: function () {
       this.loadChartData();
@@ -171,7 +160,7 @@
   }
 
   .list-group-item {
-    height: 40px;
+    height: 100%;
     padding-top: 0.5rem;
   }
 

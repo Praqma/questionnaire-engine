@@ -19,11 +19,11 @@ export default {
   },
   methods: {
     getCanvasID() {
+      // Replace this with GUID
       let minimum = 10000
       let maximum = 90000
       let randomID = Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
       let canvasID = 'canvas' + randomID
-      console.log('ID: ' + canvasID);
       return canvasID
     }
   }
