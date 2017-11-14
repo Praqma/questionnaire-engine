@@ -1,6 +1,6 @@
-pipelineJob('maturity-model_questionnaire') {
+pipelineJob('questionnaire-engine') {
 
-  def repo = 'https://github.com/Praqma/maturity-model.git'
+  def repo = 'https://github.com/Praqma/questionnaire-engine'
 
   description("Pipeline for $repo")
 
