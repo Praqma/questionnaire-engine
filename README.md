@@ -1,54 +1,64 @@
 # Questionnaire Engine
 
 ## Getting started
+
 These instructions will get you a running copy of the questionnaire engine on your local machine for development and testing purposes.
 
 ### Prerequisites
+
 **Skip if you have these installed:**
+
 - `npm`
 - `docker`
 
 **Otherwise run:**
+
 ```shell
 # Update your packages
-$ sudo apt-get update && sudo apt-get upgrade
+sudo apt-get update && sudo apt-get upgrade
 
 # Install `npm`
-$ sudo apt-get install npm
+sudo apt-get install npm
 
 # Verify npm version
-$ npm --version
+npm --version
 ```
 
 Follow [[this]](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04) 
 tutorial to install Docker on Ubuntu
 
 #### Gotchas
+
 If you installed `npm` with a package manager, there might be a misnaming error and node will be called nodejs. 
 Run the following command to solve this:
+
 ```shell
-$ sudo ln -s /usr/bin/nodejs /usr/bin/node
+sudo ln -s /usr/bin/nodejs /usr/bin/node
 ```
 
 ### Getting the source code to your device
+
 ```shell
 # Clone this repo
-$ git clone <this-repo>
+git clone <this-repo>
 
 # Move to dir
-$ cd <cloned-repo>
+cd <cloned-repo>
 
 # Install dependencies
-$ npm install
+npm install
 ```
 
 ### Running the web application
+
 The docker hub image `node:8` runs as developer and build environment.
 
 Start the dockerized app:
+
 ```shell
-$ sudo docker run --rm -it -v <repo-path>:/usr/src/app -w /usr/src/app -p 3003:3000 node:8 npm start
+sudo docker run --rm -it -v <repo-path>:/usr/src/app -w /usr/src/app -p 3003:3000 node:8 npm start
 ```
+
 Replace `<repo-path>` with the absolute path to the cloned repository.
 
 This will expose the server running in Docker on port 3000 to localhost:3003.
@@ -56,15 +66,19 @@ This will expose the server running in Docker on port 3000 to localhost:3003.
 It will also block the terminal. To stop the server press <kbd>control</kbd> + <kbd>C</kbd>
 
 ### Running the tests
+
 Replace the command `npm start` with `npm test` to run the tests:
+
 ```shell
-$ docker run --rm -it -v <repo-path>:/usr/src/app -w /usr/src/app -p 3003:3000 node:8 npm test
+docker run --rm -it -v <repo-path>:/usr/src/app -w /usr/src/app -p 3003:3000 node:8 npm test
 ```
 
 ### Deploying to production
+
 ![Engine Diagram](/docs/engine-diagram.png)
 
 ## Deployment Description
+
 ![Deployment Description](/docs/deployment-description.png)
 
 ## API Protocol
@@ -81,6 +95,30 @@ $ docker run --rm -it -v <repo-path>:/usr/src/app -w /usr/src/app -p 3003:3000 n
 
 > *Form reffers to an individual box's form data - a single yaml file.
 
+## Project Structure
+
+```text
+.
+├- api               # Backend logic and Rest API interface
+├- build             # Backend transpiled to Common.js for production
+├- src               # Frontend logic
+├- dist              # Frontend built for production with Webpack
+├- content           # Questionnaire data
+├- buildScripts      # Scripts used for development
+├- docs              # Documenatation and source dir for Readme
+├- app.js            # Production server written in Common.js
+├- Jenkinsfile.dsl   # Jenkins seedjob
+├- Jenkinsfile       # Jenkins pipeline description
+└─ README.md
+```
+
+## npm scripts
+
+|Script|Description|
+|--|--|
+|`npm run build`|Build server and client for production|
+|`npm run dev`|Start dev server with hot-reload|
+
 ## Tools used in this node developer environment
 
 |Type|Package|
@@ -95,4 +133,7 @@ $ docker run --rm -it -v <repo-path>:/usr/src/app -w /usr/src/app -p 3003:3000 n
 |Linting|eslint|
 |Testing|mocha|
 |Asserting|chai|
-|Continuous integration|Jenkins|
+|Continuous integration|AWS CodePipeline w/ Jenkins|
+|MVC framework|Vue.js|
+|CSS framework|Bootstrap 4|
+|Database|MongoDB|
