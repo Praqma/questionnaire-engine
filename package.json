@@ -22,7 +22,7 @@
     "security-check": "nsp check",
     "localtunnel": "lt --port 3000 -s praqma",
     "share": "npm-run-all --parallel open:src localtunnel",
-    "test": "mocha --reporter list buildScripts/test-setup.js \"src/**/*.test.js\"",
+    "test": "mocha --reporter list buildScripts/test-setup.js \"api/**/*.test.js\"",
     "test:watch": "npm run test -- --watch",
     "coverage": "nyc npm test",
     "coverage:ci": "nyc --reporter text-summary --lines 0 --functions 0 --branches 0 npm test"
