@@ -74,6 +74,14 @@ function objectCount(obj) {
   return count
 }
 
+// function refactoredObjectCount(obj) {
+//   let keys = Object.keys(obj)
+//   let count = keys.filter(key => {
+//     return obj[key] !== undefined
+//   }).length
+//   return count
+// }
+
 var distributePreparationCalled = 0
 function distributePreparation(question, answers, callback) {
   let response = {}
