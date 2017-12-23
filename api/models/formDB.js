@@ -343,25 +343,31 @@ function getFormInfo(questionnaireID, formID, callback) {
     })
 }
 
+// Insert an answer submitted by a client to the database
 export function insertFormResponse(questionnaireID, requestPayload, callback) {
+  // define required parameters for entry
   let version = requestPayload.version;
   let clientID = requestPayload.clientID;
   let formID = Object.keys(requestPayload.answers)[0]
   let formResponse = requestPayload.answers[formID]
 
+  // set up connection to DB
   connection.connect(function () {
-    var db = connection.get();
-    var collection = db.collection(questionnaireID);
+    var db = connection.get(); // get Mongo database connection object
+    var collection = db.collection(questionnaireID); // get the collection object where the answers are
 
-    let queryObj = {
+    // define object that will be the base of the query
+    let queryObject = {
       "version": version,
       clientID: clientID,
       formID: formID
     }
+    // If an answer was already submitted by that user update it, otherwise insert new
     collection
-      .find(queryObj)
+      .find(queryObject)
       .toArray(function (err, docs) {
 
+        // create the form response object to be inserted into DB
         let insertObj = {
           version: version,
           clientID: clientID,
@@ -370,23 +376,35 @@ export function insertFormResponse(questionnaireID, requestPayload, callback) {
           answers: formResponse
         }
 
+        // check if the client already has answer in DB
         if (docs.length > 0) {
+          // answer found, update it
           assert.equal(1, docs.length);
-          let writeResult = collection.update(queryObj, insertObj, {upsert: true})
+          // perform update on db collection
+          let writeResult = collection.update(queryObject, insertObj, {
+            upsert: true
+          })
+          // check for db errors during update
           if (writeResult.writeError) {
+            // error found. return error response further up to be handled
             return callback(writeResult.writeError)
           }
+          // no error, update performed -> finish execution
           return callback(null, writeResult)
 
         } else if (docs.length === 0) {
+          // a new client submitted the form response -> insert it into DB
           collection
             .insertOne(insertObj, function (err, result) {
+              // error handling
               if (err) {
                 return callback(err)
               }
+              // insert performed well -> finish execution
               return callback(err, result)
             })
         }
       })
   })
 }
+
