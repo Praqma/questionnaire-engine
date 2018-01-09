@@ -9,6 +9,7 @@ import './style/main.scss'
 
 Vue.use(VueRouter)
 
+// define routes
 const router = new VueRouter({
   mode: 'history',
   routes: [
@@ -29,4 +30,5 @@ const router = new VueRouter({
   ]
 });
 
+// inject the code into our entry file (index.html)
 var app = new Vue({router}).$mount('#app')
