@@ -4,19 +4,16 @@
   "description": "Praqma Maturity Model",
   "main": "src/index.js",
   "scripts": {
-    "prestart_TMPR": "babel-node buildScripts/start-message.js",
-    "start": "npm-run-all --parallel open:src lint:watch test:watch",
+    "start": "node app.js",
     "dev": "nodemon buildScripts/src-server.js --exec babel-node --presets es2015,stage-2",
     "open:src": "babel-node buildScripts/src-server.js",
     "build": "npm-run-all build:client build:server",
-    "postbuild": "node app.js",
     "prebuild:server": "rimraf ./build && mkdir build",
     "build:server": "babel api -d build",
     "serve:api": "node build/apiServer.js",
     "clean-dist": "rimraf ./dist && mkdir dist",
     "prebuild:client": "npm-run-all clean-dist test lint",
     "build:client": "babel-node buildScripts/build.js",
-    "serve:client": "babel-node buildScripts/distServer.js",
     "lint": "esw webpack.config.* src buildScripts --color",
     "lint:watch": "npm run lint -- --watch",
     "security-check": "nsp check",
@@ -25,7 +22,8 @@
     "test": "mocha --reporter list buildScripts/test-setup.js \"api/**/*.test.js\"",
     "test:watch": "npm run test -- --watch",
     "coverage": "nyc npm test",
-    "coverage:ci": "nyc --reporter text-summary --lines 0 --functions 0 --branches 0 npm test"
+    "coverage:ci": "nyc --reporter text-summary --lines 0 --functions 0 --branches 0 npm test",
+    "prestart_OLD": "babel-node buildScripts/start-message.js"
   },
   "nyc": {
     "check-coverage": true,

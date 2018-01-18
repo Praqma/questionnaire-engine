@@ -4,7 +4,7 @@ import yamljs from 'yamljs'
 import path from 'path'
 import {contentDir, defaultQuestionnaire} from '../config/config'
 
-let basePath = process.env.PWD;
+let basePath = process.env.PWD || '/usr/src/app'
 
 // FEAT: for yaml schema validation use Kwalify
 
@@ -119,7 +119,8 @@ function getJsonByPath(path) {
 }
 
 function getDirById(id) {
-  let questionnaireDirs = getDirsWithLayoutFile(path.join(basePath, contentDir))
+  let dirPath = path.join(basePath, contentDir)
+  let questionnaireDirs = getDirsWithLayoutFile(dirPath)
 
   for (var index = 0; index < questionnaireDirs.length; index++) {
     let dir = questionnaireDirs[index];

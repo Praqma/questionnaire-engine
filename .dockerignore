@@ -1,0 +1,7 @@
+node_modules
+
+# docs are not needed in the image
+docs
+
+# API files are served from build/ so ignore source
+api
