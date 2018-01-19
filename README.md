@@ -1,85 +1,51 @@
 # Questionnaire Engine
 
+Questionnaire Engine is a containerized web application that allows you to create and analyze forms written in YAML configuration files.
+
 ## Getting started
 
-These instructions will get you a running copy of the questionnaire engine on your local machine for development and testing purposes.
+These instructions will get you started with the web app.
+
+Read our [contributions guideline](/CONTRIBUTING.md) to learn more about how to make changes to the source code.
 
 ### Prerequisites
 
-**Skip if you have these installed:**
+If you want to run the image in a container then you will need Docker. Follow [this tutorial](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04) to install Docker on Ubuntu.
 
-- `npm`
-- `docker`
+### Running the Web Application
 
-**Otherwise run:**
+The application can be found in the docker store as `praqma/questionnaire-engine:<version>`. This is the core (*engine*) that contains the business logic. There are a few example questionnaires in the `content/` folder that you can use for inspiration.
 
-```shell
-# Update your packages
-sudo apt-get update && sudo apt-get upgrade
-
-# Install `npm`
-sudo apt-get install npm
-
-# Verify npm version
-npm --version
-```
-
-Follow [[this]](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04) 
-tutorial to install Docker on Ubuntu
-
-#### Gotchas
-
-If you installed `npm` with a package manager, there might be a misnaming error and node will be called nodejs. 
-Run the following command to solve this:
+Run this command to start the application. It will pull the image from Docker hub and start the app in a container
 
 ```shell
-sudo ln -s /usr/bin/nodejs /usr/bin/node
+docker run --rm -it -p 3000:3000 --env DB_PASSWORD=<dbpassword> praqma/questionnaire-engine:1.0 npm start
+
+# --rm            remove the container after exiting
+# -it             run container with interactive terminal attached
+# -p 8080:3000    expose port 3000 and map it to the external port 8080
+# --env DB_PASSWORD=<dbpassword>    insert your database password. See Credentials seciton.
+# praqma/questionnaire-engine:1.0   image name and version
+# npm start       command to run inside container
 ```
 
-### Getting the source code to your device
+Find the database password inside Praqma's password manager under the name `Database user on Mlab`
 
-```shell
-# Clone this repo
-git clone <this-repo>
+## Deployment
 
-# Move to dir
-cd <cloned-repo>
+The web application is running in Docker containers. There is a main image containing the engine called `questionnaire-engine` which also contains some example content. 
 
-# Install dependencies
-npm install
-```
+Another image called `questionnaire-models` that will contain the questionnaire content is created based on the engine image. This holds an arbitrary number of forms. Adding a new form under the `content/` folder of this repo will be deployed under the right domain. Read more about how to set up your own content repository for the engine [here](https://github.com/Praqma/questionnaire-models).
 
-### Running the web application
+<!-- ![Deployment Description](/docs/deployment-description.png) -->
 
-The docker hub image `node:8` runs as developer and build environment.
+## Database
 
-Start the dockerized app:
+We are using the free sandbox plan of Mlab.com. It gives us 0.5 GB of storage which is ample as we only store textual content. 
 
-```shell
-sudo docker run --rm -it -v <repo-path>:/usr/src/app -w /usr/src/app -p 3003:3000 node:8 npm start
-```
+Every new questionnaire is stored in a diferent document inside the same database - think of it as a table in the SQL world.
 
-Replace `<repo-path>` with the absolute path to the cloned repository.
-
-This will expose the server running in Docker on port 3000 to localhost:3003.
-
-It will also block the terminal. To stop the server press <kbd>control</kbd> + <kbd>C</kbd>
-
-### Running the tests
-
-Replace the command `npm start` with `npm test` to run the tests:
-
-```shell
-docker run --rm -it -v <repo-path>:/usr/src/app -w /usr/src/app -p 3003:3000 node:8 npm test
-```
-
-### Deploying to production
-
-![Engine Diagram](/docs/engine-diagram.png)
-
-## Deployment Description
-
-![Deployment Description](/docs/deployment-description.png)
+Credentials to access Mlab.com are stored in our password manager. In order to authenticate with the database, see the password entry under `Database user on Mlab`. This password has to be provided to the docker image to be able to connect to our database.
 
 ## API Protocol
 
@@ -107,8 +73,7 @@ docker run --rm -it -v <repo-path>:/usr/src/app -w /usr/src/app -p 3003:3000 nod
 ├- buildScripts      # Scripts used for development
 ├- docs              # Documenatation and source dir for Readme
 ├- app.js            # Production server written in Common.js
-├- Jenkinsfile.dsl   # Jenkins seedjob
-├- Jenkinsfile       # Jenkins pipeline description
+├- Dockerfile        # Define environment for Docker image
 └─ README.md
 ```
 
@@ -116,10 +81,11 @@ docker run --rm -it -v <repo-path>:/usr/src/app -w /usr/src/app -p 3003:3000 nod
 
 |Script|Description|
 |--|--|
-|`npm run build`|Build server and client for production|
+|`npm start`|Run production server|
 |`npm run dev`|Start dev server with hot-reload|
+|`npm run build`|Build server and client for production|
 
-## Tools used in this node developer environment
+## Built With
 
 |Type|Package|
 |---|---|
@@ -136,4 +102,6 @@ docker run --rm -it -v <repo-path>:/usr/src/app -w /usr/src/app -p 3003:3000 nod
 |Continuous integration|AWS CodePipeline w/ Jenkins|
 |MVC framework|Vue.js|
 |CSS framework|Bootstrap 4|
-|Database|MongoDB|
+|Database|MongoDB on mlab.com|
+|Containerization|Docker|
+
