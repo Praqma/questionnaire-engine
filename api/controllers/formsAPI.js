@@ -2,11 +2,11 @@ var express = require('express')
 var router = express.Router();
 import * as yalmData from '../models/yamlData'
 import * as formDB from '../models/formDB'
-import { defaultQuestionnaire } from '../config/config'
+import config from '../config/config'
 
 router.get('/', function(req, res) {
   // load default template content
-  let jsonData = yalmData.getQuestionnaireById(defaultQuestionnaire)
+  let jsonData = yalmData.getQuestionnaireById(config.defaultQuestionnaire)
 
   if (jsonData){
     res.json(jsonData)

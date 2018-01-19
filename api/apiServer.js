@@ -1,11 +1,10 @@
-/* eslint-disable no-console */
+require('dotenv').load();
 import express from 'express';
 import bodyParser from 'body-parser'
-
 import formsAPI from './controllers/formsAPI'
 import resultsAPI from './controllers/resultsAPI'
-import * as db from './config/dbConnection'
-var cors = require('cors');
+import db from './config/dbConnection'
+const cors = require('cors');
 
 const port = process.env.PORT || 3030;
 const app = express();
@@ -20,7 +19,7 @@ app.use('/api/results', resultsAPI)
 db.connect(function (err) {
   if (err) {
     console.log("Could not connect to Database");
-    return;
+    return 1;
   }
 });
 

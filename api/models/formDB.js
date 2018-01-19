@@ -1,3 +1,4 @@
+require('dotenv').load();
 import * as connection from '../config/dbConnection'
 import * as yamlData from './yamlData'
 import assert from 'assert'

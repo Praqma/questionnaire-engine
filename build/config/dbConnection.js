@@ -1,30 +1,42 @@
-'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.close = exports.get = exports.connect = undefined;
+'use strict';module.exports = function () {
+  require('dotenv').load();
+  var configuration = require('./config').default;
+  var MongoClient = require('mongodb').MongoClient;
+  var connection = void 0;
 
-
-var _config = require('./config');var MongoClient = require('mongodb').MongoClient;var connection;
-var uri = "mongodb://eddie:" + _config.DB_PASSWORD + "@praqma-db-shard-00-00-tgeam.mongodb.net:27017,praqma-db-shard-00-01-tgeam.mongodb.net:27017,praqma-db-shard-00-02-tgeam.mongodb.net:27017/PRAQ-FORMS?ssl=true&replicaSet=praqma-db-shard-0&authSource=admin";
-
-var connect = function connect(done) {
-  if (connection) return done();
-  MongoClient.connect(uri, function (err, db) {
-    if (err) {
-      return done(err);
-    }
-    connection = db;
-    done();
-  });
-};
-var get = function get() {
-  return connection;
-};
-var close = function close(done) {
-  if (connection) {
-    connection.close(function (err, result) {
-      connection = null;
-      if (done)
-      done(err, result);
-    });
+  var uri = void 0;
+  if (process.env.DB_PASSWORD) {
+    uri = configuration.dbUri.replace('<dbpassword>', process.env.DB_PASSWORD);
+  } else {
+    console.log('Could not find database password in environment variables. Try adding "--env DB_PASSWORD:somepass" to your docker command.');
   }
-};exports.
 
-connect = connect;exports.get = get;exports.close = close;
+  var connect = function connect(done) {
+    if (connection) return done();
+    MongoClient.connect(uri, function (err, db) {
+      if (err) {
+        return done(err);
+      }
+      connection = db;
+      done();
+    });
+  };
+  var get = function get() {
+    return connection;
+  };
+  var close = function close(done) {
+    if (connection) {
+      connection.close(function (err, result) {
+        connection = null;
+        if (done)
+        done(err, result);
+      });
+    }
+  };
+
+  return {
+    connect: connect,
+    get: get,
+    close: close };
+
+}();

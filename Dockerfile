@@ -9,11 +9,8 @@ COPY . .
 # Install dependencies
 RUN npm install
 
-# Run to Fix issue with dev package (node sass) if exists
+# Run to Fix issue with dev package (node sass) - if exists
 # RUN npm rebuild node-sass
 
 # Expose API port to the outside
 EXPOSE 3000
-
-# Launch application
-# CMD ["npm","start"]

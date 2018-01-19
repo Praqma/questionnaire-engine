@@ -1,3 +1,4 @@
+require('dotenv').load();
 const express = require('express')
 const bodyParser = require('body-parser')
 const path = require('path')
@@ -38,7 +39,7 @@ app.use(compression)
 
 db.connect(function (err) {
   if (err) {
-    console.log("Could not connect to Database");
+    console.log("Could not connect to Database", err);
     return 1;
   }
 });

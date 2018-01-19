@@ -2,7 +2,7 @@
 import fs from 'fs'
 import yamljs from 'yamljs'
 import path from 'path'
-import {contentDir, defaultQuestionnaire} from '../config/config'
+import config from '../config/config'
 
 let basePath = process.env.PWD || '/usr/src/app'
 
@@ -119,7 +119,7 @@ function getJsonByPath(path) {
 }
 
 function getDirById(id) {
-  let dirPath = path.join(basePath, contentDir)
+  let dirPath = path.join(basePath, config.contentDir)
   let questionnaireDirs = getDirsWithLayoutFile(dirPath)
 
   for (var index = 0; index < questionnaireDirs.length; index++) {

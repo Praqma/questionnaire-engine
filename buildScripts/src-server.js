@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+require('dotenv').load();
 import express from 'express';
 import path from 'path';
 import bodyParser from 'body-parser'
@@ -39,8 +39,8 @@ app.use(fallback(path.join(__dirname, '../src/index.html')))
 
 db.connect(function (err) {
   if (err) {
-    console.log("Could not connect to Database");
-    return;
+    console.log("Could not connect to Database..", err);
+    return 1;
   }
 });
 

@@ -1,3 +1,4 @@
-'use strict';Object.defineProperty(exports, "__esModule", { value: true });var contentDir = exports.contentDir = '/content';
-var defaultQuestionnaire = exports.defaultQuestionnaire = 'template';
-var DB_PASSWORD = exports.DB_PASSWORD = "8UtXVPdgdRgTyVrg";
+'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.default = {
+  contentDir: '/content',
+  defaultQuestionnaire: 'template',
+  dbUri: 'mongodb://praqmadb:<dbpassword>@ds263137.mlab.com:63137/questionnaire-results' };

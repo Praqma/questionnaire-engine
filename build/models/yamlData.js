@@ -56,7 +56,7 @@ getQuestionnaireById = getQuestionnaireById;exports.
 
 
 
-getAllFormsInQuestionnaire = getAllFormsInQuestionnaire;var _fs = require('fs');var _fs2 = _interopRequireDefault(_fs);var _yamljs = require('yamljs');var _yamljs2 = _interopRequireDefault(_yamljs);var _path = require('path');var _path2 = _interopRequireDefault(_path);var _config = require('../config/config');function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var basePath = process.env.PWD || '/usr/src/app'; // FEAT: for yaml schema validation use Kwalify
+getAllFormsInQuestionnaire = getAllFormsInQuestionnaire;var _fs = require('fs');var _fs2 = _interopRequireDefault(_fs);var _yamljs = require('yamljs');var _yamljs2 = _interopRequireDefault(_yamljs);var _path = require('path');var _path2 = _interopRequireDefault(_path);var _config = require('../config/config');var _config2 = _interopRequireDefault(_config);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var basePath = process.env.PWD || '/usr/src/app'; // FEAT: for yaml schema validation use Kwalify
 function getQuestionnaireById(id) {var form = {};var dir = getDirById(id);var layoutData = getLayoutFile(id);if (layoutData) {form.name = layoutData.name;form.id = layoutData.id;form.version = layoutData.version;form.labels = {};form.labels.horizontal = layoutData.labels[0];form.labels.vertical = layoutData.labels[1];form.colors = layoutData.colors;form.header = layoutData.header;form.footer = layoutData.footer;form.links = layoutData.links;form.iconURL = layoutData.iconURL;var pathToIntro = getPathForFilenameInDir(layoutData.introYaml, dir);form.intro_form = getJsonByPath(pathToIntro);form.questionnaire = [];var model = layoutData.model;for (var i = 0; i < model.length; i++) {var tileNames = model[i];form.questionnaire[i] = [];var row = [];for (var j = 0; j < tileNames.length; j++) {var tile = tileNames[j];if (tile.length === 0) {row[j] = undefined;} else {var tilePath = getPathForFilenameInDir(tile, dir);var yamlString = _fs2.default.readFileSync(tilePath).toString();var jsonData = _yamljs2.default.parse(yamlString);row[j] = jsonData;}}form.questionnaire[i] = row;}return form;}} // returns an unordered array of all forms
 function getAllFormsInQuestionnaire(id) {var form = {};var formIDs = [];
   var dir = getDirById(id);
@@ -119,7 +119,7 @@ function getJsonByPath(path) {
 }
 
 function getDirById(id) {
-  var dirPath = _path2.default.join(basePath, _config.contentDir);
+  var dirPath = _path2.default.join(basePath, _config2.default.contentDir);
   var questionnaireDirs = getDirsWithLayoutFile(dirPath);
 
   for (var index = 0; index < questionnaireDirs.length; index++) {
