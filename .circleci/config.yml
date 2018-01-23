@@ -1,23 +1,33 @@
 #
 version: 2
 jobs:
-  build-job:
+  build:
+    # machine: true
     docker:
       - image: circleci/node:8.9.4
     working_directory: ~/repo
     steps:
       - checkout
+      - setup_remote_docker
       - run: npm install
       - run: npm test
-
-  deploy:
-    docker:
-      - image: docker:17.05.0-ce-git
-    working_directory: ~/repo
-    steps:
       - run:
-        name: Build Docker image
-        command: docker build -t qe-test:1.0 .
+          name: Install Docker client
+          command: |
+            set -x
+            VER="17.03.0-ce"
+            curl -L -o /tmp/docker-$VER.tgz https://download.docker.com/linux/static/stable/x86_64/docker-$VER.tgz
+            tar -xz -C /tmp -f /tmp/docker-$VER.tgz
+            mv /tmp/docker/* /usr/bin
+
+      # build and push Docker image
+      - run: |
+          TAG=0.1.$CIRCLE_BUILD_NUM
+          docker build -t praqma/qe-test:$TAG .      # (4)
+          docker login -u $DOCKER_USER -p $DOCKER_PASS         # (5)
+          docker push praqma/qe-test:$TAG
+
+
 workflows:
   version: 2
   build-deploy:
