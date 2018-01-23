@@ -15,6 +15,7 @@ jobs:
       - image: docker:17.05.0-ce-git
     working_directory: ~/repo
     steps:
+      - checkout
       - run: echo 'Running deploy job...'
       - run: |
           TAG=0.1.$CIRCLE_BUILD_NUM
