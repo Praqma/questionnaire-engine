@@ -24,7 +24,7 @@ jobs:
       - run: |
           TAG=0.1.$CIRCLE_BUILD_NUM
           docker build --tag praqma/qe-test:$TAG .
-          docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
+          docker login --username $DOCKER_USER --password $DOCKER_PASS
           if [ "${CIRCLE_BRANCH}" == "master" ]; then
             docker push praqma/qe-test:$TAG
           fi
