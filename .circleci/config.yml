@@ -9,7 +9,6 @@ jobs:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: true
-      - run: docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
       - run: echo 'Building ...'
       - run: npm install
       - run: npm test
@@ -25,7 +24,7 @@ jobs:
       - run: |
           TAG=0.1.$CIRCLE_BUILD_NUM
           docker build --tag praqma/qe-test:$TAG .
-          docker login --username $DOCKER_USER --password $DOCKER_PASS praqma/qe-test
+          docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
           if [ "${CIRCLE_BRANCH}" == "master" ]; then
             docker push praqma/qe-test:$TAG
           fi
