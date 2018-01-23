@@ -16,6 +16,7 @@ jobs:
     working_directory: ~/repo
     steps:
       - checkout
+      - setup_remote_docker
       - run: echo 'Running deploy job...'
       - run: |
           TAG=0.1.$CIRCLE_BUILD_NUM
