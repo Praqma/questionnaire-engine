@@ -19,9 +19,9 @@ jobs:
       - run:
           name: Build and push Docker image
           environment:
-            - VERSION: 0.1.$CIRCLE_BUILD_NUM
             - TAG: praqma/questionnaire-engine
           command: |
+            VERSION=0.1.$CIRCLE_BUILD_NUM
             docker build --tag $TAG:$VERSION .
             docker login --username $DOCKER_USER --password "$DOCKER_PASS"
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
