@@ -14,12 +14,12 @@ If you want to run the image in a container then you will need Docker. Follow [t
 
 ### Running the Web Application
 
-The application can be found in the docker store as `praqma/questionnaire-engine:<version>`. This is the core (*engine*) that contains the business logic. There are a few example questionnaires in the `content/` folder that you can use for inspiration.
+The application can be found in the docker store as `praqma/questionnaire-engine:<version>`, see the [tags on Dockerhub](https://hub.docker.com/r/praqma/questionnaire-engine/tags/). This is the core (*engine*) that contains the business logic. There are a few example questionnaires in the `content/` folder that you can use for inspiration.
 
 Run this command to start the application. It will pull the image from Docker hub and start the app in a container
 
 ```shell
-docker run --rm -it -p 3000:3000 --env DB_PASSWORD=<dbpassword> praqma/questionnaire-engine:1.0 npm start
+docker run --rm -it -p 3000:3000 --env DB_PASSWORD=<dbpassword> praqma/questionnaire-engine:0.1.50 npm start
 
 # --rm            remove the container after exiting
 # -it             run container with interactive terminal attached
@@ -33,11 +33,15 @@ Find the database password inside Praqma's password manager under the name `Data
 
 ## Deployment
 
-The web application is running in Docker containers. There is a main image containing the engine called `questionnaire-engine` which also contains some example content. 
+The web application is running in Docker containers. There is a main image containing the engine called `questionnaire-engine` which also contains some example content.
 
 Another image called `questionnaire-models` that will contain the questionnaire content is created based on the engine image. This holds an arbitrary number of forms. Adding a new form under the `content/` folder of this repo will be deployed under the right domain. Read more about how to set up your own content repository for the engine [here](https://github.com/Praqma/questionnaire-models).
 
-<!-- ![Deployment Description](/docs/deployment-description.png) -->
+### CI Pipeline
+
+A [CI pipeline](https://circleci.com/gh/Praqma/questionnaire-engine) is running on Circle CI that checks out our source code on each commit. It installs the dependencies and builds the server and client side source code for production. After verifying that the tests pass it builds a new Docker image and pushes that to Praqma's [repository on Dockerhub](https://hub.docker.com/r/praqma/questionnaire-engine/).
+
+![Deployment Description](/docs/deployment-description.png)
 
 ## Database
 
