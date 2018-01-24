@@ -1,5 +1,5 @@
 # Use node 8.9.4 LTS
-FROM circleci/node:8.9.4
+FROM node:8.9.4
 
 # Change working directory
 WORKDIR /usr/src/app
