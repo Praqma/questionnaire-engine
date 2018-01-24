@@ -2,6 +2,8 @@
 
 Questionnaire Engine is a containerized web application that allows you to create and analyze forms written in YAML configuration files.
 
+Content is stored in the [questionnaire-models](https://github.com/Praqma/questionnaire-models) repository.
+
 ## Getting started
 
 These instructions will get you started with the web app.
