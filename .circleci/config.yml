@@ -31,7 +31,7 @@ jobs:
       - run:
           name: Run container
           command: |
-            docker run -d --rm -it -p 3000:3000 --name engine $TAG
+            docker run -d --rm -it -p 3000:3000 --name engine $TAG:$VERSION npm start
             docker stop engine
       - run:
           name: Deploy to Dockerhub
