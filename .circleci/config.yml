@@ -1,7 +1,6 @@
 version: 2
 jobs:
   build:
-    # machine: true
     docker:
       - image: circleci/node:8.9.4
       - image: docker:17.05.0-ce-git
@@ -10,9 +9,13 @@ jobs:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: true
+      # install dependencies
       - run: npm install
+      # build client and server side code (transpile to common.js)
       - run: npm run build
+      # run mocha tests
       - run: npm test
+      # build and push Docker image
       - run: |
           TAG=0.1.$CIRCLE_BUILD_NUM
           docker build --tag praqma/qe-test:$TAG .
