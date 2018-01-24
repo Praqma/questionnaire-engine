@@ -8,13 +8,12 @@ jobs:
     environment:
       - TAG: praqma/questionnaire-engine
     steps:
-      - run:
-          name: Export interpolated environment variables
-          command: echo 'export VERSION=0.1.$CIRCLE_BUILD_NUM' >> $BASH_ENV
-    steps:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: true
+      - run:
+          name: Export interpolated environment variables
+          command: echo 'export VERSION=0.1.$CIRCLE_BUILD_NUM' >> $BASH_ENV
       - run:
           name: Install dependencies
           command: npm install
