@@ -29,7 +29,7 @@ jobs:
           command: |
             VERSION=0.1.$CIRCLE_BUILD_NUM
             docker build --tag $TAG:$VERSION .
-            docker login --username $DOCKER_USER --password-stdin "$DOCKER_PASS"
+            docker login --username $DOCKER_USER --password "$DOCKER_PASS"
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
               docker push $TAG:$VERSION
             fi
