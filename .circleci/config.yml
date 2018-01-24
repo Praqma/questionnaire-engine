@@ -5,31 +5,37 @@ jobs:
       - image: circleci/node:8.9.4
       - image: docker:17.05.0-ce-git
     working_directory: ~/repo
+    environment:
+      - TAG: praqma/questionnaire-engine
     steps:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: true
-      # install dependencies
       - run:
           name: Install dependencies
           command: npm install
-      # build client and server side code (transpile to common.js)
       - run:
-          name: Build back and front-end source code
+          name: Build back and front-end source code (transpile to ES5)
           command: npm run build
-      # run mocha tests
       - run:
           name: Run tests
           command: npm test
-      # build and push Docker image
       - run:
-          name: Build and push Docker image
-          environment:
-            - TAG: praqma/questionnaire-engine
+          name: Login to Docker hub
+          command: docker login --username $DOCKER_USER --password "$DOCKER_PASS"
+      - run:
+          name: Build Docker image
           command: |
             VERSION=0.1.$CIRCLE_BUILD_NUM
             docker build --tag $TAG:$VERSION .
-            docker login --username $DOCKER_USER --password "$DOCKER_PASS"
+      - run:
+          name: Run container
+          command: |
+            docker run -d --rm -it -p 3000:3000 --name engine $TAG
+            docker stop engine
+      - run:
+          name: Deploy to Dockerhub
+          command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
               docker push $TAG:$VERSION
             fi
