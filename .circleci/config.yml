@@ -15,17 +15,6 @@ jobs:
           name: Export interpolated environment variables # expose circle ci environment variables inside container session
           command: |
             echo 'export VERSION=0.1.$CIRCLE_BUILD_NUM' >> $BASH_ENV
-            echo 'export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID' >> $BASH_ENV
-            echo 'export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY' >> $BASH_ENV
-      - run:
-          name: Install env dependencies (fargate)
-          command: |
-            sudo apt-get update && sudo apt-get install wget unzip -y
-            cd /usr/local/bin
-            sudo wget -O fargatecli.zip https://github.com/jpignata/fargate/releases/download/v0.2.3/fargate-0.2.3-linux-386.zip
-            sudo unzip fargatecli.zip && sudo rm fargatecli.zip
-            export PATH=$PATH:/.
-            cd /home/circleci/repo
       - run:
           name: Install npm dependencies
           command: npm install
@@ -42,17 +31,14 @@ jobs:
           name: Build Docker image
           command: |
             docker build --tag $TAG:$VERSION .
-      - run:
-          name: Run container
-          command: |
-            docker run -d --rm -it -p 3000:3000 --name engine $TAG:$VERSION npm start
-            docker stop engine
+      # - run:        // Removed for now...
+      #     name: Run container
+      #     command: |
+      #       docker run -d --rm -it -p 3000:3000 --name engine $TAG:$VERSION npm start
+      #       docker stop engine
       - run:
           name: Deploy to Dockerhub
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
               docker push $TAG:$VERSION
             fi
-      - run:
-          name: Deploy container instance on AWS
-          command: fargate service create questionnaire-engine_$CIRCLE_BUILD_NUM --image praqma/questionnaire-engine:0.1.$CIRCLE_BUILD_NUM --env DB_PASSWORD=$DB_PASSWORD
