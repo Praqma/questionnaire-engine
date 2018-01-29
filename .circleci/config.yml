@@ -15,8 +15,8 @@ jobs:
           name: Export interpolated environment variables
           command: |
             echo 'export VERSION=0.1.$CIRCLE_BUILD_NUM' >> $BASH_ENV
-            echo 'export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID' >> $BASH_ENG
-            echo 'export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY' >> $BASH_ENG
+            echo 'export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID' >> $BASH_ENV
+            echo 'export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY' >> $BASH_ENV
       - run:
           name: Install env dependencies (fargate)
           command: |
