@@ -11,3 +11,5 @@ RUN npm install
 
 # Expose API port to the outside
 EXPOSE 3000
+
+CMD [ "npm", "start" ]

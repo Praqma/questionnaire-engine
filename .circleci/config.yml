@@ -12,7 +12,7 @@ jobs:
       - setup_remote_docker:
           docker_layer_caching: true
       - run:
-          name: Export interpolated environment variables
+          name: Export interpolated environment variables # expose circle ci environment variables inside container session
           command: |
             echo 'export VERSION=0.1.$CIRCLE_BUILD_NUM' >> $BASH_ENV
             echo 'export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID' >> $BASH_ENV
@@ -25,35 +25,34 @@ jobs:
             sudo wget -O fargatecli.zip https://github.com/jpignata/fargate/releases/download/v0.2.3/fargate-0.2.3-linux-386.zip
             sudo unzip fargatecli.zip && sudo rm fargatecli.zip
             export PATH=$PATH:/.
-            cd /
-            fargate service create latest-service --image praqma/questionnaire-models:0.1.15 --env DB_PASSWORD=$DB_PASSWORD
-      # - run:
-      #     name: Install npm dependencies
-      #     command: npm install
-      # - run:
-      #     name: Build back and front-end source code (transpile to ES5)
-      #     command: npm run build
-      # - run:
-      #     name: Run tests
-      #     command: npm test
-      # - run:
-      #     name: Login to Docker hub
-      #     command: docker login --username $DOCKER_USER --password "$DOCKER_PASS"
-      # - run:
-      #     name: Build Docker image
-      #     command: |
-      #       docker build --tag $TAG:$VERSION .
-      # - run:
-      #     name: Run container
-      #     command: |
-      #       docker run -d --rm -it -p 3000:3000 --name engine $TAG:$VERSION npm start
-      #       docker stop engine
-      # - run:
-      #     name: Deploy to Dockerhub
-      #     command: |
-      #       if [ "${CIRCLE_BRANCH}" == "master" ]; then
-      #         docker push $TAG:$VERSION
-      #       fi
-      # - run:
-      #     name: Deploy container instance on AWS
-      #     command: fargate service create latest-service --image praqma/questionnaire-models:0.1.15 --env DB_PASSWORD=$DB_PASSWORD
+            cd /home/circleci/repo
+      - run:
+          name: Install npm dependencies
+          command: npm install
+      - run:
+          name: Build back and front-end source code (transpile to ES5)
+          command: npm run build
+      - run:
+          name: Run tests
+          command: npm test
+      - run:
+          name: Login to Docker hub
+          command: docker login --username $DOCKER_USER --password "$DOCKER_PASS"
+      - run:
+          name: Build Docker image
+          command: |
+            docker build --tag $TAG:$VERSION .
+      - run:
+          name: Run container
+          command: |
+            docker run -d --rm -it -p 3000:3000 --name engine $TAG:$VERSION npm start
+            docker stop engine
+      - run:
+          name: Deploy to Dockerhub
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              docker push $TAG:$VERSION
+            fi
+      - run:
+          name: Deploy container instance on AWS
+          command: fargate service create questionnaire-engine_$CIRCLE_BUILD_NUM --image praqma/questionnaire-engine:0.1.$CIRCLE_BUILD_NUM --env DB_PASSWORD=$DB_PASSWORD
