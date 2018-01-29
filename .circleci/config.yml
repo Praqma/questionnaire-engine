@@ -20,7 +20,7 @@ jobs:
       - run:
           name: Install env dependencies (fargate)
           command: |
-            apt-get update && apt-get install wget unzip -y
+            sudo apt-get update && sudo apt-get install wget unzip -y
             wget -O fargatecli.zip https://github.com/jpignata/fargate/releases/download/v0.2.3/fargate-0.2.3-linux-386.zip
             unzip fargatecli.zip
             export PATH=$PATH:/.
