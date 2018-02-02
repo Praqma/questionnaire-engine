@@ -22,7 +22,6 @@ labels:
 model: # Each array describes a new row. Filenames represent columns in a row. Filenames must be unique and without .yml extension.
 - [form1, form2]
 - [form3]
-- [form3]
 colors: # [start_color, end_color] in HEX (#ff9800) per row
 - [ff9800, FFBA5B]
 - [dd614a, B13B27]

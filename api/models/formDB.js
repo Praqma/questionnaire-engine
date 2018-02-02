@@ -14,13 +14,6 @@ exports.getAllAnswersById = function (questionnaireID, callback) {
 
   async.each(formIDs, (formID, asyncDone) => {
 
-    // Remove this timeout later by figuring out when all the answers have arrived
-    // back into formResults in each for
-    setTimeout(() => {
-      // console.log('asyncDone called for: '+formID);
-      return asyncDone()
-    }, 2000)
-
     getFormInfo(questionnaireID, formID, (formInfo) => {
       let formResults = []
       let objectsToFill = formInfo.questions.length
@@ -37,10 +30,10 @@ exports.getAllAnswersById = function (questionnaireID, callback) {
             }
             formResults.push(data)
             if (formResults.length === objectsToFill) {
-              console.log('Responding for question: ', question)
-              return response.results.push({
+              response.results.push({
                 formID, formResults
               })
+              return asyncDone()
             }
           })
         }
@@ -108,7 +101,7 @@ function distributePreparation(question, answers, callback) {
           return callback(data)
         }).catch(err => {
           console.error(err)
-          return callback(null)
+          // return callback(null)
         })
         // DON'T FORGET THE BREAK!!
         break;
@@ -119,7 +112,7 @@ function distributePreparation(question, answers, callback) {
           return callback(data)
         }).catch(err => {
           console.error(err)
-          return callback(null)
+          // return callback(null)
         });
         break;
       }
@@ -130,6 +123,7 @@ function distributePreparation(question, answers, callback) {
       }
     default:
       {
+        console.log('ATTENTION: default switch called')
         return callback("ERR: [" + questionType + "] not supported yet")
         break;
       }

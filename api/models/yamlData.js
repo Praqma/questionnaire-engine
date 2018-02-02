@@ -120,7 +120,6 @@ function getJsonByPath(path) {
 
 function getDirById(id) {
   let dirPath = path.join(__dirname, '../../', config.contentDir)
-  console.log('Dir:', dirPath)
   let questionnaireDirs = getDirsWithLayoutFile(dirPath)
 
   for (var index = 0; index < questionnaireDirs.length; index++) {
