@@ -4,6 +4,7 @@ const yamlData = require('./yamlData')
 const assert = require('assert')
 const async = require('async')
 const randomColor = require('../helpers/randomColor')
+const _ = require('lodash')
 // let exports = module.exports = {};
 
 exports.getAllAnswersById = function (questionnaireID, callback) {
@@ -51,6 +52,7 @@ exports.getAllAnswersById = function (questionnaireID, callback) {
     } else {
       // console.log('All files have been processed successfully');
       connection.close()
+      response.results = _.sortBy(response.results, ['formID'], ['asc'])
       return callback(null, response)
     }
   })
