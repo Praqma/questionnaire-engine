@@ -1,12 +1,12 @@
 require('dotenv').load();
-import * as connection from '../config/dbConnection'
-import * as yamlData from './yamlData'
-import assert from 'assert'
-import async from 'async'
-import randomColor from '../helpers/randomColor'
-import _ from 'lodash'
+const connection = require('../config/dbConnection')
+const yamlData = require('./yamlData')
+const assert = require('assert')
+const async = require('async')
+const randomColor = require('../helpers/randomColor')
+// let exports = module.exports = {};
 
-export function getAllAnswersById(questionnaireID, callback) {
+exports.getAllAnswersById = function (questionnaireID, callback) {
   let response = {
     results: []
   }
@@ -37,7 +37,8 @@ export function getAllAnswersById(questionnaireID, callback) {
             }
             formResults.push(data)
             if (formResults.length === objectsToFill) {
-              response.results.push({
+              console.log('Responding for question: ', question)
+              return response.results.push({
                 formID, formResults
               })
             }
@@ -345,7 +346,7 @@ function getFormInfo(questionnaireID, formID, callback) {
 }
 
 // Insert an answer submitted by a client to the database
-export function insertFormResponse(questionnaireID, requestPayload, callback) {
+exports.insertFormResponse = function (questionnaireID, requestPayload, callback) {
   // define required parameters for entry
   let version = requestPayload.version;
   let clientID = requestPayload.clientID;

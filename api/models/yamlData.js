@@ -1,14 +1,14 @@
 'use strict'
-import fs from 'fs'
-import yamljs from 'yamljs'
-import path from 'path'
-import config from '../config/config'
+const fs = require('fs')
+const yamljs = require('yamljs')
+const path = require('path')
+const config = require('../config/config')
 
 let basePath = process.env.PWD || '/usr/src/app'
 
 // FEAT: for yaml schema validation use Kwalify
 
-export function getQuestionnaireById(id) {
+exports.getQuestionnaireById = function (id) {
   let form = {}
   let dir = getDirById(id);
   let layoutData = getLayoutFile(id)
@@ -56,7 +56,7 @@ export function getQuestionnaireById(id) {
 }
 
 // returns an unordered array of all forms
-export function getAllFormsInQuestionnaire(id) {
+exports.getAllFormsInQuestionnaire = function(id) {
   let form = {}
   let formIDs = []
   let dir = getDirById(id);
@@ -119,7 +119,8 @@ function getJsonByPath(path) {
 }
 
 function getDirById(id) {
-  let dirPath = path.join(basePath, config.contentDir)
+  let dirPath = path.join(__dirname, '../../', config.contentDir)
+  console.log('Dir:', dirPath)
   let questionnaireDirs = getDirsWithLayoutFile(dirPath)
 
   for (var index = 0; index < questionnaireDirs.length; index++) {

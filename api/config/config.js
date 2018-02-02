@@ -1,5 +1,5 @@
-export default {
-  contentDir: '/content',
+module.exports = {
+  contentDir: 'content',
   defaultQuestionnaire: 'template',
   dbUri: 'mongodb://praqmadb:<dbpassword>@ds263137.mlab.com:63137/questionnaire-results'
 }

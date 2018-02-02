@@ -1,6 +1,6 @@
 module.exports = (function () {
   require('dotenv').load();
-  const configuration = require('./config').default
+  const configuration = require('./config')
   let MongoClient = require('mongodb').MongoClient;
   let connection;
 
