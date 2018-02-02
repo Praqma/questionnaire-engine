@@ -2,13 +2,13 @@
 
 Questionnaire Engine is a containerized web application that allows you to create and analyze forms written in YAML configuration files.
 
-Content is stored in the [questionnaire-models](https://github.com/Praqma/questionnaire-models) repository.
+Praqma stores their content in the [questionnaire-models](https://github.com/Praqma/questionnaire-models) repository.
+
+Read our [contributions guideline](/CONTRIBUTING.md) to learn more about how to make changes to the source code.
 
 ## Getting started
 
-These instructions will get you started with the web app.
-
-Read our [contributions guideline](/CONTRIBUTING.md) to learn more about how to make changes to the source code.
+The web application is given as a Docker image which can be attached to any content. This guide will walk you through the architecture, deployment and usage of the engine.
 
 ### Prerequisites
 
@@ -16,40 +16,117 @@ If you want to run the image in a container then you will need Docker. Follow [t
 
 ### Running the Web Application
 
-The application can be found in the docker store as `praqma/questionnaire-engine:<version>`, see the [tags on Dockerhub](https://hub.docker.com/r/praqma/questionnaire-engine/tags/). This is the core (*engine*) that contains the business logic. There are a few example questionnaires in the `content/` folder that you can use for inspiration.
+The application can be found in the Docker store as `praqma/questionnaire-engine`, see the [tags on Dockerhub](https://hub.docker.com/r/praqma/questionnaire-engine/tags/). This is the core (*engine*) that contains the business logic. There are a few example questionnaires in the `content/` folder that you can use for inspiration.
 
-Run this command to start the application. It will pull the image from Docker hub and start the app in a container
+If you want to serve the content, use the `praqma/questionnaire-models` image instead.
+
+Run the following command to start the web application in a container
 
 ```shell
-docker run --rm -it -p 3000:3000 --env DB_PASSWORD=<dbpassword> praqma/questionnaire-engine:0.1.50 npm start
+docker run --rm -it -p 8080:3000 --env DB_PASSWORD=<dbpassword> praqma/questionnaire-engine:<version> npm start
 
 # --rm            remove the container after exiting
 # -it             run container with interactive terminal attached
-# -p 8080:3000    expose port 3000 and map it to the external port 8080
-# --env DB_PASSWORD=<dbpassword>    insert your database password. See Credentials seciton.
-# praqma/questionnaire-engine:1.0   image name and version
-# npm start       command to run inside container
+# -p 8080:3000    expose container port 3000 and map it to the external port 8080
+# -e DB_PASSWORD=<dbpassword>    insert your database password as env var. See §Credentials
+# praqma/questionnaire-engine:<version>   image name and version
+# npm start       execute command to start the server - not needed for the models
 ```
 
 Find the database password inside Praqma's password manager under the name `Database user on Mlab`
 
+
+## Customize
+
+> If you want to edit Praqma's questionnaires that are live on the website head over to the [`questionnaire-models`](https://github.com/Praqma/questionnaire-models) repository.
+
+You can add, modify and delete questionnaires in `/content` where each questionnaire lives within its own directory. At the root level a questionnaire must have a `Layout.yml` file describing the meta information. 
+
+A questionnaire consists of multiple forms which are defined in YAML files. These form description files can live in any subdirectory within the root folder of the questionnaire and are referenced by their filenames.
+
+> See the template questionnaire in `/content/template` to learn more about folder and files structure, and how you can define your forms.
+
+The ID attribute in the `Layout.yml` file defines the unique name of the questionnaire by which it's references in the URL:
+
+```yml
+# Layout.yml
+id: your-questionnaire
+```
+
+```markup
+Path to the questionnaire:
+https://yourdomain.com/<your-questionnaire>
+
+Path to the results:
+https://yourdomain.com/results/<your-questionnaire>
+```
+
 ## Deployment
 
-The web application is running in Docker containers. There is a main image containing the engine called `questionnaire-engine` which also contains some example content.
+We deploy our content to Amazon Elastic Container Service as a Docker image.
 
-Another image called `questionnaire-models` that will contain the questionnaire content is created based on the engine image. This holds an arbitrary number of forms. Adding a new form under the `content/` folder of this repo will be deployed under the right domain. Read more about how to set up your own content repository for the engine [here](https://github.com/Praqma/questionnaire-models).
+### Docker images
+
+`questionnaire-engine` is the main image containing the business logic and it also has some example content.
+
+`questionnaire-models` is built on top of the engine and holds Praqma's questionnaire content. Running docker build will take your questionnaires and couple it with the engine into an image. This is then deployed to AWS.
+
+```Dockerfile
+# Dockerfile
+FROM praqma/questionnaire-engine:0.1.72
+WORKDIR /usr/src/app
+COPY ./content ./content
+CMD [ "npm", "start" ]
+```
 
 ### CI Pipeline
 
-A [CI pipeline](https://circleci.com/gh/Praqma/questionnaire-engine) is running on Circle CI that checks out our source code on each commit. It installs the dependencies and builds the server and client side source code for production. After verifying that the tests pass it builds a new Docker image and pushes that to Praqma's [repository on Dockerhub](https://hub.docker.com/r/praqma/questionnaire-engine/).
+A [CI pipeline](https://circleci.com/gh/Praqma/questionnaire-engine) is running on Circle CI that checks out our source code on each commit. It installs the dependencies and builds the server and client side source code for production. After verifying that the tests pass it builds a new Docker image and pushes that to Praqma's repository on Dockerhub.
+
+#### `questionnaire-engine` pipeline ([link](https://circleci.com/gh/Praqma/questionnaire-engine))
+
+- [x] Builds the client and server side code
+- [x] Run the tests
+- [x] Build a Docker image
+- [x] Push the image to [Dockerhub](https://hub.docker.com/r/praqma/questionnaire-engine/)
+
+#### `questionnaire-models` pipeline ([link](https://circleci.com/gh/Praqma/questionnaire-models))
+
+- [x] Build a Docker image based on top of the engine
+- [x] Push this image to [Dockerhub](https://hub.docker.com/r/praqma/questionnaire-models/)
+- [x] Deploy that image to AWS Fargate
 
 ![Deployment Description](/docs/deployment-description.png)
+
+#### Environment Variables
+
+Both pipelines are using the same environment variables defined on Circle CI. Find the credentials in Praqma's password manager.
+
+|Name|Description|
+|--|--|
+|DB_PASSWORD|Password for Praqma's database user on mlab.com|
+|AWS_ACCESS_KEY_ID|Acces key for the AWS account the pipeline deploys to|
+|AWS_SECRET_ACCESS_KEY|Secret access key for AWS account|
+|DOCKER_USER|Username to the Docker account where the image is pushed by the pipeline|
+|DOCKER_PASS|Password for the Docker account|
 
 ## Database
 
 We are using the free sandbox plan of Mlab.com. It gives us 0.5 GB of storage which is ample as we only store textual content. 
 
-Every new questionnaire is stored in a diferent document inside the same database - think of it as a table in the SQL world.
+Every new questionnaire is stored in a diferent collection inside the same database.
+```json
+_id: ObjectId("5a61c7cafef70a203f3e2469")
+version: "1.0.0"
+clientID: 7391
+formID: "form2"
+lastUpdated: "2018-01-19 11:26:18.665"
+answers: Object
+  "question1": "Praqma"
+  "question2": Array
+    0:
+      "Red"
+```
 
 Credentials to access Mlab.com are stored in our password manager. In order to authenticate with the database, see the password entry under `Database user on Mlab`. This password has to be provided to the docker image to be able to connect to our database.
 
@@ -105,9 +182,10 @@ Credentials to access Mlab.com are stored in our password manager. In order to a
 |Linting|eslint|
 |Testing|mocha|
 |Asserting|chai|
-|Continuous integration|AWS CodePipeline w/ Jenkins|
 |MVC framework|Vue.js|
 |CSS framework|Bootstrap 4|
 |Database|MongoDB on mlab.com|
 |Containerization|Docker|
+|Continuous integration|Circle CI|
+|Deployment|AWS Fargate|
 

@@ -1,9 +1,9 @@
 # Questionnaire basics
-id: template # unique id of the questionnaire
+id: template # URL path to questionnaire
 version: 1.0.0 # 3 point decimal precision
 
 # Content info
-iconURL: "http://code-maturity.praqma.com/images/praqma-logo.png"
+iconURL: "http://code-maturity.praqma.com/images/praqma-logo.png" # icon in the navigation bar
 header: Simple template
 links:
   - title: Praqma
@@ -15,7 +15,7 @@ links:
 footer: Why do Java developers wear glasses? Because they can't C#
 
 # Content body
-# introYaml: quick-intro # name of the yml file whose form will be the intro
+# introYaml: quick-intro # name of the yml file which will be the intro form
 labels:
 - [First, Second]
 - [Start here, Second row, Third row]
