@@ -1,5 +1,7 @@
 # Questionnaire Engine
 
+[![CircleCI](https://circleci.com/gh/Praqma/questionnaire-engine.svg?style=svg)](https://circleci.com/gh/Praqma/questionnaire-engine)
+
 Questionnaire Engine is a containerized web application that allows you to create and analyze forms written in YAML configuration files.
 
 Praqma stores their content in the [questionnaire-models](https://github.com/Praqma/questionnaire-models) repository.
@@ -12,7 +14,7 @@ The web application is given as a Docker image which can be attached to any cont
 
 ### Prerequisites
 
-If you want to run the image in a container then you will need Docker. Follow [this tutorial](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04) to install Docker on Ubuntu.
+You will need **Docker** to run the image. Follow [this tutorial](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04) to install Docker on Ubuntu.
 
 ### Running the Web Application
 
@@ -23,12 +25,12 @@ If you want to serve the content, use the `praqma/questionnaire-models` image in
 Run the following command to start the web application in a container
 
 ```shell
-docker run --rm -it -p 8080:3000 --env DB_PASSWORD=<dbpassword> praqma/questionnaire-engine:<version> npm start
+docker run --rm -it -p 8080:3000 -e DB_PASSWORD=<pass> praqma/questionnaire-engine:<version> npm start
 
 # --rm            remove the container after exiting
 # -it             run container with interactive terminal attached
 # -p 8080:3000    expose container port 3000 and map it to the external port 8080
-# -e DB_PASSWORD=<dbpassword>    insert your database password as env var. See §Credentials
+# -e DB_PASSWORD=<pass>    insert your database password as env var. See §Credentials
 # praqma/questionnaire-engine:<version>   image name and version
 # npm start       execute command to start the server - not needed for the models
 ```
@@ -85,16 +87,16 @@ A [CI pipeline](https://circleci.com/gh/Praqma/questionnaire-engine) is running 
 
 #### `questionnaire-engine` pipeline ([link](https://circleci.com/gh/Praqma/questionnaire-engine))
 
-- [x] Builds the client and server side code
-- [x] Run the tests
-- [x] Build a Docker image
-- [x] Push the image to [Dockerhub](https://hub.docker.com/r/praqma/questionnaire-engine/)
+- Builds the client and server side code
+- Run the tests
+- Build a Docker image
+- Push the image to [Dockerhub](https://hub.docker.com/r/praqma/questionnaire-engine/)
 
 #### `questionnaire-models` pipeline ([link](https://circleci.com/gh/Praqma/questionnaire-models))
 
-- [x] Build a Docker image based on top of the engine
-- [x] Push this image to [Dockerhub](https://hub.docker.com/r/praqma/questionnaire-models/)
-- [x] Deploy that image to AWS Fargate
+- Build a Docker image based on the engine
+- Push this image to [Dockerhub](https://hub.docker.com/r/praqma/questionnaire-models/)
+- Deploy that image to AWS Fargate
 
 ![Deployment Description](/docs/deployment-description.png)
 
@@ -114,7 +116,8 @@ Both pipelines are using the same environment variables defined on Circle CI. Fi
 
 We are using the free sandbox plan of Mlab.com. It gives us 0.5 GB of storage which is ample as we only store textual content. 
 
-Every new questionnaire is stored in a diferent collection inside the same database.
+Every new questionnaire is stored in a diferent collection inside the same database. The inserted records are JSON documents.
+
 ```json
 _id: ObjectId("5a61c7cafef70a203f3e2469")
 version: "1.0.0"
@@ -127,8 +130,6 @@ answers: Object
     0:
       "Red"
 ```
-
-Credentials to access Mlab.com are stored in our password manager. In order to authenticate with the database, see the password entry under `Database user on Mlab`. This password has to be provided to the docker image to be able to connect to our database.
 
 ## API Protocol
 
