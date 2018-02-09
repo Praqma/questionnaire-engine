@@ -25,12 +25,14 @@ If you want to serve the content, use the `praqma/questionnaire-models` image in
 Run the following command to start the web application in a container
 
 ```shell
-docker run --rm -it -p 8080:3000 -e DB_PASSWORD=<pass> praqma/questionnaire-engine:<version> npm start
+docker run --rm -it -p 8080:3000 -e DB_URI=<database_uri> praqma/questionnaire-engine:<version> npm start
 
 # --rm            remove the container after exiting
 # -it             run container with interactive terminal attached
 # -p 8080:3000    expose container port 3000 and map it to the external port 8080
-# -e DB_PASSWORD=<pass>    insert your database password as env var. See §Credentials
+# -e DB_URI=<uri>      insert your database URI as env var. See §Credentials
+# -e DB_PASSWORD=<pass>   [optional] insert your database password as env var. 
+#                         See §Environment variables for more details
 # praqma/questionnaire-engine:<version>   image name and version
 # npm start       execute command to start the server - not needed for the models
 ```
@@ -106,11 +108,14 @@ Both pipelines are using the same environment variables defined on Circle CI. Fi
 
 |Name|Description|
 |--|--|
-|DB_PASSWORD|Password for Praqma's database user on mlab.com|
+|DB_URI|Database connection string to mlab|
+|DB_PASSWORD (*optional)|Password for Praqma's database user on mlab.com|
 |AWS_ACCESS_KEY_ID|Acces key for the AWS account the pipeline deploys to|
 |AWS_SECRET_ACCESS_KEY|Secret access key for AWS account|
 |DOCKER_USER|Username to the Docker account where the image is pushed by the pipeline|
 |DOCKER_PASS|Password for the Docker account|
+
+> \* The `DB_PASSWORD` environment variable is optional. You can have the password in the database connection string (`DB_URI` env var) explicitly or you can have `<dbpassword>` in the URI and that will be replaced with the `DB_PASSWORD` env var you provide.
 
 ## Database
 
