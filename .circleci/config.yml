@@ -14,8 +14,10 @@ jobs:
       - run:
           name: Export interpolated environment variables # expose circle ci environment variables inside container session
           command: |
-            source version.sh
-            echo 'export VERSION=$(echo $VERSION).$CIRCLE_BUILD_NUM' >> $BASH_ENV
+            # source version.sh
+            # echo 'export VERSION=$(echo $VERSION).$CIRCLE_BUILD_NUM' >> $BASH_ENV
+            cat version.sh >> $BASH_ENV
+            echo $VERSION
       - run:
           name: Install npm dependencies
           command: npm install
