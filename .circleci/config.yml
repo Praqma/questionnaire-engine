@@ -12,7 +12,7 @@ jobs:
       - setup_remote_docker:
           docker_layer_caching: true
       - run:
-          name: Export interpolated environment variables # expose circle ci environment variables inside container session
+          name: Set environment variable
           command: |
             cat version.sh >> $BASH_ENV
             VERSION=${VERSION}.$CIRCLE_BUILD_NUM
