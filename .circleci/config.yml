@@ -65,6 +65,12 @@ jobs:
     environment:
       - TAG: praqma/questionnaire-engine
     steps:
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: Set environment variable
+          command: |
+            source version.sh && echo "export VERSION=$VERSION.$CIRCLE_BUILD_NUM" >> $BASH_ENV
       - run: docker images
       - run:
           name: Deploy to Dockerhub
