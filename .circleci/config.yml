@@ -9,8 +9,6 @@ jobs:
       - TAG: praqma/questionnaire-engine
     steps:
       - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
       - run:
           name: Set environment variable
           command: |
@@ -43,6 +41,8 @@ jobs:
     environment:
       - TAG: praqma/questionnaire-engine
     steps:
+      - setup_remote_docker:
+        docker_layer_caching: true
       - run:
           name: Login to Docker hub
           command: docker login --username $DOCKER_USER --password "$DOCKER_PASS"
