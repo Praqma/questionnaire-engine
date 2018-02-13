@@ -15,9 +15,15 @@ jobs:
           name: Set environment variable
           command: |
             source version.sh && echo "export VERSION=$VERSION.$CIRCLE_BUILD_NUM" >> $BASH_ENV
+      - restore_cache:
+          key: ee-root-{{ checksum "package.json"}}
       - run:
           name: Install npm dependencies
           command: npm install
+      - save_cache:
+          key: ee-root-{{ checksum "package.json"}}
+          paths:
+            - ./node_modules
       - run:
           name: Build back and front-end source code (transpile to ES5)
           command: npm run build
