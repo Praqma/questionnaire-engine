@@ -1,5 +1,5 @@
-# node.js dependency packages
-# node_modules
+# node.js dependency packages - takes too long to send dependencies to Docker daemon
+node_modules
 
 # docs are not needed in the image
 docs
