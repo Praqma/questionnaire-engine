@@ -1,6 +1,7 @@
 # Questionnaire Engine
 
-[![CircleCI](https://circleci.com/gh/Praqma/questionnaire-engine.svg?style=svg)](https://circleci.com/gh/Praqma/questionnaire-engine)
+[![CircleCI](https://img.shields.io/circleci/project/github/RedSparr0w/node-csgo-parser.svg)](https://circleci.com/gh/Praqma/questionnaire-engine/tree/master)
+[![Docker Hub](https://img.shields.io/badge/Docker-image-blue.svg)](https://hub.docker.com/r/praqma/questionnaire-engine/tags/)
 
 Questionnaire Engine is a containerized web application that allows you to create and analyze forms written in YAML configuration files.
 
