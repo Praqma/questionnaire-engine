@@ -48,7 +48,7 @@ jobs:
           root: docker
           paths:
             - engine-image.tar
-            - image-name.txt
+            - vars.sh
 
       # - run:        // Removed for now...
       #     name: Run container
