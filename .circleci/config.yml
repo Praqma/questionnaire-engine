@@ -14,7 +14,7 @@ jobs:
       - run:
           name: Set environment variable
           command: |
-            source version.sh $$ echo 'export VERSION=$VERSION.$CIRCLE_BUILD_NUM' >> $BASH_ENV
+            source version.sh && echo 'export VERSION=$VERSION.$CIRCLE_BUILD_NUM' >> $BASH_ENV
       - run:
           name: Install npm dependencies
           command: npm install
