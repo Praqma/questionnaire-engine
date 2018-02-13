@@ -39,27 +39,16 @@ jobs:
             docker build --tag $TAG:$VERSION .
       - run: mkdir -p docker
       - run:
-          name: Save docker image
-          command: docker save $TAG:$VERSION > docker/engine-image.tar
+          name: Save docker image and vars
+          command: |
+            docker save $TAG:$VERSION > docker/engine-image.tar
+            echo "IMAGE_NAME=$TAG:$VERSION" >> docker/vars.sh
+            echo "VERSION=$VERSION" >> docker/vars.sh
       - persist_to_workspace:
           root: docker
           paths:
             - engine-image.tar
-      # - run:
-      #     name: Deploy to Dockerhub
-      #     command: |
-      #       if [ "${CIRCLE_BRANCH}" == "master" ]; then
-      #         docker push $TAG:$VERSION
-      #       fi
-      # - add_ssh_keys:
-      #     fingerprints:
-      #       - "e0:5e:f9:7b:80:7f:48:0a:2f:d9:f7:27:2b:c3:75:9a"
-      # - run:
-      #     name: Tag version on GitHub
-      #     command: |
-      #       git tag $VERSION
-      #       git push origin --tags
-
+            - image-name.txt
 
       # - run:        // Removed for now...
       #     name: Run container
@@ -75,15 +64,28 @@ jobs:
     steps:
       - setup_remote_docker:
           docker_layer_caching: true
-      - run: echo "VERSION=0.1.0" > version.sh
-      - run:
-          name: Set environment variable
-          command: |
-            source version.sh && echo "export VERSION=$VERSION.$CIRCLE_BUILD_NUM" >> $BASH_ENV
-
       - attach_workspace:
           at: ~/repo/docker
-      - run: docker load < docker/engine-image.tar
+      - run:
+          name: Set environment variable
+          command: source docker/vars.sh && echo "export VERSION=$VERSION" >> $BASH_ENV && echo "export IMAGE_NAME=$IMAGE_NAME" >> $BASH_ENV
+      - run:
+          name: Load docker image from .tar
+          command: docker load < docker/engine-image.tar
+      - run:
+        name: Deploy to Dockerhub
+        command: |
+          if [ "${CIRCLE_BRANCH}" == "master" ]; then
+            docker push $IMAGE_NAME
+          fi
+    - add_ssh_keys:
+        fingerprints:
+          - "e0:5e:f9:7b:80:7f:48:0a:2f:d9:f7:27:2b:c3:75:9a"
+    - run:
+        name: Tag version on GitHub
+        command: |
+          git tag $VERSION
+          git push origin --tags
 
 
 
