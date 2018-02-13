@@ -37,6 +37,14 @@ jobs:
           name: Build Docker image
           command: |
             docker build --tag $TAG:$VERSION .
+      - run: mkdir -p docker
+      - run:
+          name: Save docker image
+          command: docker save $TAG:$VERSION > docker/engine-image.tar
+      - persist_to_workspace:
+          root: docker
+          paths:
+            - engine-image.tar
       # - run:
       #     name: Deploy to Dockerhub
       #     command: |
@@ -72,13 +80,11 @@ jobs:
           name: Set environment variable
           command: |
             source version.sh && echo "export VERSION=$VERSION.$CIRCLE_BUILD_NUM" >> $BASH_ENV
-      - run: docker images
-      - run:
-          name: Deploy to Dockerhub
-          command: |
-            if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              docker push $TAG:$VERSION
-            fi
+
+      - attach_workspace:
+          at: ~/repo/docker
+      - run: docker load < docker/engine-image.tar
+
 
 
 workflows:
