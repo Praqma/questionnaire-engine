@@ -30,6 +30,19 @@ jobs:
       - run:
           name: Run tests
           command: npm test
+
+      # - run:        // Removed for now...
+      #     name: Run container
+      #     command: |
+      #       docker run -d --rm -it -p 3000:3000 --name engine $TAG:$VERSION npm start
+      #       docker stop engine
+  deploy:
+    docker:
+      - image: docker:17.05.0-ce-git
+    working_directory: ~/repo
+    environment:
+      - TAG: praqma/questionnaire-engine
+    steps:
       - run:
           name: Login to Docker hub
           command: docker login --username $DOCKER_USER --password "$DOCKER_PASS"
@@ -37,11 +50,6 @@ jobs:
           name: Build Docker image
           command: |
             docker build --tag $TAG:$VERSION .
-      # - run:        // Removed for now...
-      #     name: Run container
-      #     command: |
-      #       docker run -d --rm -it -p 3000:3000 --name engine $TAG:$VERSION npm start
-      #       docker stop engine
       - run:
           name: Deploy to Dockerhub
           command: |
@@ -56,3 +64,16 @@ jobs:
           command: |
             git tag $VERSION
             git push origin --tags
+
+workflows:
+  version: 2
+  build-and-approval-deploy:
+    jobs:
+      - build
+      - hold:
+          type: approval
+          requires:
+            - build
+      - deploy:
+          requires:
+            - hold
