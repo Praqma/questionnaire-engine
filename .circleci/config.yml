@@ -76,7 +76,7 @@ jobs:
           name: Deploy to Dockerhub
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              docker push $IMAGE_NAME
+              source $BASH_ENV && docker push $IMAGE_NAME   # source bash_env vars since it is not sourced by circleci
             fi
       - add_ssh_keys:
           fingerprints:
@@ -84,7 +84,7 @@ jobs:
       - run:
           name: Tag version on GitHub
           command: |
-            git tag $VERSION
+            source $BASH_ENV && git tag $VERSION
             git push origin --tags
 
 workflows:
