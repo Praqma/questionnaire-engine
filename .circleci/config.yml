@@ -38,9 +38,9 @@ jobs:
       - run:
           name: Save docker image and vars
           command: |
-            docker save $TAG:$VERSION > docker/engine-image.tar
-            echo "IMAGE_NAME=$TAG:$VERSION" >> docker/vars.sh
-            echo "VERSION=$VERSION" >> docker/vars.sh
+            docker save $TAG:$VERSION > ~/engine-image.tar
+            echo "IMAGE_NAME=$TAG:$VERSION" >> ~/vars.sh
+            echo "VERSION=$VERSION" >> ~/vars.sh
       - persist_to_workspace:
           root: ~/
           paths:
@@ -62,13 +62,13 @@ jobs:
       - setup_remote_docker:
           docker_layer_caching: true
       - attach_workspace:
-          at: ~/docker
+          at: ~/
       - run:
           name: Set environment variable
-          command: source docker/vars.sh && echo "export VERSION=$VERSION" >> $BASH_ENV && echo "export IMAGE_NAME=$IMAGE_NAME" >> $BASH_ENV
+          command: source vars.sh && echo "export VERSION=$VERSION" >> $BASH_ENV && echo "export IMAGE_NAME=$IMAGE_NAME" >> $BASH_ENV
       - run:
           name: Load docker image from .tar
-          command: docker load < docker/engine-image.tar
+          command: docker load < engine-image.tar
       - run:
           name: Login to Docker hub
           command: docker login --username $DOCKER_USER --password "$DOCKER_PASS"
