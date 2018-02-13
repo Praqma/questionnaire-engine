@@ -67,6 +67,7 @@ jobs:
     steps:
       - setup_remote_docker:
           docker_layer_caching: true
+      - run: echo "VERSION=0.1.0" > version.sh
       - run:
           name: Set environment variable
           command: |
