@@ -44,7 +44,7 @@ jobs:
             fi
       - add_ssh_keys:
           fingerprints:
-            - "b7:35:a6:4e:9b:0d:6d:d4:78:1e:9a:97:2a:66:6b:be"
+            - "e0:5e:f9:7b:80:7f:48:0a:2f:d9:f7:27:2b:c3:75:9a"
       - run:
           name: Tag version on GitHub
           command: |
