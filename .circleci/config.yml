@@ -81,6 +81,8 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "e0:5e:f9:7b:80:7f:48:0a:2f:d9:f7:27:2b:c3:75:9a"
+      - run: cd ~/repo
+      - checkout
       - run:
           name: Tag version on GitHub
           command: |
