@@ -1,5 +1,5 @@
 # node.js dependency packages
-node_modules
+# node_modules
 
 # docs are not needed in the image
 docs

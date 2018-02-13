@@ -16,12 +16,12 @@ jobs:
           command: |
             source version.sh && echo "export VERSION=$VERSION.$CIRCLE_BUILD_NUM" >> $BASH_ENV
       - restore_cache:
-          key: ee-root-{{ checksum "package.json"}}
+          key: dependencies-{{ checksum "package.json"}}
       - run:
           name: Install npm dependencies
           command: npm install
       - save_cache:
-          key: ee-root-{{ checksum "package.json"}}
+          key: dependencies-{{ checksum "package.json"}}
           paths:
             - ./node_modules
       - run:
