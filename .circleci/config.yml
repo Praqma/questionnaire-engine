@@ -9,10 +9,6 @@ jobs:
       - TAG: praqma/questionnaire-engine
     steps:
       - checkout
-      - run:
-          name: Set environment variable
-          command: |
-            source version.sh && echo "export VERSION=$VERSION.$CIRCLE_BUILD_NUM" >> $BASH_ENV
       - restore_cache:
           key: dependencies-{{ checksum "package.json"}}
       - run:
@@ -43,6 +39,10 @@ jobs:
     steps:
       - setup_remote_docker:
           docker_layer_caching: true
+      - run:
+          name: Set environment variable
+          command: |
+            source version.sh && echo "export VERSION=$VERSION.$CIRCLE_BUILD_NUM" >> $BASH_ENV
       - run:
           name: Login to Docker hub
           command: docker login --username $DOCKER_USER --password "$DOCKER_PASS"
