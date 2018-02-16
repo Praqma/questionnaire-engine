@@ -54,12 +54,12 @@ jobs:
           paths:
             - engine-image.tar
             - vars.sh
-
-      # - run:        // Removed for now...
-      #     name: Run container
-      #     command: |
-      #       docker run -d --rm -it -p 3000:3000 --name engine $TAG:$VERSION npm start
-      #       docker stop engine
+      - run:
+          name: Run container
+          command: |
+            docker run -d --rm -p 3000:3000 --name engine $TAG:$VERSION npm start
+            phantomjs phantomTest.js
+            docker stop engine
   deploy:
     docker:
       - image: docker:17.05.0-ce-git
