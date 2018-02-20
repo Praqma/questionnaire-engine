@@ -57,7 +57,7 @@ jobs:
       - run:
           name: Run container
           command: |
-            docker run -d --rm -p 3000:3000 --name engine $TAG:$VERSION npm start
+            source $BASH_ENV && docker run -d -p 3000:3000 --name engine $TAG:$VERSION npm start
             phantomjs phantomTest.js
             docker stop engine
   deploy:
