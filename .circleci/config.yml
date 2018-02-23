@@ -12,8 +12,9 @@ jobs:
       - run:
           name: Set environment variable
           command: |
-            source version.sh && echo "export VERSION=$VERSION.$CIRCLE_BUILD_NUM" >> $BASH_ENV && echo "export AWS_PROD_SERVICE_NAME=qe-prod-$VERSION" >> $BASH_ENV
-            echo "aws prod service name $AWS_PROD_SERVICE_NAME"
+            source version.sh && echo "export VERSION=$VERSION.$CIRCLE_BUILD_NUM" >> $BASH_ENV
+            source $BASH_ENV && echo "export AWS_PROD_SERVICE_NAME=QE-prod-$VERSION" >> $BASH_ENV
+      - run: echo "aws prod service name $AWS_PROD_SERVICE_NAME"
       - restore_cache:
           keys:
             # - dependencies-fargate
