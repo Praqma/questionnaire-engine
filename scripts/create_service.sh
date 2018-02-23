@@ -28,7 +28,6 @@ wait_for_ip() {
     echo "SERVICE_NAME not found. Did you source your env vars?"
   fi
 
-  message="[i] Server is starting up\c"
   while [[ $RUNNING -ne "1" ]]
   do
     RUNNING=$(check_service_status)
@@ -37,8 +36,7 @@ wait_for_ip() {
       echo "Server is running on IP $(get_ip)"
       break
     elif [ "$RUNNING" == "0" ]; then
-      echo $message
-      message=".\c"
+      echo "[i] Server is starting up..."
     else
       echo "[!] Could not read service status."
     fi
