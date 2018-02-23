@@ -117,7 +117,7 @@ jobs:
       - checkout:
           path: ~/repo
 
-      - run: echo "At this point we must have IMAGE_NAME reflect the build number - $IMAGE_NAME" $$ echo "and version too - $VERSION"
+      - run: echo "At this point we must have IMAGE_NAME reflect the build number=$IMAGE_NAME"
       - run:
           name: Create service on AWS Fargate
           command: source $BASH_ENV && source ~/repo/scripts/create_service.sh $AWS_PROD_SERVICE_NAME $IMAGE_NAME test $DB_URI
