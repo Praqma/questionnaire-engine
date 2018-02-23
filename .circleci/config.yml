@@ -90,7 +90,6 @@ jobs:
             sudo wget -O fargatecli.zip https://github.com/jpignata/fargate/releases/download/v0.2.3/fargate-0.2.3-linux-386.zip
             sudo unzip fargatecli.zip && sudo rm fargatecli.zip
             export PATH=$PATH:/.
-            cd ~/repo
       - setup_remote_docker:
           docker_layer_caching: true
       - attach_workspace:
