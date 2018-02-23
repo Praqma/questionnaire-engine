@@ -13,7 +13,7 @@ jobs:
           name: Set environment variable
           command: |
             source version.sh && echo "export VERSION=$VERSION.$CIRCLE_BUILD_NUM" >> $BASH_ENV
-            source $BASH_ENV && echo "export AWS_PROD_SERVICE_NAME=QE-prod-$VERSION" >> $BASH_ENV
+
       - restore_cache:
           keys:
             # - dependencies-fargate
@@ -53,10 +53,6 @@ jobs:
       #     paths:
       #       - /usr/local/bin/phantomjs
       # run script to create service on AWS Fargate
-      - run: echo "At this point we must have VERSION reflect the build number - $VERSION"
-      - run:
-          name: Create service on AWS Fargate
-          command: source ~/repo/scripts/create_service.sh $AWS_PROD_SERVICE_NAME praqma/questionnaire-engine:0.1.0 test $DB_URI
 
       - run:
           name: Build back and front-end source code (transpile to ES5)
@@ -99,7 +95,9 @@ jobs:
           at: ~/
       - run:
           name: Set environment variable
-          command: source vars.sh && echo "export VERSION=$VERSION" >> $BASH_ENV && echo "export IMAGE_NAME=$IMAGE_NAME" >> $BASH_ENV
+          command: |
+            source vars.sh && echo "export VERSION=$VERSION" >> $BASH_ENV && echo "export IMAGE_NAME=$IMAGE_NAME" >> $BASH_ENV
+            source $BASH_ENV && echo "export AWS_PROD_SERVICE_NAME=QE-prod-$VERSION" >> $BASH_ENV
       - run:
           name: Load docker image from .tar
           command: docker load < engine-image.tar
@@ -117,6 +115,12 @@ jobs:
             - "e0:5e:f9:7b:80:7f:48:0a:2f:d9:f7:27:2b:c3:75:9a"
       - checkout:
           path: ~/repo
+
+      - run: echo "At this point we must have IMAGE_NAME reflect the build number - $IMAGE_NAME" $$ echo "and version too - $VERSION"
+      - run:
+          name: Create service on AWS Fargate
+          command: source ~/repo/scripts/create_service.sh $AWS_PROD_SERVICE_NAME $TAG:$VERSION test $DB_URI
+
       - run:
           name: Tag version on GitHub
           command: |
