@@ -51,6 +51,11 @@ wait_for_ip() {
   done
 }
 
+# Deploy image to AWS Fargate
 create_service
+
+# Ping server until it boots up
 wait_for_ip
+
+# Return IP of the running server
 export IP=$(get_ip)
