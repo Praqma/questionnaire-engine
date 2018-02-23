@@ -2,13 +2,12 @@
 # source /scripts/create_service.sh   <service-name>  <image-tag>                       <environment>   <db-uri>
 # source /scripts/create_service.sh   aws-qe-deploy   praqma/questionaire-engine:0.1.0  test            "mongodb://praqmadb:..."
 
-# ATTENTION: the grep command requires the -P flag for regex to work on this CI server - might throw error on differenc linux versions
+# ATTENTION: the grep command requires the -P or -G flag for regex to work on this CI server - might throw error on different linux versions
 
 SERVICE_NAME=$1
 IMAGE_TAG=$2
 ENV=$3
 DB_URI=$4
-
 
 create_service() {
   echo "Creating service..."

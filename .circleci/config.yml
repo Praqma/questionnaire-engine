@@ -60,7 +60,9 @@ jobs:
           docker_layer_caching: true
       - run:
           name: Set environment variable
-          command: source version.sh && echo "export VERSION=$VERSION.$CIRCLE_BUILD_NUM" >> $BASH_ENV
+          command: |
+            source version.sh && echo "export VERSION=$VERSION.$CIRCLE_BUILD_NUM" >> $BASH_ENV && echo "export AWS_PROD_SERVICE_NAME=qe-prod-$VERSION" >> $BASH_ENV
+            echo "aws prod service name $AWS_PROD_SERVICE_NAME"
       - run:
           name: Build Docker image
           command: |
