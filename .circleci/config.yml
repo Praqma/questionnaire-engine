@@ -98,7 +98,7 @@ jobs:
           name: Set environment variable
           command: |
             source vars.sh && echo "export VERSION=$VERSION" >> $BASH_ENV && echo "export IMAGE_NAME=$IMAGE_NAME" >> $BASH_ENV
-            source $BASH_ENV && echo "export AWS_PROD_SERVICE_NAME=QE-prod-$VERSION" >> $BASH_ENV
+            source $BASH_ENV && echo "export AWS_SERVICE_NAME_PROD=qe-prod-$(echo $VERSION | tr "." "-")" >> $BASH_ENV
       - run:
           name: Load docker image from .tar
           command: docker load < engine-image.tar
