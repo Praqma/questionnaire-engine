@@ -25,6 +25,10 @@ get_ip() {
 
 SECONDS=0
 wait_for_ip() {
+  if [ "$SERVICE_NAME" == "" ]; then
+    echo "SERVICE_NAME not found. Did you source your env vars?"
+  fi
+
   while [[ $RUNNING -ne "1" ]]
   do
     RUNNING=$(check_service_status)
