@@ -13,12 +13,6 @@ create_service() {
   fargate service create $SERVICE_NAME --image praqma/questionnaire-engine:0.1.0 --env DB_URI=$DB_URI --env PORT=80
 }
 
-destroy_service() {
-  echo "Destroying service..."
-  fargate service scale $SERVICE_NAME 0
-  fargate service destroy $SERVICE_NAME
-}
-
 check_service_status() {
 	fargate service info $SERVICE_NAME | grep -o 'Running: \d' | grep -o '\d'
 }

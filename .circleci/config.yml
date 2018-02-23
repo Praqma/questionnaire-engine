@@ -10,7 +10,10 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: dependencies-{{ checksum "package.json"}}
+          keys:
+            # - dependencies-fargate
+            # - dependencies-phantomjs
+            - dependencies-{{ checksum "package.json"}}
       - run:
           name: Install npm dependencies
           command: npm install
@@ -18,11 +21,6 @@ jobs:
           key: dependencies-{{ checksum "package.json"}}
           paths:
             - ./node_modules
-      - restore_cache:
-          key: dependencies-fargate
-
-      - restore_cache:
-          key: dependencies-phantomjs
       - run:
           name: Install phantom.js
           command: |
@@ -41,14 +39,14 @@ jobs:
             sudo unzip fargatecli.zip && sudo rm fargatecli.zip
             export PATH=$PATH:/.
             cd ~/repo
-      - save_cache:
-          key: dependencies-fargate
-          paths:
-            - /usr/local/bin/fargate
-      - save_cache:
-          key: dependencies-phantomjs
-          paths:
-            - /usr/local/bin/phantomjs
+      # - save_cache:
+      #     key: dependencies-fargate
+      #     paths:
+      #       - /usr/local/bin/fargate
+      # - save_cache:
+      #     key: dependencies-phantomjs
+      #     paths:
+      #       - /usr/local/bin/phantomjs
 
       - run: source scripts/create_service.sh aws-qe-test praqma/questionnaire-engine:0.1.0 test $DB_URI
 
