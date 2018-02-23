@@ -18,6 +18,11 @@ jobs:
           key: dependencies-{{ checksum "package.json"}}
           paths:
             - ./node_modules
+      - restore_cache:
+          key: dependencies-fargate
+
+      - restore_cache:
+          key: dependencies-phantomjs
       - run:
           name: Install phantom.js
           command: |
@@ -27,6 +32,26 @@ jobs:
             sudo ln -sf /usr/local/share/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/local/bin
             cd ~/repo
             phantomjs --version
+      - run:
+          name: Install env dependencies (fargate)
+          command: |
+            sudo apt-get update && sudo apt-get install wget unzip -y
+            cd /usr/local/bin
+            sudo wget -O fargatecli.zip https://github.com/jpignata/fargate/releases/download/v0.2.3/fargate-0.2.3-linux-386.zip
+            sudo unzip fargatecli.zip && sudo rm fargatecli.zip
+            export PATH=$PATH:/.
+            cd ~/repo
+      - save_cache:
+          key: dependencies-fargate
+          paths:
+            - /usr/local/bin/fargate
+      - save_cache:
+          key: dependencies-phantomjs
+          paths:
+            - /usr/local/bin/phantomjs
+
+      - run: source scripts/create_service.sh aws-qe-test praqma/questionnaire-engine:0.1.0 test $DB_URI
+
       - run:
           name: Build back and front-end source code (transpile to ES5)
           command: npm run build
