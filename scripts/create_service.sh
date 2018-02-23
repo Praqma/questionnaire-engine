@@ -16,7 +16,7 @@ create_service() {
 }
 
 check_service_status() {
-	fargate service info $SERVICE_NAME | grep -oG 'Running: \d' | grep -oG '\d'
+	fargate service info $SERVICE_NAME | grep -oP 'Running: \d' | grep -oP '\d'
 }
 
 get_ip() {
