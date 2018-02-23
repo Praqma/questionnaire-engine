@@ -47,8 +47,8 @@ jobs:
       #     key: dependencies-phantomjs
       #     paths:
       #       - /usr/local/bin/phantomjs
-
-      - run: source scripts/create_service.sh aws-qe-test praqma/questionnaire-engine:0.1.0 test $DB_URI
+      # run script to create service on AWS Fargate
+      - run: source ~/repo/scripts/create_service.sh aws-qe-test praqma/questionnaire-engine:0.1.0 test $DB_URI
 
       - run:
           name: Build back and front-end source code (transpile to ES5)
