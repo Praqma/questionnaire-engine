@@ -9,6 +9,11 @@ jobs:
       - TAG: praqma/questionnaire-engine
     steps:
       - checkout
+      - run:
+          name: Set environment variable
+          command: |
+            source version.sh && echo "export VERSION=$VERSION.$CIRCLE_BUILD_NUM" >> $BASH_ENV && echo "export AWS_PROD_SERVICE_NAME=qe-prod-$VERSION" >> $BASH_ENV
+            echo "aws prod service name $AWS_PROD_SERVICE_NAME"
       - restore_cache:
           keys:
             # - dependencies-fargate
@@ -48,7 +53,7 @@ jobs:
       #     paths:
       #       - /usr/local/bin/phantomjs
       # run script to create service on AWS Fargate
-      - run: source ~/repo/scripts/create_service.sh aws-qe-test praqma/questionnaire-engine:0.1.0 test $DB_URI
+      - run: source ~/repo/scripts/create_service.sh $AWS_PROD_SERVICE_NAME praqma/questionnaire-engine:0.1.0 test $DB_URI
 
       - run:
           name: Build back and front-end source code (transpile to ES5)
@@ -58,11 +63,6 @@ jobs:
           command: npm test
       - setup_remote_docker:
           docker_layer_caching: true
-      - run:
-          name: Set environment variable
-          command: |
-            source version.sh && echo "export VERSION=$VERSION.$CIRCLE_BUILD_NUM" >> $BASH_ENV && echo "export AWS_PROD_SERVICE_NAME=qe-prod-$VERSION" >> $BASH_ENV
-            echo "aws prod service name $AWS_PROD_SERVICE_NAME"
       - run:
           name: Build Docker image
           command: |
