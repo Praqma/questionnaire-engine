@@ -14,7 +14,6 @@ jobs:
           command: |
             source version.sh && echo "export VERSION=$VERSION.$CIRCLE_BUILD_NUM" >> $BASH_ENV
             source $BASH_ENV && echo "export AWS_PROD_SERVICE_NAME=QE-prod-$VERSION" >> $BASH_ENV
-      - run: echo "aws prod service name $AWS_PROD_SERVICE_NAME"
       - restore_cache:
           keys:
             # - dependencies-fargate
@@ -54,7 +53,10 @@ jobs:
       #     paths:
       #       - /usr/local/bin/phantomjs
       # run script to create service on AWS Fargate
-      - run: source ~/repo/scripts/create_service.sh $AWS_PROD_SERVICE_NAME praqma/questionnaire-engine:0.1.0 test $DB_URI
+      - run: echo "At this point we must have VERSION reflect the build number - $VERSION"
+      - run:
+          name: Create service on AWS Fargate
+          command: source ~/repo/scripts/create_service.sh $AWS_PROD_SERVICE_NAME praqma/questionnaire-engine:0.1.0 test $DB_URI
 
       - run:
           name: Build back and front-end source code (transpile to ES5)
