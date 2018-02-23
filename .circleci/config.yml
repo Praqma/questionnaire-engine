@@ -81,7 +81,6 @@ jobs:
       - image: docker:17.05.0-ce-git
     working_directory: ~/
     steps:
-      - checkout
       - run:
           name: Install env dependencies (fargate)
           command: |
