@@ -78,6 +78,7 @@ jobs:
       #       docker stop engine
   deploy:
     docker:
+      - image: circleci/node:8.9.4
       - image: docker:17.05.0-ce-git
     working_directory: ~/
     steps:
