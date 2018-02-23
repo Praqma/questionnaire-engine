@@ -81,6 +81,7 @@ jobs:
       - image: docker:17.05.0-ce-git
     working_directory: ~/
     steps:
+      - checkout
       - setup_remote_docker:
           docker_layer_caching: true
       - attach_workspace:
@@ -93,10 +94,10 @@ jobs:
       - run:
           name: Install env dependencies (fargate)
           command: |
-            apt-get update && sudo apt-get install wget unzip -y
+            sudo apt-get update && sudo apt-get install wget unzip -y
             cd /usr/local/bin
-            wget -O fargatecli.zip https://github.com/jpignata/fargate/releases/download/v0.2.3/fargate-0.2.3-linux-386.zip
-            unzip fargatecli.zip && sudo rm fargatecli.zip
+            sudo wget -O fargatecli.zip https://github.com/jpignata/fargate/releases/download/v0.2.3/fargate-0.2.3-linux-386.zip
+            sudo unzip fargatecli.zip && sudo rm fargatecli.zip
             export PATH=$PATH:/.
             cd ~/repo
       - run:
