@@ -10,14 +10,13 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Set environment variable
+          name: Set environment variables
           command: |
             source version.sh && echo "export VERSION=$VERSION.$CIRCLE_BUILD_NUM" >> $BASH_ENV
-
       - restore_cache:
           keys:
-            # - dependencies-fargate
-            # - dependencies-phantomjs
+            - dependencies-fargate
+            - dependencies-phantomjs
             - dependencies-{{ checksum "package.json"}}
       - run:
           name: Install npm dependencies
@@ -33,25 +32,22 @@ jobs:
             wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2
             sudo tar xvjf phantomjs-2.1.1-linux-x86_64.tar.bz2 -C /usr/local/share/
             sudo ln -sf /usr/local/share/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/local/bin
-            cd ~/repo
-            phantomjs --version
-
-      # - save_cache:
-      #     key: dependencies-fargate
-      #     paths:
-      #       - /usr/local/bin/fargate
-      # - save_cache:
-      #     key: dependencies-phantomjs
-      #     paths:
-      #       - /usr/local/bin/phantomjs
-      # run script to create service on AWS Fargate
-
+      - save_cache:
+          key: dependencies-fargate
+          paths:
+            - /usr/local/bin/fargate
+      - save_cache:
+          key: dependencies-phantomjs
+          paths:
+            - /usr/local/bin/phantomjs
       - run:
           name: Build back and front-end source code (transpile to ES5)
           command: npm run build
       - run:
           name: Run tests
           command: npm test
+      # Code after this line will be executed on a remote docker host
+      # thus only a Docker environment will be available from this step (no linux packages)
       - setup_remote_docker:
           docker_layer_caching: true
       - run:
@@ -61,21 +57,14 @@ jobs:
       - run:
           name: Save docker image and vars
           command: |
-            mkdir -p docker
-            docker save $TAG:$VERSION > ~/engine-image.tar
+            docker save $TAG:$VERSION > ~/docker-image.tar
             echo "IMAGE_NAME=$TAG:$VERSION" >> ~/vars.sh
             echo "VERSION=$VERSION" >> ~/vars.sh
       - persist_to_workspace:
           root: ~/
           paths:
-            - engine-image.tar
+            - docker-image.tar
             - vars.sh
-      # - run:
-      #     name: Run container
-      #     command: |
-      #       source $BASH_ENV && docker run -d -p 3000:3000 --name engine $TAG:$VERSION npm start
-      #       phantomjs phantomTest.js
-      #       docker stop engine
   deploy:
     docker:
       - image: circleci/node:8.9.4
@@ -90,41 +79,38 @@ jobs:
             sudo wget -O fargatecli.zip https://github.com/jpignata/fargate/releases/download/v0.2.3/fargate-0.2.3-linux-386.zip
             sudo unzip fargatecli.zip && sudo rm fargatecli.zip
             export PATH=$PATH:/.
+      # Code after this line will be executed on a remote docker host
+      # thus only a Docker environment will be available from this step (no linux packages)
       - setup_remote_docker:
           docker_layer_caching: true
       - attach_workspace:
           at: ~/
       - run:
-          name: Set environment variable
+          name: Set environment variables
           command: |
             source vars.sh && echo "export VERSION=$VERSION" >> $BASH_ENV && echo "export IMAGE_NAME=$IMAGE_NAME" >> $BASH_ENV
             source $BASH_ENV && echo "export AWS_SERVICE_NAME_PROD=qe-prod-$(echo $VERSION | tr "." "-")" >> $BASH_ENV
       - run:
-          name: Load docker image from .tar
-          command: docker load < engine-image.tar
-      - run:
-          name: Login to Docker hub
-          command: docker login --username $DOCKER_USER --password "$DOCKER_PASS"
+          name: Extract docker image archive
+          command: docker load < docker-image.tar
       - run:
           name: Deploy to Dockerhub
           command: |
+            docker login --username $DOCKER_USER --password "$DOCKER_PASS"
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
               source $BASH_ENV && docker push $IMAGE_NAME   # source bash_env vars since it is not sourced by circleci
             fi
       - add_ssh_keys:
           fingerprints:
             - "e0:5e:f9:7b:80:7f:48:0a:2f:d9:f7:27:2b:c3:75:9a"
+      # Check out git again so we can tag the deployed version
       - checkout:
           path: ~/repo
-
-      - run: echo "At this point we must have IMAGE_NAME reflect the build number=$IMAGE_NAME"
       - run:
           name: Create service on AWS Fargate
           command: source $BASH_ENV && source ~/repo/scripts/create_service.sh $AWS_SERVICE_NAME_PROD $IMAGE_NAME test $DB_URI
-
-      # When all steps pass tag version on GitHub
       - run:
-          name: Tag version on GitHub
+          name: Tag deployed version on GitHub
           command: |
             cd ~/repo
             source $BASH_ENV && git tag $VERSION
@@ -141,5 +127,5 @@ workflows:
             - build
       - deploy:
           requires:
-            - build # restore to HOLD in production
+            - hold
 
