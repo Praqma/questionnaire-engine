@@ -52,7 +52,7 @@ jobs:
     docker:
       - image: circleci/node:8.9.4
       - image: docker:17.05.0-ce-git
-    working_directory: ~/
+    working_directory: ~/repo
     steps:
       - run:
           name: Install dependencies (fargate, phantomjs)
@@ -76,11 +76,12 @@ jobs:
       - run:
           name: Set environment variables
           command: |
+            cd ~
             source vars.sh && echo "export VERSION=$VERSION" >> $BASH_ENV && echo "export IMAGE_NAME=$IMAGE_NAME" >> $BASH_ENV
             source $BASH_ENV && echo "export AWS_SERVICE_NAME_PROD=qe-prod-$(echo $VERSION | tr "." "-")" >> $BASH_ENV
       - run:
           name: Extract docker image archive
-          command: docker load < docker-image.tar
+          command: docker load < ~/docker-image.tar
       - run:
           name: Deploy to Dockerhub
           command: |
@@ -94,7 +95,6 @@ jobs:
       # Check out git again so we can tag the deployed version
       - checkout:
           path: ~/repo
-      - working_directory: ~/repo
       - run:
           name: Create service on AWS Fargate
           command: source $BASH_ENV && source /scripts/create_service.sh $AWS_SERVICE_NAME_PROD $IMAGE_NAME test $DB_URI
