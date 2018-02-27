@@ -13,6 +13,7 @@ jobs:
           name: Set environment variables
           command: |
             source version.sh && echo "export VERSION=$VERSION.$CIRCLE_BUILD_NUM" >> $BASH_ENV
+      - run: sudo u+x /usr/local/bin
       - restore_cache:
           keys:
             - dependencies-fargate
