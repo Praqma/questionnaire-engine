@@ -100,6 +100,7 @@ jobs:
       - run:
           name: Smoke-test the deployed website
           command: |
+            cd ~/repo
             phantomjs phantomTest.js $IP
       # This command removes all services except AWS_SERVICE_NAME_PROD - make sure it's defined by this point
       - run:
@@ -112,6 +113,9 @@ jobs:
             cd ~/repo
             source $BASH_ENV && git tag $VERSION
             git push origin --tags
+      - run:
+          name: DONE! Your IP address is...
+          command: echo "Your IP address is $IP"
 
 workflows:
   version: 2

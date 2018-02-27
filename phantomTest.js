@@ -2,7 +2,7 @@ var system = require('system');
 var args = system.args;
 
 if (args.length === 1) {
-  console.error('Try to pass some arguments when invoking this script!');
+  console.error('Try to pass some arguments when invoking this script! IP missing.');
 }
 const url = 'http://' + args[1]
 
