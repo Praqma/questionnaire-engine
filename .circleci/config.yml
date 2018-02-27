@@ -95,7 +95,6 @@ jobs:
       # Check out git again so we can tag the deployed version
       - checkout:
           path: ~/repo
-      - run: pwd # remove this
       - run:
           name: Create service on AWS Fargate
           command: source $BASH_ENV && source ./scripts/create_service.sh $AWS_SERVICE_NAME_PROD $IMAGE_NAME test $DB_URI
@@ -107,7 +106,7 @@ jobs:
       - run:
           name: Remove unused services
           command: |
-            source /scripts/prune_services.sh
+            source ./scripts/prune_services.sh
       - run:
           name: Tag deployed version on GitHub
           command: |

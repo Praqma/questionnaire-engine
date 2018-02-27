@@ -94,6 +94,15 @@ A [CI pipeline](https://circleci.com/gh/Praqma/questionnaire-engine) is running 
 - Run the tests
 - Build a Docker image
 - Push the image to [Dockerhub](https://hub.docker.com/r/praqma/questionnaire-engine/)
+- Deploy service to AWS ECS (Fargate)
+
+##### Deploying to AWS
+
+Running the `deploy` job will release a new version to AWS and give you an IP where you can access the web application. This is, however, a manual step. The app will not be deployed unless you manually approve the release candidate. To release the app do the following:
+
+1. Go to the [pipeline](https://circleci.com/gh/Praqma/workflows/questionnaire-engine/tree/master)
+2. Click on the build your commit triggered (probably the last one)
+3. When the `build` job is done click on `hold` -> `Approve`. This will run the `deploy` job which will give you the IP where you can access the application.
 
 #### `questionnaire-models` pipeline ([link](https://circleci.com/gh/Praqma/questionnaire-models))
 
