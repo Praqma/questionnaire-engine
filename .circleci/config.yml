@@ -97,16 +97,16 @@ jobs:
           path: ~/repo
       - run:
           name: Create service on AWS Fargate
-          command: source $BASH_ENV && source ./scripts/create_service.sh $AWS_SERVICE_NAME_PROD $IMAGE_NAME test $DB_URI
+          command: source $BASH_ENV && source ./scripts/create_service.sh $AWS_SERVICE_NAME_PROD $IMAGE_NAME test $DB_URI && echo "export IP=$IP" >> $BASH_ENV
       - run:
           name: Smoke-test the deployed website
           command: |
-            phantomjs phantomTest.js $IP
+            source $BASH_ENV && phantomjs phantomTest.js $IP
       # This command removes all services except AWS_SERVICE_NAME_PROD - make sure it's defined by this point
       - run:
           name: Remove unused services
           command: |
-            source ./scripts/prune_services.sh
+            source ~/repo/scripts/prune_services.sh
       - run:
           name: Tag deployed version on GitHub
           command: |
