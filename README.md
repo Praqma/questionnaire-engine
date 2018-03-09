@@ -127,6 +127,26 @@ Both pipelines are using the same environment variables defined on Circle CI. Fi
 
 > \* The `DB_PASSWORD` environment variable is optional. You can have the password in the database connection string (`DB_URI` env var) explicitly or you can have `<dbpassword>` in the URI and that will be replaced with the `DB_PASSWORD` env var you provide.
 
+## Credentials
+
+Here are all the logins you might need to run the application as is.
+
+### AWS
+
+Username: `questionnaire`
+
+it-administration: `AWS questionnaire user`
+
+Permissions: `AmazonECS_FullAccess, AmazonECSTaskExecutionRolePolicy, CloudWatchLogsFullAccess, CloudWatchFullAccess`
+
+### Dockerhub
+
+You must register your own user under the Praqma organization account to be able to push to Praqma's workspace on Dockerhub.
+
+### CircleCI
+
+You must register your user under the Praqma organization account to manage pipelines belonging to Praqma's workspace.
+
 ## Database
 
 We are using the free sandbox plan of Mlab.com. It gives us 0.5 GB of storage which is ample as we only store textual content. 
