@@ -124,6 +124,8 @@ Both pipelines are using the same environment variables defined on Circle CI. Fi
 |AWS_SECRET_ACCESS_KEY|Secret access key for AWS account|
 |DOCKER_USER|Username to the Docker account where the image is pushed by the pipeline|
 |DOCKER_PASS|Password for the Docker account|
+|MJ_APIKEY_PUBLIC|MailJet API Public Key (SMTP username)|
+|MJ_APIKEY_PRIVATE|MailJet API Secret Key (SMTP password)|
 
 > \* The `DB_PASSWORD` environment variable is optional. You can have the password in the database connection string (`DB_URI` env var) explicitly or you can have `<dbpassword>` in the URI and that will be replaced with the `DB_PASSWORD` env var you provide.
 
