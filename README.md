@@ -149,6 +149,12 @@ You must register your own user under the Praqma organization account to be able
 
 You must register your user under the Praqma organization account to manage pipelines belonging to Praqma's workspace.
 
+### MailJet
+
+MailJet is used to send emails via a `curl` command from the CI pipeline. You can adjust the account settings on their [website](https://app.mailjet.com/transactional). After logging you can access or change the API keys.
+
+it-administration: `MailJet`
+
 ## Database
 
 We are using the free sandbox plan of Mlab.com. It gives us 0.5 GB of storage which is ample as we only store textual content. 
