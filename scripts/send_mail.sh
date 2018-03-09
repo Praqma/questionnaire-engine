@@ -22,7 +22,7 @@ send_mail() {
             "Name": "CI coder"
           }],
           "Subject": "Your build is ready for release!",
-          "TextPart": "Greetings! \n\n Your pipeline has finished building your release candidate. \n\n Follow this link to approve the release: \n https://circleci.com/workflow-run/'$CIRCLE_WORKFLOW_WORKSPACE_ID'"
+          "TextPart": "Greetings! \n\n Your pipeline has finished building your release candidate. \n\n Follow this link and click on HOLD -> Approve to approve the release: \n https://circleci.com/workflow-run/'$CIRCLE_WORKFLOW_WORKSPACE_ID'"
         }]
       }'
 }

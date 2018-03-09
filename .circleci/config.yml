@@ -10,11 +10,6 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Send email to the person who commited about the Release Candidate
-          command: |
-            COMMITER_EMAIL=$(git log HEAD^..HEAD --pretty='%aN <%aE>' | sort -u | grep -o -P '(?<=<).*(?=>)')
-            ~/repo/scripts/send_mail.sh $COMMITER_EMAIL
-      - run:
           name: Set environment variables
           command: |
             source version.sh && echo "export VERSION=$VERSION.$CIRCLE_BUILD_NUM" >> $BASH_ENV
@@ -53,6 +48,11 @@ jobs:
           paths:
             - docker-image.tar
             - vars.sh
+      - run:
+          name: Send email to the person who commited about the Release Candidate
+          command: |
+            COMMITER_EMAIL=$(git log HEAD^..HEAD --pretty='%aN <%aE>' | sort -u | grep -o -P '(?<=<).*(?=>)')
+            ~/repo/scripts/send_mail.sh $COMMITER_EMAIL
   deploy:
     docker:
       - image: circleci/node:8.9.4
