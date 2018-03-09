@@ -68,7 +68,7 @@ https://yourdomain.com/results/<your-questionnaire>
 
 ## Deployment
 
-We deploy our content to Amazon Elastic Container Service as a Docker image.
+The questionnaire-engine is wrapped up as a Docker image. This image is deployed to AWS Fargate, a fully managed container deployment service availably at the moment only in `us-east-1`.
 
 ### Docker images
 
@@ -96,7 +96,7 @@ A [CI pipeline](https://circleci.com/gh/Praqma/questionnaire-engine) is running 
 - Push the image to [Dockerhub](https://hub.docker.com/r/praqma/questionnaire-engine/)
 - Deploy service to AWS ECS (Fargate)
 
-##### Deploying to AWS
+##### Release candidate
 
 Running the `deploy` job will release a new version to AWS and give you an IP where you can access the web application. This is, however, a manual step. The app will not be deployed unless you manually approve the release candidate. To release the app do the following:
 
