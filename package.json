@@ -62,6 +62,7 @@
     "json-schema-faker": "^0.3.6",
     "mongodb": "^2.2.31",
     "path": "^0.12.7",
+    "popper.js": "^1.14.1",
     "vue": "^2.4.2",
     "vue-axios": "^2.0.2",
     "vue-router": "^2.7.0",
