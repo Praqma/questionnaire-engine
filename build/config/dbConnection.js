@@ -1,14 +1,17 @@
 'use strict';module.exports = function () {
   require('dotenv').load();
-  var configuration = require('./config').default;
   var MongoClient = require('mongodb').MongoClient;
   var connection = void 0;
 
   var uri = void 0;
-  if (process.env.DB_PASSWORD) {
-    uri = configuration.dbUri.replace('<dbpassword>', process.env.DB_PASSWORD);
+  if (process.env.DB_URI) {
+    if (process.env.DB_URI.includes('<dbpassword>') && process.env.DB_PASSWORD) {
+      uri = process.env.DB_URI.replace('<dbpassword>', process.env.DB_PASSWORD);
+    } else {
+      uri = process.env.DB_URI;
+    }
   } else {
-    console.log('Could not find database password in environment variables. Try adding "--env DB_PASSWORD:somepass" to your docker command.');
+    console.log('Could not find database URI in environment variables. Try adding "--env DB_URI:<uri>" to your docker run command.');
   }
 
   var connect = function connect(done) {

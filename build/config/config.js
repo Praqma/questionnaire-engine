@@ -1,4 +1,3 @@
-'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.default = {
+'use strict';module.exports = {
   contentDir: 'content',
-  defaultQuestionnaire: 'template',
-  dbUri: 'mongodb://praqmadb:<dbpassword>@ds263137.mlab.com:63137/questionnaire-results' };
+  defaultQuestionnaire: 'template' };

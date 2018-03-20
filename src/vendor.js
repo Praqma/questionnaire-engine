@@ -17,4 +17,3 @@
 import fetch from 'whatwg-fetch'
 import $ from 'jquery'
 import Chart from 'chart.js'
-import popperjs from 'popper.js'

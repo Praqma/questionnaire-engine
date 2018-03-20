@@ -22,7 +22,7 @@ describe('Results', function () {
 
         // testing expectations
         expect(results).to.be.an('array');
-        expect(results).to.have.lengthOf.at.least(4);
+        expect(results).to.have.lengthOf.at.least(3);
 
         // finish test execution
         done();
