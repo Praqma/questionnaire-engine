@@ -127,11 +127,24 @@ export default {
       }
       return response;
     },
+    guid() {
+      function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+          .toString(16)
+          .substring(1);
+      }
+      return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+    },
+    getClientId() {
+      let clientId = localStorage.getItem('clientId')
+      if (!clientId) {
+        clientId = this.guid()
+        localStorage.setItem('clientId', clientId)
+      }
+      return clientId
+    },
     onSubmit() {
-      // replace client id with an auto generated one
-      let maximum = 9999;
-      let minimum = 1000;
-      let clientID =Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
+      let clientID = this.getClientId()
       let questionnaireId = this.questionnaireId;
       let formID = this.$props.formData.id;
 
