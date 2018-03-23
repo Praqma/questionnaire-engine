@@ -2,16 +2,19 @@ module.exports = (function () {
   require('dotenv').load();
   let MongoClient = require('mongodb').MongoClient;
   let connection;
+  const DB_URI_PROD = require('../../config/dbConfig').DB_URI_PROD
 
   let uri
-  if (process.env.DB_URI) {
-    if (process.env.DB_URI.includes('<dbpassword>') && process.env.DB_PASSWORD) {
-      uri = process.env.DB_URI.replace('<dbpassword>', process.env.DB_PASSWORD)
+  if (DB_URI_PROD && process.env.DB_PASSWORD_PROD) {
+    if (DB_URI_PROD.includes('<DB_PASSWORD_PROD>')) {
+      uri = DB_URI_PROD.replace('<DB_PASSWORD_PROD>', process.env.DB_PASSWORD_PROD)
     } else {
-      uri = process.env.DB_URI
+      console.log('DB_URI does not match the required format. Missing "<DB_PASSWORD_PROD>" from DB_URI string.')
+      process.exit(1)
     }
   } else {
     console.log('Could not find database URI in environment variables. Try adding "--env DB_URI:<uri>" to your docker run command.')
+    process.exit(1)
   }
 
   const connect = function(done) {
