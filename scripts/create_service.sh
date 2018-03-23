@@ -7,7 +7,8 @@
 SERVICE_NAME=$1
 IMAGE_TAG=$2
 ENV=$3
-DB_URI=$4
+# Depracated
+# DB_URI=$4
 
 create_service() {
   echo "Creating service. This will take a while..."
