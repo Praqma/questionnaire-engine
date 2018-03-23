@@ -12,7 +12,7 @@ jobs:
       - run:
           name: Set environment variables
           command: |
-            source version.sh && echo "export VERSION=$VERSION.$CIRCLE_BUILD_NUM" >> $BASH_ENV
+            source version.sh && echo "export VERSION=$VERSION-$CIRCLE_BUILD_NUM" >> $BASH_ENV
       - restore_cache:
           keys:
             - dependencies-{{ checksum "package.json"}}
