@@ -9,11 +9,11 @@ module.exports = (function () {
     if (DB_URI_PROD.includes('<DB_PASSWORD_PROD>')) {
       uri = DB_URI_PROD.replace('<DB_PASSWORD_PROD>', process.env.DB_PASSWORD_PROD)
     } else {
-      console.log('DB_URI does not match the required format. Missing "<DB_PASSWORD_PROD>" from DB_URI string.')
+      console.log('DB_URI does not match the required format. Missing "<DB_PASSWORD_PROD>" from DB_URI_(TEST|PROD) string.')
       process.exit(1)
     }
   } else {
-    console.log('Could not find database URI in environment variables. Try adding "--env DB_URI:<uri>" to your docker run command.')
+    console.log('Could not find database URI in environment variables. Try adding "--env DB_URI_(PROD|TEST):<uri>" to your docker run command.')
     process.exit(1)
   }
 
