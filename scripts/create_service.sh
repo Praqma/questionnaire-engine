@@ -41,7 +41,7 @@ wait_for_ip() {
     else
       echo "[!] Could not read service status."
     fi
-    sleep 5s
+    sleep 10s
 
     # time out after 5 minutes (300 seconds)
     if [ $SECONDS -gt "300" ]
