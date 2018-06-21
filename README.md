@@ -26,7 +26,7 @@ If you want to serve the content, use the `praqma/questionnaire-models` image in
 Run the following command to start the web application in a container
 
 ```shell
-docker run --rm -it -p 8080:3000 -e DB_URI_PROD=<database_uri> praqma/questionnaire-engine:<version> npm start
+docker run --rm -it -p 8080:3000 -e DB_URI_PROD="uri_here" -e DB_PASSWORD_PROD="pass_here" praqma/questionnaire-engine:0.1.0-263 npm start
 
 # --rm            remove the container after exiting
 # -it             run container with interactive terminal attached
